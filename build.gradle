@@ -1,0 +1,43 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'com.tenable'
+version = '1.0-SNAPSHOT'
+
+description = """"""
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+
+
+repositories {
+        
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+
+dependencies {
+    compile group: 'org.apache.httpcomponents', name: 'httpasyncclient', version:'4.1.2'
+    compile group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.5.2'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version:'[2.0.0,)'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version:'[2.0.0,)'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'[2.0.0,)'
+    testCompile group: 'junit', name: 'junit', version:'4.12'
+}
+
+// Configure this block to run the tests
+test {
+    // Access key and secret
+    jvmArgs "-DtenableIoAccessKey=<ACCESS KEY>"
+    jvmArgs "-DtenableIoSecretKey=<ACCESS SECRET>"
+    // A valid domain name for username
+    jvmArgs "-DuserDomainName=<YOUR DOMAIN>"
+    // Comma-separated list of host targets to create a scan with. (Warning: do not scan targets that you're not authorized to.)
+    jvmArgs "-DscanTextTargets=<SCAN_TEXT_TARGETS>"
+    // Comma-separated list of host alternative targets to launch a scan with. (Warning: do not scan targets that you're not authorized to.)
+    jvmArgs "-DscanAltTargets=<SCAN_ALT_TARGETS>"
+    // Name of template to create a scan with.
+    jvmArgs "-DscanTemplateName=discovery"
+    // Name of template to create a policy with.
+    jvmArgs "-DpolicyTemplateName=discovery"
+}

@@ -1,0 +1,16 @@
+logs
+target
+/.tmpBin
+/.idea
+/.idea_modules
+/.classpath
+/.project
+/.settings
+/RUNNING_PID
+/bin/
+*.iml
+/build
+/.gradle
+/gradle/*
+/classes
+/local-test-config.txt
