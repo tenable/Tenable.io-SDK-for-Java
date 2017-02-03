@@ -4,18 +4,18 @@ Tenable.io Java SDK
 ### Configuration
 Access key and secret key are needed to authenticate with the [Tenable Cloud API]. There are three ways to configure the `TenableIoClient` with the keys.
 
-##### TenableIoClient Constructor Arguments
+#### TenableIoClient Constructor Arguments
 ```java
 TenableIoClient client = new TenableIoClient( 'YOUR_ACCESS_KEY', 'YOUR_SECRET_KEY' );
 ```
 
-##### Environment Variables
+#### Environment Variables
 TenableIoClient looks for the environment variables `TENABLEIO_ACCESS_KEY` and `TENABLEIO_SECRET_KEY`. When defined, the TenableIoClient` can be created without parameters:
 ```java
 TenableIoClient client = new TenableIoClient();
 ```
 
-##### JVM system properties
+#### JVM system properties
 TenableIoClient looks for the JVM system properties `tenableIoAccessKey` and `tenableIoSecretKey`. They are set like any other JVM system properties, with the `-D` command line option, for isntance:
 ```aidl
 java -DtenableIoAccessKey=<YOUR ACCESS KEY> -DtenableIoSecretKey=<YOUR SECRET KEY>
