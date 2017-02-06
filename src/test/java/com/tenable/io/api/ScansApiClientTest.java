@@ -203,7 +203,7 @@ public class ScansApiClientTest extends TestBase {
             Thread.sleep( 5000 );
             status = apiClient.getScansApi().exportStatus( result.getScans().get( 0 ).getId(), fileId );
         }
-        apiClient.getScansApi().exportDownload( result.getScans().get( 0 ).getId(), fileId, new File( "C:\\Temp\\Tenable\\scan_export.nessus" ) );
+        apiClient.getScansApi().exportDownload( result.getScans().get( 0 ).getId(), fileId, new File( "src/test/resources/scan_export.nessus" ) );
     }
 
 

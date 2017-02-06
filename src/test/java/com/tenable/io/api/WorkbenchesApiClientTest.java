@@ -45,8 +45,8 @@ public class WorkbenchesApiClientTest extends TestBase {
         //List<VulnerabilityAsset> assets = apiClient.getWorkbenchesApi().assets(null);
         //assertNotNull(assets);
 
-        List<VulnerabilityAsset> result = apiClient.getWorkbenchesApi().assetsVulnerabilities( null );
-        assertNotNull( result );
+//        List<VulnerabilityAsset> result = apiClient.getWorkbenchesApi().assetsVulnerabilities( null );
+//        assertNotNull( result );
 
     }
 

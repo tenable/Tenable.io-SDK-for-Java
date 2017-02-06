@@ -105,7 +105,7 @@ public class PoliciesApiClientTest extends TestBase {
         assertNotNull( result );
         assertTrue( result.size() > 0 );
 
-        File export = new File( "C:\\Temp\\test.txt" );
+        File export = new File( "src/test/resources/test.txt" );
         apiClient.getPoliciesApi().export( result.get( 0 ).getId(), export );
 
         //verify file downloaded

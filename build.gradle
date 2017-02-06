@@ -41,3 +41,4 @@ test {
     // Name of template to create a policy with.
     jvmArgs "-DpolicyTemplateName=discovery"
 }
+

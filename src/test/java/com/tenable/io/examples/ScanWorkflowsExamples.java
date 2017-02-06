@@ -61,7 +61,7 @@ public class ScanWorkflowsExamples extends TestBase {
 
         //Launch a scan, then download when scan is completed.
         //Note: The `download` method blocks until the scan is completed and the report is downloaded.
-        File file = new File( "C:\\Temp\\test.pdf" );
+        File file = new File( "src/test/resources/test.pdf" );
         scan.launch().download( file, FileFormat.PDF );
         assertTrue( file.exists() );
         file.delete();
@@ -88,7 +88,7 @@ public class ScanWorkflowsExamples extends TestBase {
         assertTrue( histories.size() > 0 );
 
         //Download the report for a specific scan in history.
-        File file2 = new File( "C:\\Temp\\test2.pdf" );
+        File file2 = new File( "src/test/resources/test2.pdf" );
         scan.download( file2, histories.get( 0 ).getHistoryId(), FileFormat.PDF );
         assertTrue( file2.exists() );
         file2.delete();
