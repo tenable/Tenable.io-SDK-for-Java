@@ -36,8 +36,7 @@ public class FiltersApi extends ApiWrapperBase {
      */
     public List<Filter> workbenchesVulnerabilities() throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/filters/workbenches/vulnerabilities" ).build() );
-        return httpFuture.getAsType( new TypeReference<List<Filter>>() {
-        }, "filters" );
+        return httpFuture.getAsType( new TypeReference<List<Filter>>() {}, "filters" );
     }
 
 }

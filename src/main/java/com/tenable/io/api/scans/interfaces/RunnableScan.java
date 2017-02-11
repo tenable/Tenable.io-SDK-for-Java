@@ -17,9 +17,8 @@ public interface RunnableScan extends ScanBaseOp {
      *
      * @return The same ScanRef instance
      * @throws TenableIoException   the Tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    RunningScan launch() throws TenableIoException, InterruptedException;
+    RunningScan launch() throws TenableIoException;
 
 
     /**
@@ -28,9 +27,8 @@ public interface RunnableScan extends ScanBaseOp {
      * @param wait If True, the method blocks until the scan's status is not pending
      * @return the same ScanRef instance
      * @throws TenableIoException   the Tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    RunningScan launch( boolean wait ) throws TenableIoException, InterruptedException;
+    RunningScan launch( boolean wait ) throws TenableIoException;
 
     /**
      * Launch the scan on a given date and time
@@ -40,9 +38,8 @@ public interface RunnableScan extends ScanBaseOp {
      * @param targets scanTargets
      * @return The same ScanRef instance
      * @throws TenableIoException   the Tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    RunningScan launch(Date startTime, String timeZone, String targets) throws TenableIoException, InterruptedException;
+    RunningScan launch(Date startTime, String timeZone, String targets) throws TenableIoException;
 
 
     /**
@@ -50,9 +47,8 @@ public interface RunnableScan extends ScanBaseOp {
      *
      * @return The same ScanRef instance
      * @throws TenableIoException   the Tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    RunningScan resume() throws TenableIoException, InterruptedException;
+    RunningScan resume() throws TenableIoException;
 
 
     /**
@@ -61,9 +57,8 @@ public interface RunnableScan extends ScanBaseOp {
      * @param wait If true this method will block until the status of the scan is not resuming.
      * @return The same ScanRef instance
      * @throws TenableIoException   the Tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    RunningScan resume( boolean wait ) throws TenableIoException, InterruptedException;
+    RunningScan resume( boolean wait ) throws TenableIoException;
 
 
     /**
@@ -71,9 +66,8 @@ public interface RunnableScan extends ScanBaseOp {
      *
      * @return An instance of ScanRef that references the newly copied scan.
      * @throws TenableIoException   the Tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    RunnableScan copy() throws TenableIoException, InterruptedException;
+    RunnableScan copy() throws TenableIoException;
 
 
     /**

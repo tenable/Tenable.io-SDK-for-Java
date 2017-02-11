@@ -40,8 +40,7 @@ public class PoliciesApi extends ApiWrapperBase {
      */
     public List<Policy> list() throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/policies" ).build() );
-        return httpFuture.getAsType( new TypeReference<List<Policy>>() {
-        }, "policies" );
+        return httpFuture.getAsType( new TypeReference<List<Policy>>() {}, "policies" );
     }
 
 

@@ -37,12 +37,11 @@ public class WorkbenchesApi extends ApiWrapperBase {
      * @return the list of vulnerabilities recorded
      * @throws TenableIoException the tenable IO exception
      */
-    public List<Vulnerability> vulnerabilities( VulnerabilityOptions options ) throws TenableIoException {
+    public List<Vulnerability> vulnerabilities( ExtendedFilteringOptions options ) throws TenableIoException {
         UriBuilderHelper uri = createBaseUriBuilder( "/workbenches/vulnerabilities" );
-        addExtendedOptions( options, uri );
+        addExtendedFilteringOptions( options, uri );
         HttpFuture httpFuture = asyncHttpService.doGet( uri.build() );
-        return httpFuture.getAsType( new TypeReference<List<Vulnerability>>() {
-        }, "vulnerabilities" );
+        return httpFuture.getAsType( new TypeReference<List<Vulnerability>>() {}, "vulnerabilities" );
     }
 
 
@@ -54,9 +53,9 @@ public class WorkbenchesApi extends ApiWrapperBase {
      * @return the vulnerability info
      * @throws TenableIoException the tenable IO exception
      */
-    public VulnerabilityInfo vulnerabilityInfo( int pluginId, VulnerabilityOptions options ) throws TenableIoException {
+    public VulnerabilityInfo vulnerabilityInfo( int pluginId, FilteringOptions options ) throws TenableIoException {
         UriBuilderHelper uri = createBaseUriBuilder( "/workbenches/vulnerabilities/" + pluginId + "/info" );
-        addBasicOptions( options, uri );
+        addFilteringOptions( options, uri );
         HttpFuture httpFuture = asyncHttpService.doGet( uri.build() );
         return httpFuture.getAsType( VulnerabilityInfo.class, "info" );
 
@@ -71,13 +70,12 @@ public class WorkbenchesApi extends ApiWrapperBase {
      * @return the vulnerability output list
      * @throws TenableIoException the tenable IO exception
      */
-    public List<VulnerabilityOutputResult> vulnerabilityOutput( int pluginId, VulnerabilityOptions options )
+    public List<VulnerabilityOutputResult> vulnerabilityOutput( int pluginId, FilteringOptions options )
             throws TenableIoException {
         UriBuilderHelper uri = createBaseUriBuilder( "/workbenches/vulnerabilities/" + pluginId + "/outputs" );
-        addBasicOptions( options, uri );
+        addFilteringOptions( options, uri );
         HttpFuture httpFuture = asyncHttpService.doGet( uri.build() );
-        return httpFuture.getAsType( new TypeReference<List<VulnerabilityOutputResult>>() {
-        }, "outputs" );
+        return httpFuture.getAsType( new TypeReference<List<VulnerabilityOutputResult>>() {}, "outputs" );
     }
 
 
@@ -88,12 +86,11 @@ public class WorkbenchesApi extends ApiWrapperBase {
      * @return the list of vulnerability assets
      * @throws TenableIoException the tenable IO exception
      */
-    public List<VulnerabilityAsset> assets( VulnerabilityOptions options ) throws TenableIoException {
+    public List<VulnerabilityAsset> assets( FilteringOptions options ) throws TenableIoException {
         UriBuilderHelper uri = createBaseUriBuilder( "/workbenches/assets" );
-        addBasicOptions( options, uri );
+        addFilteringOptions( options, uri );
         HttpFuture httpFuture = asyncHttpService.doGet( uri.build() );
-        return httpFuture.getAsType( new TypeReference<List<VulnerabilityAsset>>() {
-        }, "assets" );
+        return httpFuture.getAsType( new TypeReference<List<VulnerabilityAsset>>() {}, "assets" );
     }
 
 
@@ -104,12 +101,11 @@ public class WorkbenchesApi extends ApiWrapperBase {
      * @return the list of assets with vulnerabilities
      * @throws TenableIoException the tenable IO exception
      */
-    public List<VulnerabilityAsset> assetsVulnerabilities( VulnerabilityOptions options ) throws TenableIoException {
+    public List<VulnerabilityAsset> assetsVulnerabilities( FilteringOptions options ) throws TenableIoException {
         UriBuilderHelper uri = createBaseUriBuilder( "/workbenches/assets/vulnerabilities" );
-        addBasicOptions( options, uri );
+        addFilteringOptions( options, uri );
         HttpFuture httpFuture = asyncHttpService.doGet( uri.build() );
-        return httpFuture.getAsType( new TypeReference<List<VulnerabilityAsset>>() {
-        }, "assets" );
+        return httpFuture.getAsType( new TypeReference<List<VulnerabilityAsset>>() {}, "assets" );
     }
 
 
@@ -121,9 +117,9 @@ public class WorkbenchesApi extends ApiWrapperBase {
      * @return the general information about the asset
      * @throws TenableIoException the tenable IO exception
      */
-    public AssetInfo assetInfo( String assetId, VulnerabilityOptions options ) throws TenableIoException {
+    public AssetInfo assetInfo( String assetId, FilteringOptions options ) throws TenableIoException {
         UriBuilderHelper uri = createBaseUriBuilder( "/workbenches/assets/" + assetId + "/info" );
-        addBasicOptions( options, uri );
+        addFilteringOptions( options, uri );
         HttpFuture httpFuture = asyncHttpService.doGet( uri.build() );
         return httpFuture.getAsType( AssetInfo.class, "info" );
     }
@@ -137,13 +133,12 @@ public class WorkbenchesApi extends ApiWrapperBase {
      * @return the list of vulnerabilities recorded for a given asset
      * @throws TenableIoException the tenable IO exception
      */
-    public List<Vulnerability> assetVulnerabilities( String assetId, VulnerabilityOptions options )
+    public List<Vulnerability> assetVulnerabilities( String assetId, FilteringOptions options )
             throws TenableIoException {
         UriBuilderHelper uri = createBaseUriBuilder( "/workbenches/assets/" + assetId + "/vulnerabilities" );
-        addBasicOptions( options, uri );
+        addFilteringOptions( options, uri );
         HttpFuture httpFuture = asyncHttpService.doGet( uri.build() );
-        return httpFuture.getAsType( new TypeReference<List<Vulnerability>>() {
-        }, "vulnerabilities" );
+        return httpFuture.getAsType( new TypeReference<List<Vulnerability>>() {}, "vulnerabilities" );
     }
 
 
@@ -156,11 +151,11 @@ public class WorkbenchesApi extends ApiWrapperBase {
      * @return the details for a vulnerability recorded on a given asset
      * @throws TenableIoException the tenable IO exception
      */
-    public VulnerabilityInfo vulnerabilityInfo( String assetId, int pluginId, VulnerabilityOptions options )
+    public VulnerabilityInfo vulnerabilityInfo( String assetId, int pluginId, FilteringOptions options )
             throws TenableIoException {
         UriBuilderHelper uri = createBaseUriBuilder( "/workbenches/assets/" + assetId + "/vulnerabilities/" +
                 pluginId + "/info" );
-        addBasicOptions( options, uri );
+        addFilteringOptions( options, uri );
         HttpFuture httpFuture = asyncHttpService.doGet( uri.build() );
         return httpFuture.getAsType( VulnerabilityInfo.class, "info" );
     }
@@ -175,14 +170,12 @@ public class WorkbenchesApi extends ApiWrapperBase {
      * @return the vulnerability outputs for a plugin recorded on a given asset
      * @throws TenableIoException the tenable IO exception
      */
-    public List<VulnerabilityOutputResult> assetVulnerabilityOutput( String assetId, int pluginId,
-                                                                     VulnerabilityOptions options ) throws TenableIoException {
+    public List<VulnerabilityOutputResult> assetVulnerabilityOutput( String assetId, int pluginId, FilteringOptions options ) throws TenableIoException {
         UriBuilderHelper uri = createBaseUriBuilder( "/workbenches/assets/" + assetId + "/vulnerabilities/" +
                 pluginId + "/outputs" );
-        addBasicOptions( options, uri );
+        addFilteringOptions( options, uri );
         HttpFuture httpFuture = asyncHttpService.doGet( uri.build() );
-        return httpFuture.getAsType( new TypeReference<List<VulnerabilityOutputResult>>() {
-        }, "outputs" );
+        return httpFuture.getAsType( new TypeReference<List<VulnerabilityOutputResult>>() {}, "outputs" );
     }
 
 
@@ -238,10 +231,10 @@ public class WorkbenchesApi extends ApiWrapperBase {
                 uri.addParameter( "filter.search_type", options.getSearchType() );
             }
             if( options.getFormat() != null ) {
-                uri.addParameter( "format", options.getFormat() );
+                uri.addParameter( "format", options.getFormat().getValue() );
             }
             if( options.getReport() != null ) {
-                uri.addParameter( "report", options.getReport() );
+                uri.addParameter( "report", options.getReport().getValue() );
             }
             if( options.getStartDate() != null ) {
                 uri.addParameter( "start_date", options.getStartDate().toString() );
@@ -262,7 +255,7 @@ public class WorkbenchesApi extends ApiWrapperBase {
     }
 
 
-    private void addBasicOptions( VulnerabilityOptions options, UriBuilderHelper uri ) {
+    private void addFilteringOptions( FilteringOptions options, UriBuilderHelper uri ) {
         if( options != null ) {
             if( options.getDateRange() != null ) {
                 uri.addParameter( "date_range", options.getDateRange().toString() );
@@ -275,7 +268,7 @@ public class WorkbenchesApi extends ApiWrapperBase {
     }
 
 
-    private void addExtendedOptions( VulnerabilityOptions options, UriBuilderHelper uri ) {
+    private void addExtendedFilteringOptions( ExtendedFilteringOptions options, UriBuilderHelper uri ) {
         if( options != null ) {
             if( options.getAge() > 0 ) {
                 uri.addParameter( "age", options.getAge().toString() );

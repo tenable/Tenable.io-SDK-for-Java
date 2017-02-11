@@ -39,8 +39,7 @@ public class PermissionsApi extends ApiWrapperBase {
     public List<Permission> list( String objectType, int objectId ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/permissions/" + objectType + "/" +
                 objectId ).build() );
-        return httpFuture.getAsType( new TypeReference<List<Permission>>() {
-        }, "acls" );
+        return httpFuture.getAsType( new TypeReference<List<Permission>>() {}, "acls" );
     }
 
 

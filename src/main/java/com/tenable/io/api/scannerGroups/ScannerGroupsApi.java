@@ -38,8 +38,7 @@ public class ScannerGroupsApi extends ApiWrapperBase {
      */
     public List<ScannerGroup> list() throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scanner-groups" ).build() );
-        return httpFuture.getAsType( new TypeReference<List<ScannerGroup>>() {
-        }, "scanner_pools" );
+        return httpFuture.getAsType( new TypeReference<List<ScannerGroup>>() {}, "scanner_pools" );
     }
 
 
@@ -140,8 +139,7 @@ public class ScannerGroupsApi extends ApiWrapperBase {
      */
     public List<Scanner> listScanners( int groupId ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scanner-groups/" + groupId + "/scanners" ).build() );
-        return httpFuture.getAsType( new TypeReference<List<Scanner>>() {
-        }, "scanners" );
+        return httpFuture.getAsType( new TypeReference<List<Scanner>>() {}, "scanners" );
     }
 
 

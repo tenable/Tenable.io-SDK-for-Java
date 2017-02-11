@@ -23,7 +23,7 @@ public class WorkbenchesApiClientTest extends TestBase {
     public void testVulnerabilities() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
 
-        List<Vulnerability> result = apiClient.getWorkbenchesApi().vulnerabilities( GetOptions() );
+        List<Vulnerability> result = apiClient.getWorkbenchesApi().vulnerabilities( GetExtendedFilteringOptions() );
         assertNotNull( result );
         //TODO: server return no results. need to test to results
 
@@ -32,7 +32,7 @@ public class WorkbenchesApiClientTest extends TestBase {
         //assertNotNull(info);
 
         //TODO returns empty
-        List<VulnerabilityOutputResult> items = apiClient.getWorkbenchesApi().vulnerabilityOutput( getPluginId(), GetOptions() );
+        List<VulnerabilityOutputResult> items = apiClient.getWorkbenchesApi().vulnerabilityOutput( getPluginId(), GetFilteringOptions() );
         assertNotNull( items );
     }
 
@@ -51,8 +51,28 @@ public class WorkbenchesApiClientTest extends TestBase {
     }
 
 
-    private VulnerabilityOptions GetOptions() throws Exception {
-        VulnerabilityOptions options = new VulnerabilityOptions();
+    private FilteringOptions GetFilteringOptions() throws Exception {
+        FilteringOptions options = new FilteringOptions();
+        options.setDateRange( 3 );
+        List<Filter> filters = new ArrayList<>();
+        Filter filter1 = new Filter();
+        filter1.setFilter( "host.hostname" );
+        filter1.setQuality( "match" );
+        filter1.setValue( getTestDomain() );
+        filters.add( filter1 );
+        Filter filter2 = new Filter();
+        filter2.setFilter( "host.port" );
+        filter2.setQuality( "match" );
+        filter2.setValue( "80" );
+        filters.add( filter2 );
+        options.setFilters( filters );
+        options.setSearchType( "type" );
+        return options;
+    }
+
+
+    private ExtendedFilteringOptions GetExtendedFilteringOptions() throws Exception {
+        ExtendedFilteringOptions options = new ExtendedFilteringOptions();
         options.setAge( 10 );
         options.setAuthenticated( true );
         options.setDateRange( 3 );

@@ -36,8 +36,7 @@ public class AgentsApi extends ApiWrapperBase {
      */
     public List<Agent> list( int scannerId ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scanners/" + scannerId + "/agents" ).build() );
-        return httpFuture.getAsType( new TypeReference<List<Agent>>() {
-        }, "agents" );
+        return httpFuture.getAsType( new TypeReference<List<Agent>>() {}, "agents" );
     }
 
 

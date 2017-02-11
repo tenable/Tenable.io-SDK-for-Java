@@ -26,9 +26,8 @@ public interface ScanBaseOp {
      * @param format          The report format.
      * @return The same ScanRef instance
      * @throws TenableIoException   the Tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    RunnableScan download( File destinationFile, int historyId, FileFormat format ) throws TenableIoException, InterruptedException;
+    RunnableScan download( File destinationFile, int historyId, FileFormat format ) throws TenableIoException;
 
 
     /**
@@ -38,9 +37,8 @@ public interface ScanBaseOp {
      * @param format          The report format.
      * @return the scan ref
      * @throws TenableIoException   the Tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    RunnableScan download( File destinationFile, FileFormat format ) throws TenableIoException, InterruptedException;
+    RunnableScan download( File destinationFile, FileFormat format ) throws TenableIoException;
 
 
     /**

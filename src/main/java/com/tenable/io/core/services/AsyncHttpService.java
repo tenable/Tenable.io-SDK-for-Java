@@ -45,9 +45,9 @@ import java.util.concurrent.Future;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class AsyncHttpService implements AutoCloseable {
-    private static int CONNECTION_REQUEST_TIMEOUT = 10000;
-    private static int CONNECTION_TIMEOUT = 10000;
-    private static int SOCKET_TIMEOUT = 10000;
+    private static int CONNECTION_REQUEST_TIMEOUT = 30000;
+    private static int CONNECTION_TIMEOUT = 30000;
+    private static int SOCKET_TIMEOUT = 30000;
 
     private CloseableHttpAsyncClient asyncClient = null;
     private JsonHelper jsonHelper;

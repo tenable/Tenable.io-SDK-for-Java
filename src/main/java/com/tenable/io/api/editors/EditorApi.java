@@ -42,8 +42,7 @@ public class EditorApi extends ApiWrapperBase {
     public List<Template> list( TemplateType type ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/editor/" + type +
                 "/templates" ).build() );
-        return httpFuture.getAsType( new TypeReference<List<Template>>() {
-        }, "templates" );
+        return httpFuture.getAsType( new TypeReference<List<Template>>() {}, "templates" );
     }
 
 

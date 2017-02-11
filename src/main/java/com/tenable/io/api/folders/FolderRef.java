@@ -56,9 +56,8 @@ public class FolderRef {
      *
      * @return The same instance of FolderRef.
      * @throws TenableIoException   the Tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    public FolderRef stopScans() throws TenableIoException, InterruptedException {
+    public FolderRef stopScans() throws TenableIoException {
         this.client.getScanHelper().stopAll( this );
         return this;
     }

@@ -1,10 +1,10 @@
-package com.tenable.io.api.scans.models;
+package com.tenable.io.api.workbenches.models;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.tenable.io.core.exceptions.TenableIoException;
 import com.tenable.io.core.exceptions.TenableIoErrorCode;
+import com.tenable.io.core.exceptions.TenableIoException;
 
 
 /**
@@ -26,11 +26,7 @@ public enum FileFormat {
     /**
      * Csv file format.
      */
-    CSV( "csv" ),
-    /**
-     * Db file format.
-     */
-    DB( "db" );
+    CSV( "csv" );
 
     private String value;
 
@@ -68,5 +64,4 @@ public enum FileFormat {
         }
         throw new TenableIoException( TenableIoErrorCode.DeserializationError, "Invalid FileFormat value: " + value + "." );
     }
-
 }

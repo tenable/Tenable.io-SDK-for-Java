@@ -10,8 +10,8 @@ import java.util.List;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class ExportOptions {
-    private String format;
-    private String report;
+    private FileFormat format;
+    private ReportType report;
     private Integer startDate;
     private String chapter;
     private Integer dateRange;
@@ -27,7 +27,7 @@ public class ExportOptions {
      *
      * @return the format
      */
-    public String getFormat() {
+    public FileFormat getFormat() {
         return format;
     }
 
@@ -37,8 +37,19 @@ public class ExportOptions {
      *
      * @param format the format
      */
-    public void setFormat( String format ) {
+    public void setFormat( FileFormat format ) {
         this.format = format;
+    }
+
+
+    /**
+     * The file format to use (Nessus, HTML, PDF, or CSV).
+     *
+     * @param format the format
+     */
+    public ExportOptions withFormat( FileFormat format ) {
+        this.format = format;
+        return this;
     }
 
 
@@ -47,7 +58,7 @@ public class ExportOptions {
      *
      * @return the report
      */
-    public String getReport() {
+    public ReportType getReport() {
         return report;
     }
 
@@ -57,8 +68,19 @@ public class ExportOptions {
      *
      * @param report the report
      */
-    public void setReport( String report ) {
+    public void setReport( ReportType report ) {
         this.report = report;
+    }
+
+
+    /**
+     * The type of workbench report to be exported
+     *
+     * @param report the report
+     */
+    public ExportOptions withReport( ReportType report ) {
+        this.report = report;
+        return this;
     }
 
 
@@ -81,6 +103,17 @@ public class ExportOptions {
     @JsonProperty( "start_date" )
     public void setStartDate( Integer startDate ) {
         this.startDate = startDate;
+    }
+
+
+    /**
+     * The date (in unixtime) at which the exported results should begin to be included. Defaults to today.
+     *
+     * @param startDate the start date
+     */
+    public ExportOptions withStartDate( Integer startDate ) {
+        this.startDate = startDate;
+        return this;
     }
 
 
@@ -109,6 +142,18 @@ public class ExportOptions {
 
 
     /**
+     * Semicolon-separated list of chapters to include for vulnerabilities/hosts reports (vuln_by_plugin, vuln_by_asset,
+     * vuln_hosts_summary) or a single chapter for Executive Summary (exec_summary) or Differential reports (diff).
+     * Currently, only vuln_by_asset is supported for .nessus workbench exports.
+     *
+     * @param chapter the chapter
+     */
+    public ExportOptions withChapter( String chapter ) {
+        this.chapter = chapter;
+        return this;
+    }
+
+    /**
      * The number of days of data prior to and including start_date that should be returned. If not specified,
      * data for all dates is returned.
      *
@@ -133,6 +178,18 @@ public class ExportOptions {
 
 
     /**
+     * The number of days of data prior to and including start_date that should be returned. If not specified,
+     * data for all dates is returned.
+     *
+     * @param dateRange the date range
+     */
+    public ExportOptions withDateRange( Integer dateRange ) {
+        this.dateRange = dateRange;
+        return this;
+    }
+
+
+    /**
      * An array containing filters to apply to the exported scan report.
      *
      * @return the filters
@@ -149,6 +206,17 @@ public class ExportOptions {
      */
     public void setFilters( List<Filter> filters ) {
         this.filters = filters;
+    }
+
+
+    /**
+     * An array containing filters to apply to the exported scan report.
+     *
+     * @param filters the filters
+     */
+    public ExportOptions withFilters( List<Filter> filters ) {
+        this.filters = filters;
+        return this;
     }
 
 
@@ -171,6 +239,17 @@ public class ExportOptions {
     @JsonProperty( "filter.search_type" )
     public void setSearchType( String searchType ) {
         this.searchType = searchType;
+    }
+
+
+    /**
+     * The type of search to be used.
+     *
+     * @param searchType the search type
+     */
+    public ExportOptions withSearchType( String searchType ) {
+        this.searchType = searchType;
+        return this;
     }
 
 
@@ -201,6 +280,19 @@ public class ExportOptions {
 
 
     /**
+     * When true, only a minimal subset of scan details will be returned for each result, excluding plugin attributes.
+     * In this case, only plugin_output and vulnerability_state fields are always returned; first_found, last_found
+     * and last_fixed are also returned if possible.
+     *
+     * @param minimumVulnInfo boolean
+     */
+    public ExportOptions withMinimumVulnInfo( Boolean minimumVulnInfo ) {
+        this.minimumVulnInfo = minimumVulnInfo;
+        return this;
+    }
+
+
+    /**
      * Restrict the export data to only vulnerabilities found by the plugin with this id.
      *
      * @return the plugin id
@@ -223,6 +315,17 @@ public class ExportOptions {
 
 
     /**
+     * Restrict the export data to only vulnerabilities found by the plugin with this id.
+     *
+     * @param pluginId the plugin id
+     */
+    public ExportOptions withPluginId( Integer pluginId ) {
+        this.pluginId = pluginId;
+        return this;
+    }
+
+
+    /**
      * Restrict the export data to only findings the asset with this id. Note that this id is a UUID
      *
      * @return the asset id
@@ -241,5 +344,16 @@ public class ExportOptions {
     @JsonProperty( "asset_id" )
     public void setAssetId( String assetId ) {
         this.assetId = assetId;
+    }
+
+
+    /**
+     * Restrict the export data to only findings the asset with this id. Note that this id is a UUID
+     *
+     * @param assetId the asset id
+     */
+    public ExportOptions withAssetId( String assetId ) {
+        this.assetId = assetId;
+        return this;
     }
 }

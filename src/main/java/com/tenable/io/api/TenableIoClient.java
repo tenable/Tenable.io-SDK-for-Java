@@ -20,6 +20,7 @@ import com.tenable.io.api.scans.ScanHelper;
 import com.tenable.io.api.scans.ScansApi;
 import com.tenable.io.api.server.ServerApi;
 import com.tenable.io.api.users.UsersApi;
+import com.tenable.io.api.workbenches.WorkbenchHelper;
 import com.tenable.io.api.workbenches.WorkbenchesApi;
 import com.tenable.io.core.services.AsyncHttpService;
 
@@ -51,6 +52,7 @@ public class TenableIoClient {
     private ServerApi serverApi = null;
     private WorkbenchesApi workbenchesApi = null;
     private ScanHelper scanHelper = null;
+    private WorkbenchHelper workbenchHelper = null;
     private FolderHelper folderHelper = null;
 
 
@@ -339,6 +341,19 @@ public class TenableIoClient {
             scanHelper = new ScanHelper( this );
 
         return scanHelper;
+    }
+
+
+    /**
+     * Gets workbench helper.
+     *
+     * @return the workbench helper
+     */
+    synchronized public WorkbenchHelper getWorkbenchHelper() {
+        if( workbenchHelper == null )
+            workbenchHelper = new WorkbenchHelper( this );
+
+        return workbenchHelper;
     }
 
 

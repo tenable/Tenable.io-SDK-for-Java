@@ -69,8 +69,6 @@ public enum SeverityLevel {
                 return enumValue;
             }
         }
-        throw new TenableIoException( TenableIoErrorCode.DeserializationError, "Invalid severity level value: " +
-                value + "." );
+        throw new TenableIoException( TenableIoErrorCode.DeserializationError, "Invalid SeverityLevel value: " + value + "." );
     }
-
 }

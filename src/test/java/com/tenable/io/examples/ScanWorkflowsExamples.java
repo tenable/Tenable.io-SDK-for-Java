@@ -32,10 +32,6 @@ public class ScanWorkflowsExamples extends TestBase {
     public void testScanWorkflows() throws Exception {
         String scanName = "testScan";
 
-        // Instantiate an instance of the NessusClient.
-        //TenableIoClient apiClient = new TenableIoClient( "Your access key", "Your secret key" );
-
-        // TODO remove next and uncomment previous in published version
         TenableIoClient client = new TenableIoClient();
 
         //Create a scan.

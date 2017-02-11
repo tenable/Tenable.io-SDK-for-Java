@@ -36,8 +36,7 @@ public class FoldersApi extends ApiWrapperBase {
      */
     public List<Folder> list() throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/folders" ).build() );
-        return httpFuture.getAsType( new TypeReference<List<Folder>>() {
-        }, "folders" );
+        return httpFuture.getAsType( new TypeReference<List<Folder>>() {}, "folders" );
     }
 
 

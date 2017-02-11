@@ -1,41 +1,25 @@
-package com.tenable.io.api.scans.models;
+package com.tenable.io.api.workbenches.models;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.tenable.io.core.exceptions.TenableIoException;
 import com.tenable.io.core.exceptions.TenableIoErrorCode;
+import com.tenable.io.core.exceptions.TenableIoException;
 
 
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
-public enum FileFormat {
+public enum ReportType {
     /**
-     * Nessus file format.
+     * Vulnerabilities report.
      */
-    NESSUS( "nessus" ),
-    /**
-     * Html file format.
-     */
-    HTML( "html" ),
-    /**
-     * Pdf file format.
-     */
-    PDF( "pdf" ),
-    /**
-     * Csv file format.
-     */
-    CSV( "csv" ),
-    /**
-     * Db file format.
-     */
-    DB( "db" );
+    VULNERABILITIES( "vulnerabilities" );
 
     private String value;
 
 
-    FileFormat( String value ) {
+    ReportType( String value ) {
         this.value = value;
     }
 
@@ -66,7 +50,6 @@ public enum FileFormat {
                 return enumValue;
             }
         }
-        throw new TenableIoException( TenableIoErrorCode.DeserializationError, "Invalid FileFormat value: " + value + "." );
+        throw new TenableIoException( TenableIoErrorCode.DeserializationError, "Invalid ReportType value: " + value + "." );
     }
-
 }

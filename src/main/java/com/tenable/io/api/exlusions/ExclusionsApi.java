@@ -37,8 +37,7 @@ public class ExclusionsApi extends ApiWrapperBase {
      */
     public List<Exclusion> list() throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/exclusions" ).build() );
-        return httpFuture.getAsType( new TypeReference<List<Exclusion>>() {
-        }, "exclusions" );
+        return httpFuture.getAsType( new TypeReference<List<Exclusion>>() {}, "exclusions" );
     }
 
 

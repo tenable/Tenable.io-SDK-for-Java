@@ -38,8 +38,7 @@ public class PluginsApi extends ApiWrapperBase {
      */
     public List<PluginFamily> families() throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/plugins/families" ).build() );
-        return httpFuture.getAsType( new TypeReference<List<PluginFamily>>() {
-        }, "families" );
+        return httpFuture.getAsType( new TypeReference<List<PluginFamily>>() {}, "families" );
     }
 
 

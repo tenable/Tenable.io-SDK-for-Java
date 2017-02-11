@@ -36,8 +36,7 @@ public class AssetListsApi extends ApiWrapperBase {
      */
     public List<AssetList> list() throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/asset-lists" ).build() );
-        return httpFuture.getAsType( new TypeReference<List<AssetList>>() {
-        }, "asset_lists" );
+        return httpFuture.getAsType( new TypeReference<List<AssetList>>() {}, "asset_lists" );
     }
 
 

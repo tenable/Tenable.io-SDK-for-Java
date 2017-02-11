@@ -38,8 +38,7 @@ public class GroupsApi extends ApiWrapperBase {
      */
     public List<Group> list() throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/groups" ).build() );
-        return httpFuture.getAsType( new TypeReference<List<Group>>() {
-        }, "groups" );
+        return httpFuture.getAsType( new TypeReference<List<Group>>() {}, "groups" );
     }
 
 
@@ -91,8 +90,7 @@ public class GroupsApi extends ApiWrapperBase {
      */
     public List<User> listUsers( int groupId ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/groups/" + groupId + "/users" ).build() );
-        return httpFuture.getAsType( new TypeReference<List<User>>() {
-        }, "users" );
+        return httpFuture.getAsType( new TypeReference<List<User>>() {}, "users" );
     }
 
 

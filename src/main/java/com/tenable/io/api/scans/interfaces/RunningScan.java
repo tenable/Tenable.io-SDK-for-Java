@@ -15,9 +15,8 @@ public interface RunningScan extends ScanBaseOp {
      *
      * @return The same ScanRef instance
      * @throws TenableIoException   the Tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    RunnableScan waitUntilStopped() throws TenableIoException, InterruptedException;
+    RunnableScan waitUntilStopped() throws TenableIoException;
 
 
     /**
@@ -26,9 +25,8 @@ public interface RunningScan extends ScanBaseOp {
      * @param historyId The scan history id to wait for.
      * @return The same ScanRef instance
      * @throws TenableIoException   the Tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    RunnableScan waitUntilStopped( int historyId ) throws TenableIoException, InterruptedException;
+    RunnableScan waitUntilStopped( int historyId ) throws TenableIoException;
 
 
     /**
@@ -37,9 +35,8 @@ public interface RunningScan extends ScanBaseOp {
      * @param seconds the seconds to wait
      * @return The same ScanRef instance
      * @throws TenableIoException   the Tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    RunnableScan waitOrCancelAfter( int seconds ) throws TenableIoException, InterruptedException;
+    RunnableScan waitOrCancelAfter( int seconds ) throws TenableIoException;
 
 
     /**
@@ -47,9 +44,8 @@ public interface RunningScan extends ScanBaseOp {
      *
      * @return The same ScanRef instance
      * @throws TenableIoException   the Tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    RunnableScan stop() throws TenableIoException, InterruptedException;
+    RunnableScan stop() throws TenableIoException;
 
 
     /**
@@ -58,9 +54,8 @@ public interface RunningScan extends ScanBaseOp {
      * @param wait If True, the method blocks until the scan's status is stopped.
      * @return The same ScanRef instance
      * @throws TenableIoException   the Tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    RunnableScan stop( boolean wait ) throws TenableIoException, InterruptedException;
+    RunnableScan stop( boolean wait ) throws TenableIoException;
 
 
     /**
@@ -68,9 +63,8 @@ public interface RunningScan extends ScanBaseOp {
      *
      * @return The same ScanRef instance
      * @throws TenableIoException   the Tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    RunnableScan pause() throws TenableIoException, InterruptedException;
+    RunnableScan pause() throws TenableIoException;
 
 
     /**
@@ -79,7 +73,6 @@ public interface RunningScan extends ScanBaseOp {
      * @param wait If true this method will block until the status of the scan is not pausing.
      * @return The same ScanRef instance
      * @throws TenableIoException   the Tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    RunnableScan pause( boolean wait ) throws TenableIoException, InterruptedException;
+    RunnableScan pause( boolean wait ) throws TenableIoException;
 }

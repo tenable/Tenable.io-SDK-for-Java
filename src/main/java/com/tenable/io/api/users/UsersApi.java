@@ -125,8 +125,7 @@ public class UsersApi extends ApiWrapperBase {
      */
     public List<User> list() throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/users" ).build() );
-        return httpFuture.getAsType( new TypeReference<List<User>>() {
-        }, "users" );
+        return httpFuture.getAsType( new TypeReference<List<User>>() {}, "users" );
     }
 
 
@@ -142,8 +141,7 @@ public class UsersApi extends ApiWrapperBase {
         ChangePasswordRequest request = new ChangePasswordRequest();
         request.setPassword( password );
         request.setCurrentPassword( currentPassword );
-        HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/users/" + userId +
-                "/chpasswd" ).build(), request );
+        HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/users/" + userId + "/chpasswd" ).build(), request );
         httpFuture.get();
     }
 

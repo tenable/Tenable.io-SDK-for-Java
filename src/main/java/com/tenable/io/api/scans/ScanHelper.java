@@ -203,9 +203,8 @@ public class ScanHelper {
      * Stop existing scans and wait until all are stopped.
      *
      * @throws TenableIoException   the tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    public void stopAll() throws TenableIoException, InterruptedException {
+    public void stopAll() throws TenableIoException {
         List<ScanRef> scans = getScans();
         stopAll( scans );
     }
@@ -216,9 +215,8 @@ public class ScanHelper {
      *
      * @param folderId stop scans under this folder only
      * @throws TenableIoException   the tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    public void stopAll( int folderId ) throws TenableIoException, InterruptedException {
+    public void stopAll( int folderId ) throws TenableIoException {
         List<ScanRef> scans = getScans( folderId );
         stopAll( scans );
     }
@@ -229,9 +227,8 @@ public class ScanHelper {
      *
      * @param folder Instance of FolderRef. Stop all scan in the folder only.
      * @throws TenableIoException   the tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    public void stopAll( FolderRef folder ) throws TenableIoException, InterruptedException {
+    public void stopAll( FolderRef folder ) throws TenableIoException {
         stopAll( folder.getId() );
     }
 
@@ -241,9 +238,8 @@ public class ScanHelper {
      *
      * @param scans List of ScanRef. Stop only this list of scans
      * @throws TenableIoException   the tenable IO exception
-     * @throws InterruptedException the interrupted exception
      */
-    public void stopAll( List<ScanRef> scans ) throws TenableIoException, InterruptedException {
+    public void stopAll( List<ScanRef> scans ) throws TenableIoException {
         for( ScanRef item : scans ) {
             try {
                 item.stop( false );
