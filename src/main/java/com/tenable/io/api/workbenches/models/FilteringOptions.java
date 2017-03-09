@@ -12,7 +12,7 @@ import java.util.List;
 public class FilteringOptions {
     private Integer dateRange;
     private List<Filter> filters;
-    private String searchType;
+    private FilterSearchType searchType;
 
 
     /**
@@ -85,7 +85,7 @@ public class FilteringOptions {
      * @return the search type
      */
     @JsonProperty( "filter.search_type" )
-    public String getSearchType() {
+    public FilterSearchType getSearchType() {
         return searchType;
     }
 
@@ -96,7 +96,7 @@ public class FilteringOptions {
      * @param searchType the search type
      */
     @JsonProperty( "filter.search_type" )
-    public void setSearchType( String searchType ) {
+    public void setSearchType( FilterSearchType searchType ) {
         this.searchType = searchType;
     }
 
@@ -106,7 +106,7 @@ public class FilteringOptions {
      *
      * @param searchType the search type
      */
-    public FilteringOptions withSearchType( String searchType ) {
+    public FilteringOptions withSearchType( FilterSearchType searchType ) {
         setSearchType( searchType );
         return this;
     }

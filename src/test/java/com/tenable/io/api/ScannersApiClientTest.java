@@ -90,15 +90,15 @@ public class ScannersApiClientTest extends TestBase {
 
 
     private ScanResult createScan( TenableIoClient apiClient, int scannerId ) throws Exception {
-        Settings settings = new Settings();
-        settings.setEnabled( true );
-        settings.setTextTargets(  getScanTextTargets() );
+        Settings settings = new Settings()
+        .withEnabled( true )
+        .withTextTargets(  getScanTextTargets() );
         String scanName = "Test_" + java.util.UUID.randomUUID().toString().substring( 0, 6 );
-        settings.setName( scanName );
-        settings.setDescription( "scan description" );
-        settings.setScannerId( scannerId );
-        settings.setLaunch( LaunchFrequency.ON_DEMAND );
-        settings.setStartTime( "20161220110500" );
+        settings.withName( scanName )
+        .withDescription( "scan description" )
+        .withScannerId( scannerId )
+        .withLaunch( LaunchFrequency.ON_DEMAND )
+        .withStartTime( "20161220110500" );
 
         //Basic network scan
         //ScanResult result = apiClient.getScansApi().create("731a8e52-3ea6-a291-ec0a-d2ff0619c19d7bd788d6be818b65", settings);

@@ -55,9 +55,7 @@ public class ScansApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public ScanResult configure( int scanId, String uuid, Settings settings ) throws TenableIoException {
-        CreateConfigureRequest request = new CreateConfigureRequest();
-        request.setUuid( uuid );
-        request.setSettings( settings );
+        CreateConfigureRequest request = new CreateConfigureRequest().withUuid( uuid ).withSettings( settings );
         HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/scans/" + scanId ).build(), request );
         return httpFuture.getAsType( ScanResult.class );
     }
@@ -73,9 +71,7 @@ public class ScansApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public Scan copy( int scanId, int folderId, String name ) throws TenableIoException {
-        CopyRequest request = new CopyRequest();
-        request.setFolderId( folderId );
-        request.setName( name );
+        CopyRequest request = new CopyRequest().withFolderId( folderId ).withName( name );
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans/" + scanId +
                 "/copy" ).build(), request );
         return httpFuture.getAsType( Scan.class );
@@ -91,8 +87,7 @@ public class ScansApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public Scan copy( int scanId, String name ) throws TenableIoException {
-        CopyRequest request = new CopyRequest();
-        request.setName( name );
+        CopyRequest request = new CopyRequest().withName( name );
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans/" + scanId +
                 "/copy" ).build(), request );
         return httpFuture.getAsType( Scan.class );
@@ -108,8 +103,7 @@ public class ScansApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public Scan copy( int scanId, int folderId ) throws TenableIoException {
-        CopyRequest request = new CopyRequest();
-        request.setFolderId( folderId );
+        CopyRequest request = new CopyRequest().withFolderId( folderId );
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans/" + scanId +
                 "/copy" ).build(), request );
         return httpFuture.getAsType( Scan.class );
@@ -140,9 +134,7 @@ public class ScansApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public ScanResult create( String uuid, Settings settings ) throws TenableIoException {
-        CreateConfigureRequest request = new CreateConfigureRequest();
-        request.setUuid( uuid );
-        request.setSettings( settings );
+        CreateConfigureRequest request = new CreateConfigureRequest().withUuid( uuid ).withSettings( settings );
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans" ).build(), request );
         return httpFuture.getAsType( ScanResult.class, "scan" );
     }
@@ -278,10 +270,10 @@ public class ScansApi extends ApiWrapperBase {
      * @return the host details
      * @throws TenableIoException the tenable IO exception
      */
-    public HostDetails hostDetails( int scanId, int hostId, int historyId ) throws TenableIoException {
+    public ScanHostDetails hostDetails( int scanId, int hostId, int historyId ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scans/" + scanId + "/hosts/" +
                 hostId ).addParameter( "history_id", ( (Integer) historyId ).toString() ).build() );
-        return httpFuture.getAsType( HostDetails.class );
+        return httpFuture.getAsType( ScanHostDetails.class );
     }
 
 
@@ -293,10 +285,10 @@ public class ScansApi extends ApiWrapperBase {
      * @return the host details
      * @throws TenableIoException the tenable IO exception
      */
-    public HostDetails hostDetails( int scanId, int hostId ) throws TenableIoException {
+    public ScanHostDetails hostDetails( int scanId, int hostId ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scans/" + scanId + "/hosts/" +
                 hostId ).build() );
-        return httpFuture.getAsType( HostDetails.class );
+        return httpFuture.getAsType( ScanHostDetails.class );
     }
 
 
@@ -310,10 +302,7 @@ public class ScansApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public Scan importFile( String file, int folderId, String password ) throws TenableIoException {
-        ImportRequest request = new ImportRequest();
-        request.setFile( file );
-        request.setFolderId( folderId );
-        request.setPassword( password );
+        ImportRequest request = new ImportRequest().withFile( file ).withFolderId( folderId ).withPassword( password );
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans/import" ).build(), request );
         return httpFuture.getAsType( Scan.class, "scan" );
     }
@@ -328,9 +317,7 @@ public class ScansApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public Scan importFile( String file, String password ) throws TenableIoException {
-        ImportRequest request = new ImportRequest();
-        request.setFile( file );
-        request.setPassword( password );
+        ImportRequest request = new ImportRequest().withFile( file ).withPassword( password );
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans/import" ).build(), request );
         return httpFuture.getAsType( Scan.class, "scan" );
     }
@@ -346,8 +333,7 @@ public class ScansApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public String launch( int scanId, String[] altTargets ) throws TenableIoException {
-        LaunchRequest request = new LaunchRequest();
-        request.setAltTargets( altTargets );
+        LaunchRequest request = new LaunchRequest().withAltTargets( altTargets );
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans/" + scanId +
                 "/launch" ).build(), request );
         return httpFuture.getAsType( String.class, "scan_uuid" );
@@ -466,8 +452,7 @@ public class ScansApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void readStatus( int scanId, boolean read ) throws TenableIoException {
-        ReadStatusRequest request = new ReadStatusRequest();
-        request.setRead( read );
+        ReadStatusRequest request = new ReadStatusRequest().withRead( read );
         HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/scans/" + scanId +
                 "/status" ).build(), request );
         httpFuture.get();
@@ -496,8 +481,7 @@ public class ScansApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public Schedule schedule( int scanId, boolean enabled ) throws TenableIoException {
-        ScheduleRequest request = new ScheduleRequest();
-        request.setEnabled( enabled );
+        ScheduleRequest request = new ScheduleRequest().withEnabled( enabled );
         HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/scans/" + scanId +
                 "/schedule" ).build(), request );
         return httpFuture.getAsType( Schedule.class );
@@ -537,8 +521,7 @@ public class ScansApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void folder( int scanId, int folderId ) throws TenableIoException {
-        MoveToFolderRequest request = new MoveToFolderRequest();
-        request.setFolderId( folderId );
+        MoveToFolderRequest request = new MoveToFolderRequest().withFolderId( folderId );
         HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/scans/" + scanId +
                 "/folder" ).build(), request );
         httpFuture.get();
@@ -591,6 +574,28 @@ public class ScansApi extends ApiWrapperBase {
         public void setName( String name ) {
             this.name = name;
         }
+
+
+        /**
+         * Sets folder id.
+         *
+         * @param folderId the folder id
+         */
+        public CopyRequest withFolderId( int folderId ) {
+            this.folderId = folderId;
+            return this;
+        }
+
+
+        /**
+         * Sets name.
+         *
+         * @param name the name
+         */
+        public CopyRequest withName( String name ) {
+            this.name = name;
+            return this;
+        }
     }
 
     @JsonInclude( JsonInclude.Include.NON_DEFAULT )
@@ -636,6 +641,27 @@ public class ScansApi extends ApiWrapperBase {
          */
         public void setSettings( Settings settings ) {
             this.settings = settings;
+        }
+
+
+        /**
+         * Sets settings.
+         *
+         * @param settings the settings
+         */
+        public CreateConfigureRequest withSettings( Settings settings ) {
+            this.settings = settings;
+            return this;
+        }
+
+        /**
+         * Sets uuid.
+         *
+         * @param uuid the uuid
+         */
+        public CreateConfigureRequest withUuid( String uuid ) {
+            this.uuid = uuid;
+            return this;
         }
     }
 
@@ -706,6 +732,39 @@ public class ScansApi extends ApiWrapperBase {
         public void setPassword( String password ) {
             this.password = password;
         }
+
+
+        /**
+         * Sets file.
+         *
+         * @param file the file
+         */
+        public ImportRequest withFile( String file ) {
+            this.file = file;
+            return this;
+        }
+
+
+        /**
+         * Sets folder id.
+         *
+         * @param folderId the folder id
+         */
+        public ImportRequest withFolderId( int folderId ) {
+            this.folderId = folderId;
+            return this;
+        }
+
+
+        /**
+         * Sets password.
+         *
+         * @param password the password
+         */
+        public ImportRequest withPassword( String password ) {
+            this.password = password;
+            return this;
+        }
     }
 
     @JsonInclude( JsonInclude.Include.NON_DEFAULT )
@@ -733,6 +792,16 @@ public class ScansApi extends ApiWrapperBase {
         public void setAltTargets( String[] altTargets ) {
             this.altTargets = altTargets;
         }
+
+        /**
+         * Sets alt targets.
+         *
+         * @param altTargets the alt targets
+         */
+        public LaunchRequest withAltTargets ( String[] altTargets ) {
+            this.altTargets = altTargets;
+            return this;
+        }
     }
 
     private class ReadStatusRequest {
@@ -756,6 +825,17 @@ public class ScansApi extends ApiWrapperBase {
          */
         public void setRead( boolean read ) {
             this.read = read;
+        }
+
+
+        /**
+         * Sets read.
+         *
+         * @param read the read
+         */
+        public ReadStatusRequest withRead( boolean read ) {
+            this.read = read;
+            return this;
         }
     }
 
@@ -782,6 +862,17 @@ public class ScansApi extends ApiWrapperBase {
         public void setEnabled( boolean enabled ) {
             this.enabled = enabled;
         }
+
+
+        /**
+         * Sets enabled.
+         *
+         * @param enabled the enabled
+         */
+        public ScheduleRequest withEnabled( boolean enabled ) {
+            this.enabled = enabled;
+            return this;
+        }
     }
 
     @JsonInclude( JsonInclude.Include.NON_DEFAULT )
@@ -798,6 +889,12 @@ public class ScansApi extends ApiWrapperBase {
         @JsonProperty( "folder_id" )
         public void setFolderId( int folderId ) {
             this.folderId = folderId;
+        }
+
+
+        public MoveToFolderRequest withFolderId( int folderId ) {
+            this.folderId = folderId;
+            return this;
         }
     }
 }

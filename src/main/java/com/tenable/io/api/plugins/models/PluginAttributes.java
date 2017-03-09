@@ -3,7 +3,7 @@ package com.tenable.io.api.plugins.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tenable.io.api.workbenches.models.ReferenceInformation;
-import com.tenable.io.api.workbenches.models.VulnerabilityInfoDetail;
+import com.tenable.io.api.workbenches.models.WbVulnerabilityInfoDetail;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class PluginAttributes {
     private String osvdb;
     private RiskInformation riskInformation;
     private PluginInformation pluginInformation;
-    private VulnerabilityInfoDetail vulnInformation;
+    private WbVulnerabilityInfoDetail vulnInformation;
     private ReferenceInformation refInformation;
 
 
@@ -263,7 +263,7 @@ public class PluginAttributes {
      * @return the vuln information
      */
     @JsonProperty( "vuln_information" )
-    public VulnerabilityInfoDetail getVulnInformation() {
+    public WbVulnerabilityInfoDetail getVulnInformation() {
         return vulnInformation;
     }
 
@@ -274,7 +274,7 @@ public class PluginAttributes {
      * @param vulnInformation the vuln information
      */
     @JsonProperty( "vuln_information" )
-    public void setVulnInformation( VulnerabilityInfoDetail vulnInformation ) {
+    public void setVulnInformation( WbVulnerabilityInfoDetail vulnInformation ) {
         this.vulnInformation = vulnInformation;
     }
 

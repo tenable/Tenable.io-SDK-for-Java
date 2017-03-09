@@ -52,8 +52,7 @@ public class PermissionsApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void change( String objectType, int objectId, List<Permission> acls ) throws TenableIoException {
-        PermissionRequest request = new PermissionRequest();
-        request.setAcls( acls );
+        PermissionRequest request = new PermissionRequest().withAcls(acls);
         HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/permissions/" + objectType + "/" +
                 objectId ).build(), request );
         httpFuture.get();
@@ -81,6 +80,17 @@ public class PermissionsApi extends ApiWrapperBase {
          */
         public void setAcls( List<Permission> acls ) {
             this.acls = acls;
+        }
+
+
+        /**
+         * Sets the list of permissions
+         *
+         * @param acls the list of permissions
+         */
+        public PermissionRequest withAcls( List<Permission> acls ) {
+            this.acls = acls;
+            return this;
         }
     }
 }

@@ -37,6 +37,17 @@ public class ExclusionRequest {
 
 
     /**
+     * Sets the name of the exclusion.
+     *
+     * @param name the name of the exclusion.
+     */
+    public ExclusionRequest withName( String name ) {
+        this.name = name;
+        return this;
+    }
+
+
+    /**
      * Gets the description of the exclusion.
      *
      * @return the description of the exclusion.
@@ -53,6 +64,17 @@ public class ExclusionRequest {
      */
     public void setDescription( String description ) {
         this.description = description;
+    }
+
+
+    /**
+     * Sets the description of the exclusion.
+     *
+     * @param description the description of the exclusion.
+     */
+    public ExclusionRequest withDescription( String description ) {
+        this.description = description;
+        return this;
     }
 
 
@@ -77,6 +99,17 @@ public class ExclusionRequest {
 
 
     /**
+     * Sets the members of the exclusion.
+     *
+     * @param members the members of the exclusion.
+     */
+    public ExclusionRequest withMembers( String members ) {
+        this.members = members;
+        return this;
+    }
+
+
+    /**
      * Gets the schedule object for the exclusion.
      *
      * @return the schedule object for the exclusion.
@@ -93,5 +126,16 @@ public class ExclusionRequest {
      */
     public void setSchedule( Schedule schedule ) {
         this.schedule = schedule;
+    }
+
+
+    /**
+     * Sets the schedule object for the exclusion.
+     *
+     * @param schedule the schedule object for the exclusion.
+     */
+    public ExclusionRequest withSchedule( Schedule schedule ) {
+        this.schedule = schedule;
+        return this;
     }
 }

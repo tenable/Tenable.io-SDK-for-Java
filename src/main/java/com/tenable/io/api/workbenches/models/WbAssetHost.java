@@ -4,7 +4,7 @@ package com.tenable.io.api.workbenches.models;
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
-public class AssetHost {
+public class WbAssetHost {
     private String id;
     private String hostname;
 

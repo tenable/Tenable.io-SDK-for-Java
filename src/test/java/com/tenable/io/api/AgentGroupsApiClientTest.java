@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
  */
 public class AgentGroupsApiClientTest extends TestBase {
     @Test
-    public void TestAgentGroups() throws Exception {
+    public void testAgentGroups() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
         String testName = "MyGroup_" + java.util.UUID.randomUUID().toString().substring( 0, 6 );
         String testName2 = "MyGroup_" + java.util.UUID.randomUUID().toString().substring( 0, 6 );

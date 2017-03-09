@@ -6,7 +6,7 @@ package com.tenable.io.api.workbenches.models;
  */
 public class Filter {
     private String filter;
-    private String quality;
+    private FilterOperator quality;
     private String value;
 
 
@@ -31,11 +31,23 @@ public class Filter {
 
 
     /**
+     * With filter filter.
+     *
+     * @param filter the filter
+     * @return the filter
+     */
+    public Filter withFilter( String filter ) {
+        this.filter = filter;
+        return this;
+    }
+
+
+    /**
      * Gets quality.
      *
      * @return the quality
      */
-    public String getQuality() {
+    public FilterOperator getQuality() {
         return quality;
     }
 
@@ -45,8 +57,20 @@ public class Filter {
      *
      * @param quality the quality
      */
-    public void setQuality( String quality ) {
+    public void setQuality( FilterOperator quality ) {
         this.quality = quality;
+    }
+
+
+    /**
+     * With quality filter.
+     *
+     * @param quality the quality
+     * @return the filter
+     */
+    public Filter withQuality( FilterOperator quality ) {
+        this.quality = quality;
+        return this;
     }
 
 
@@ -67,5 +91,17 @@ public class Filter {
      */
     public void setValue( String value ) {
         this.value = value;
+    }
+
+
+    /**
+     * With value filter.
+     *
+     * @param value the value
+     * @return the filter
+     */
+    public Filter withValue( String value ) {
+        this.value = value;
+        return this;
     }
 }

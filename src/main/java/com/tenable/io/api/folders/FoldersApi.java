@@ -75,8 +75,7 @@ public class FoldersApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void edit( int folderId, String name ) throws TenableIoException {
-        FolderRequest request = new FolderRequest();
-        request.setName( name );
+        FolderRequest request = new FolderRequest().withName( name );
         HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/folders/" + folderId ).build(), request );
         httpFuture.get();
     }
@@ -103,6 +102,17 @@ public class FoldersApi extends ApiWrapperBase {
          */
         public void setName( String name ) {
             this.name = name;
+        }
+
+
+        /**
+         * Sets the folder name.
+         *
+         * @param name the folder name
+         */
+        public FolderRequest withName( String name ) {
+            this.name = name;
+            return this;
         }
     }
 

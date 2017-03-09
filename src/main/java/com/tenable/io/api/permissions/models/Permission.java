@@ -114,4 +114,62 @@ public class Permission {
     public void setName( String name ) {
         this.name = name;
     }
+
+
+
+    /**
+     * Sets the unique id of the owner of the object.
+     *
+     * @param owner the unique id of the owner of the object.
+     */
+    public Permission withOwner(int owner) {
+        this.owner = owner;
+        return this;
+    }
+
+
+    /**
+     * Sets the type of permission (default, user, group).
+     *
+     * @param type the type of permission (default, user, group).
+     */
+    public Permission withType(String type) {
+        this.type = type;
+        return this;
+    }
+
+
+    /**
+     * Sets the permission value (0, 16, 32, 64) to grant access.
+     *
+     * @param permissions the permission value (0, 16, 32, 64) to grant access.
+     */
+    public Permission withPermissions(int permissions) {
+        this.permissions = permissions;
+        return this;
+    }
+
+
+    /**
+     * Sets the unique id of the user if type is user.
+     *
+     * @param id the unique id of the user if type is user.
+     */
+    public Permission withId(int id) {
+        this.id = id;
+        return this;
+    }
+
+
+    /**
+     * Sets the name of the user or group.
+     *
+     * @param name the name of the user or group.
+     */
+    public Permission withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+
 }

@@ -28,9 +28,13 @@ import com.tenable.io.core.services.AsyncHttpService;
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
-public class TenableIoClient {
+public class TenableIoClient implements AutoCloseable {
     private static String TENABLE_IO_SCHEME = "https";
     private static String TENABLE_IO_HOST = "cloud.tenable.com";
+    private String impersonateUsername = null;
+
+    private String accessKey;
+    private String secretKey;
 
     private AsyncHttpService asyncHttpService;
     private UsersApi usersApi = null;
@@ -62,8 +66,8 @@ public class TenableIoClient {
      */
     public TenableIoClient() {
         // first check the JVM param
-        String accessKey = System.getProperty( "tenableIoAccessKey" );
-        String secretKey = System.getProperty( "tenableIoSecretKey" );
+        accessKey = System.getProperty( "tenableIoAccessKey" );
+        secretKey = System.getProperty( "tenableIoSecretKey" );
 
         // if not there, default to environment variables
         if( accessKey == null || secretKey == null ) {
@@ -82,7 +86,27 @@ public class TenableIoClient {
      * @param secretKey the secret key
      */
     public TenableIoClient( String accessKey, String secretKey ) {
+        this.accessKey = accessKey;
+        this.secretKey = secretKey;
+
         asyncHttpService = new AsyncHttpService( accessKey, secretKey );
+    }
+
+
+    /**
+     * Instantiates a new Tenable IO client which impersonates the given user.
+     * Only used via the {@link #impersonate( String ) impersonate} method
+     *
+     * @param accessKey the access key
+     * @param secretKey the secret key
+     * @param impersonateUsername the username to impersonate
+     */
+    private TenableIoClient( String accessKey, String secretKey, String impersonateUsername ) {
+        this.accessKey = accessKey;
+        this.secretKey = secretKey;
+        this.impersonateUsername = impersonateUsername;
+
+        asyncHttpService = new AsyncHttpService( accessKey, secretKey, impersonateUsername );
     }
 
 
@@ -94,6 +118,31 @@ public class TenableIoClient {
      */
     TenableIoClient( AsyncHttpService asyncHttpService ) {
         this.asyncHttpService = asyncHttpService;
+    }
+
+
+    /**
+     * Returns a new client which impersonates the given user
+     *
+     * @param username The username to impersonate
+     * @return The new client, which impersonates the given user
+     */
+    public TenableIoClient impersonate( String username ) {
+        return new TenableIoClient( accessKey, secretKey, username );
+    }
+
+
+    /**
+     * Closes this resource, relinquishing any underlying resources.
+     * This method is invoked automatically on objects managed by the
+     * {@code try}-with-resources statement.
+     *
+     * @throws Exception if this resource cannot be closed
+     */
+    @Override
+    public void close() throws Exception {
+        if( asyncHttpService != null )
+            asyncHttpService.close();
     }
 
 
@@ -368,5 +417,4 @@ public class TenableIoClient {
 
         return folderHelper;
     }
-
 }

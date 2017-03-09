@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
-public class Host {
+public class ScanHost {
     private int hostId;
     private String hostIndex;
     private String hostname;

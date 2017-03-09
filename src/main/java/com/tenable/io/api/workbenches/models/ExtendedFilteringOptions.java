@@ -2,6 +2,7 @@ package com.tenable.io.api.workbenches.models;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tenable.io.api.models.SeverityLevel;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class ExtendedFilteringOptions {
     private Integer dateRange;
     private Boolean exploitable;
     private List<Filter> filters;
-    private String searchType;
+    private FilterSearchType searchType;
     private Boolean resolvable;
     private SeverityLevel severity;
 
@@ -183,7 +184,7 @@ public class ExtendedFilteringOptions {
      * @return the search type
      */
     @JsonProperty( "filter.search_type" )
-    public String getSearchType() {
+    public FilterSearchType getSearchType() {
         return searchType;
     }
 
@@ -194,7 +195,7 @@ public class ExtendedFilteringOptions {
      * @param searchType the search type
      */
     @JsonProperty( "filter.search_type" )
-    public void setSearchType( String searchType ) {
+    public void setSearchType( FilterSearchType searchType ) {
         this.searchType = searchType;
     }
 
@@ -204,7 +205,7 @@ public class ExtendedFilteringOptions {
      *
      * @param searchType the search type
      */
-    public ExtendedFilteringOptions withSearchType( String searchType ) {
+    public ExtendedFilteringOptions withSearchType( FilterSearchType searchType ) {
         setSearchType( searchType );
         return this;
     }

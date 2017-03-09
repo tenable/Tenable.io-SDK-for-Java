@@ -14,6 +14,8 @@ TenableIoClient looks for the environment variables `TENABLEIO_ACCESS_KEY` and `
 ```java
 TenableIoClient client = new TenableIoClient();
 ```
+Other environment variables:
+* `TENABLEIO_EXPORT_DIRECTORY`: path to a folder that will be used to export temporary files. If not specified, the default OS "temp" folder will be used. See also JVM property `tenableIoExportDirectory`.
 
 #### JVM system properties
 TenableIoClient looks for the JVM system properties `tenableIoAccessKey` and `tenableIoSecretKey`. They are set like any other JVM system properties, with the `-D` command line option, for isntance:
@@ -24,6 +26,10 @@ When defined, the TenableIoClient` can be created without parameters:
 ```java
 TenableIoClient client = new TenableIoClient();
 ```
+
+Other JVM system properties:
+* `tenableIoExportDirectory`: path to a folder that will be used to export temporary files. If not specified, the default OS "temp" folder will be used. See also environment variable `TENABLEIO_EXPORT_DIRECTORY`.
+
 NOTE: The JVM system properties have priority over the environment variables.
 
 ### Java Version
@@ -37,7 +43,11 @@ org.apache.httpcomponents.httpmime => version: 4.5.2
 com.fasterxml.jackson.core.jackson-core => version: 2.0.0 or above
 com.fasterxml.jackson.core.jackson-annotations => version: 2.0.0 or above
 com.fasterxml.jackson.core.jackson-databind => version: 2.0.0 or above
+org.slf4j.slf4j-api => version: '1.7.23'
 ```
+
+### Logging
+The Tenable IO SDK uses SLF4J for logging so you can use your preferred logging framework by simply dropping the corresponding SLF4J binding. More info: https://www.slf4j.org/manual.html.
 
 ### Run Tests
 To run the tests, edit the `build.gradle` and update the `test` block with your information:

@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class AgentsApiClientTest extends TestBase {
     @Test
-    public void TestAgents() throws Exception {
+    public void testAgents() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
 
         List<Agent> agents = apiClient.getAgentsApi().list( 1 );

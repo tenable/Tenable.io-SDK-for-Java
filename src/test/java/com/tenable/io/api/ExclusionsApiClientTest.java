@@ -26,9 +26,7 @@ public class ExclusionsApiClientTest extends TestBase {
 
         ExclusionRequest request = new ExclusionRequest();
         String name = "exclusion_" + java.util.UUID.randomUUID().toString().substring( 0, 6 );
-        request.setName( name );
-        request.setDescription( "test Description" );
-        request.setMembers( getTestUsername( 0 ) );
+        request.withName( name ).withDescription( "test Description" ).withMembers( getTestUsername( 0 ) );
         //create
         Exclusion exclusion = apiClient.getExclusionsApi().create( request );
         assertNotNull( exclusion );

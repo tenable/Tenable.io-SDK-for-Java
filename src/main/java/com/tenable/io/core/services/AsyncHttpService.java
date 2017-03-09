@@ -35,6 +35,7 @@ import java.lang.management.RuntimeMXBean;
 import java.net.URI;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +52,7 @@ public class AsyncHttpService implements AutoCloseable {
 
     private CloseableHttpAsyncClient asyncClient = null;
     private JsonHelper jsonHelper;
+    private List<Header> defaultHeaders;
 
 
     /**
@@ -62,13 +64,27 @@ public class AsyncHttpService implements AutoCloseable {
      * @param secretKey the secret key
      */
     public AsyncHttpService( String accessKey, String secretKey ) {
+        this( accessKey, secretKey, null );
+    }
+
+
+    /**
+     * Instantiates a new Async http service.
+     * Note: if JVM variables "proxyHost" and "proxyPort" are set, it will use it.
+     * This feature is meant to be used for development/debug only and will TURN OFF SSL VALIDATION
+     *
+     * @param accessKey the access key
+     * @param secretKey the secret key
+     * @param impersonateUsername the username of the user to impersonate
+     */
+    public AsyncHttpService( String accessKey, String secretKey, String impersonateUsername ) {
         String proxyHost = System.getProperty( "proxyHost" );
         String proxyPort = System.getProperty( "proxyPort" );
         // if a proxy is set, uses it
         if( proxyHost != null && proxyPort != null )
-            initClient( accessKey, secretKey, CONNECTION_REQUEST_TIMEOUT, CONNECTION_TIMEOUT, SOCKET_TIMEOUT, new HttpHost( proxyHost, Integer.parseInt( proxyPort ) ), true );
+            initClient( accessKey, secretKey, CONNECTION_REQUEST_TIMEOUT, CONNECTION_TIMEOUT, SOCKET_TIMEOUT, new HttpHost( proxyHost, Integer.parseInt( proxyPort ) ), true, impersonateUsername );
         else
-            initClient( accessKey, secretKey, CONNECTION_REQUEST_TIMEOUT, CONNECTION_TIMEOUT, SOCKET_TIMEOUT, null );
+            initClient( accessKey, secretKey, CONNECTION_REQUEST_TIMEOUT, CONNECTION_TIMEOUT, SOCKET_TIMEOUT, null, impersonateUsername );
 
         jsonHelper = new JsonHelper();
     }
@@ -82,7 +98,7 @@ public class AsyncHttpService implements AutoCloseable {
      */
     public HttpFuture doGet( URI uri ) {
         HttpGet httpGet = new HttpGet( uri );
-        return new HttpFuture( this, httpGet, asyncClient.execute( httpGet, null ) );
+        return new HttpFuture( this, httpGet, asyncClient.execute( httpGet, null ), null );
     }
 
 
@@ -94,7 +110,7 @@ public class AsyncHttpService implements AutoCloseable {
      */
     public HttpFuture doDelete( URI uri ) {
         HttpDelete httpDelete = new HttpDelete( uri );
-        return new HttpFuture( this, httpDelete, asyncClient.execute( httpDelete, null ) );
+        return new HttpFuture( this, httpDelete, asyncClient.execute( httpDelete, null ), null );
     }
 
 
@@ -108,10 +124,13 @@ public class AsyncHttpService implements AutoCloseable {
     public HttpFuture doPost( URI uri, JsonNode json ) {
         HttpPost httpPost = new HttpPost( uri );
 
-        if( json != null )
-            httpPost.setEntity( new NStringEntity( jsonHelper.serialize( json ), ContentType.create( "application/json", "UTF-8" ) ) );
+        String body = null;
+        if( json != null ) {
+            body = jsonHelper.serialize( json );
+            httpPost.setEntity( new NStringEntity( body, ContentType.create( "application/json", "UTF-8" ) ) );
+        }
 
-        return new HttpFuture( this, httpPost, asyncClient.execute( httpPost, null ) );
+        return new HttpFuture( this, httpPost, asyncClient.execute( httpPost, null ), body );
     }
 
 
@@ -138,10 +157,13 @@ public class AsyncHttpService implements AutoCloseable {
     public HttpFuture doPut( URI uri, JsonNode json ) {
         HttpPut httpPut = new HttpPut( uri );
 
-        if( json != null )
-            httpPut.setEntity( new NStringEntity( jsonHelper.serialize( json ), ContentType.create( "application/json", "UTF-8" ) ) );
+        String body = null;
+        if( json != null ) {
+            body = jsonHelper.serialize( json );
+            httpPut.setEntity( new NStringEntity( body, ContentType.create( "application/json", "UTF-8" ) ) );
+        }
 
-        return new HttpFuture( this, httpPut, asyncClient.execute( httpPut, null ) );
+        return new HttpFuture( this, httpPut, asyncClient.execute( httpPut, null ), body );
     }
 
 
@@ -183,7 +205,7 @@ public class AsyncHttpService implements AutoCloseable {
             throw new TenableIoException( TenableIoErrorCode.FileError, String.format( "Couldn't open file: %s.", destinationFile.getAbsolutePath() ), e );
         }
 
-        return new HttpFuture( this, httpGet, consumer, asyncClient.execute( HttpAsyncMethods.create( httpGet ), consumer, null, null ) );
+        return new HttpFuture( this, httpGet, consumer, asyncClient.execute( HttpAsyncMethods.create( httpGet ), consumer, null, null ), null );
     }
 
 
@@ -217,7 +239,7 @@ public class AsyncHttpService implements AutoCloseable {
             throw new TenableIoException( TenableIoErrorCode.FileError, String.format( "Couldn't upload file: %s.", fileToUpload.getAbsolutePath() ), e );
         }
 
-        return new HttpFuture( this, httpPost, asyncClient.execute( httpPost, null ) );
+        return new HttpFuture( this, httpPost, asyncClient.execute( httpPost, null ), null );
     }
 
 
@@ -246,12 +268,12 @@ public class AsyncHttpService implements AutoCloseable {
     }
 
 
-    private void initClient( String accessKey, String secretKey, int connectionRequestTimeout, int connectionTimeout, int socketTimeout, HttpHost proxy ) {
-        initClient( accessKey, secretKey, connectionRequestTimeout, connectionTimeout, socketTimeout, proxy, false );
+    private void initClient( String accessKey, String secretKey, int connectionRequestTimeout, int connectionTimeout, int socketTimeout, HttpHost proxy, String impersonateUsername ) {
+        initClient( accessKey, secretKey, connectionRequestTimeout, connectionTimeout, socketTimeout, proxy, false, impersonateUsername );
     }
 
 
-    private void initClient( String accessKey, String secretKey, int connectionRequestTimeout, int connectionTimeout, int socketTimeout, HttpHost proxy, boolean noSslValidation ) {
+    private void initClient( String accessKey, String secretKey, int connectionRequestTimeout, int connectionTimeout, int socketTimeout, HttpHost proxy, boolean noSslValidation, String impersonateUsername ) {
         RequestConfig.Builder requestConfigBuilder = RequestConfig.custom();
 
         requestConfigBuilder.setConnectionRequestTimeout( connectionRequestTimeout ).setSocketTimeout( connectionTimeout ).setConnectTimeout( socketTimeout );
@@ -276,13 +298,17 @@ public class AsyncHttpService implements AutoCloseable {
         //system properties
         Map<String, String> systemProperties = ManagementFactory.getRuntimeMXBean().getSystemProperties();
 
+        defaultHeaders = new ArrayList<>( 3 );
+        defaultHeaders.add( new BasicHeader( "X-ApiKeys", String.format( "accessKey=%s; secretKey=%s", accessKey, secretKey ) ) );
+        defaultHeaders.add( new BasicHeader( "User-Agent", String.format( "TenableIOSDK Java/%s %s/%s/%s", systemProperties.get( "java.runtime.version" ), systemProperties.get( "os.name" ), systemProperties.get( "os.version" ), systemProperties.get( "os.arch" ) ) ) );
+
+        if( impersonateUsername != null ) {
+            defaultHeaders.add( new BasicHeader( "X-Impersonate", "username=" + impersonateUsername ) );
+        }
+
         asyncClient = HttpAsyncClients.custom()
                 .setDefaultRequestConfig( requestConfigBuilder.build() )
-                .setDefaultHeaders( Arrays.asList(
-                        new Header[]{
-                                new BasicHeader( "X-ApiKeys", String.format( "accessKey=%s; secretKey=%s", accessKey, secretKey ) ),
-                                new BasicHeader( "User-Agent", String.format( "TenableIOSDK Java/%s %s/%s/%s", systemProperties.get( "java.runtime.version" ), systemProperties.get( "os.name" ), systemProperties.get( "os.version" ), systemProperties.get( "os.arch" )  ) )
-                        } ) )
+                .setDefaultHeaders( defaultHeaders )
                 .setSSLContext( sslContext )
                 .build();
 
@@ -297,5 +323,16 @@ public class AsyncHttpService implements AutoCloseable {
      */
     JsonHelper getJsonHelper() {
         return jsonHelper;
+    }
+
+
+    /**
+     * Gets the default headers.
+     * This is only exposed to (package) HttpFuture for logging purpose.
+     *
+     * @return the default headers
+     */
+    List<Header> getDefaultHeaders() {
+        return defaultHeaders;
     }
 }

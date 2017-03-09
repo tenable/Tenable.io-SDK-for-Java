@@ -50,9 +50,7 @@ public class ScannerGroupsApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void create( String name, String type ) throws TenableIoException {
-        ScannerCreateRequest request = new ScannerCreateRequest();
-        request.setName( name );
-        request.setType( type );
+        ScannerCreateRequest request = new ScannerCreateRequest().withName( name ).withType( type );
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scanner-groups" ).build(),
                 request );
         httpFuture.get();
@@ -94,8 +92,7 @@ public class ScannerGroupsApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void edit( int groupId, String name ) throws TenableIoException {
-        ScannerEditRequest request = new ScannerEditRequest();
-        request.setName( name );
+        ScannerEditRequest request = new ScannerEditRequest().withName( name );
         HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/scanner-groups/" + groupId ).build(),
                 request );
         httpFuture.get();
@@ -169,6 +166,17 @@ public class ScannerGroupsApi extends ApiWrapperBase {
 
 
         /**
+         * Sets name.
+         *
+         * @param name the name
+         */
+        public ScannerCreateRequest withName( String name ) {
+            this.name = name;
+            return this;
+        }
+
+
+        /**
          * Gets type.
          *
          * @return the type
@@ -185,6 +193,17 @@ public class ScannerGroupsApi extends ApiWrapperBase {
          */
         public void setType( String type ) {
             this.type = type;
+        }
+
+
+        /**
+         * Sets type.
+         *
+         * @param type the type
+         */
+        public ScannerCreateRequest withType( String type ) {
+            this.type = type;
+            return this;
         }
     }
 
@@ -211,6 +230,17 @@ public class ScannerGroupsApi extends ApiWrapperBase {
             this.name = name;
         }
 
+
+        /**
+         * Sets name.
+         *
+         * @param name the name
+         */
+        public ScannerEditRequest withName( String name ) {
+            this.name = name;
+            return this;
+        }
+
     }
 
     @JsonInclude( JsonInclude.Include.NON_DEFAULT )
@@ -218,13 +248,34 @@ public class ScannerGroupsApi extends ApiWrapperBase {
         private String value;
 
 
+        /**
+         * Gets value.
+         *
+         * @return the value
+         */
         public String getValue() {
             return value;
         }
 
 
+        /**
+         * Sets value.
+         *
+         * @param value the value
+         */
         public void setValue( String value ) {
             this.value = value;
+        }
+
+
+        /**
+         * Sets value.
+         *
+         * @param value the value
+         */
+        public ScannerGroupRequest withValue( String value ) {
+            this.value = value;
+            return this;
         }
     }
 }

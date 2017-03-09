@@ -18,7 +18,7 @@ public class ExportOptions {
     private List<Filter> filters;
     private String searchType;
     private Boolean minimumVulnInfo;
-    private Integer pluginId;
+    private Long pluginId;
     private String assetId;
 
 
@@ -298,7 +298,7 @@ public class ExportOptions {
      * @return the plugin id
      */
     @JsonProperty( "plugin_id" )
-    public Integer getPluginId() {
+    public Long getPluginId() {
         return pluginId;
     }
 
@@ -309,7 +309,7 @@ public class ExportOptions {
      * @param pluginId the plugin id
      */
     @JsonProperty( "plugin_id" )
-    public void setPluginId( Integer pluginId ) {
+    public void setPluginId( Long pluginId ) {
         this.pluginId = pluginId;
     }
 
@@ -319,7 +319,7 @@ public class ExportOptions {
      *
      * @param pluginId the plugin id
      */
-    public ExportOptions withPluginId( Integer pluginId ) {
+    public ExportOptions withPluginId( Long pluginId ) {
         this.pluginId = pluginId;
         return this;
     }

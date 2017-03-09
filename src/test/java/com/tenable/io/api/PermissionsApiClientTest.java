@@ -24,17 +24,13 @@ public class PermissionsApiClientTest extends TestBase {
 
 
         //create an asset list with custom permission
-        Permission permission = new Permission();
-        permission.setType( "default" );
-        permission.setPermissions( 64 );
+        Permission permission = new Permission().withType( "default" ).withPermissions( 64 );
         List<Permission> acls = new ArrayList<Permission>();
         acls.add( permission );
 
-        AssetListRequest request = new AssetListRequest();
-        request.setName( "test" );
-        request.setMembers( getTestUsername( 0 ) );
-        request.setType( "user" );
-        request.setAcls( acls );
+        AssetListRequest request = new AssetListRequest().withName( "test" ).withMembers( getTestUsername( 0 ) )
+        .withType( "user" )
+        .withAcls( acls );
 
         AssetList created = apiClient.getAssetListsApi().create( request );
         assertNotNull( created );
@@ -48,9 +44,7 @@ public class PermissionsApiClientTest extends TestBase {
 
 
         //change permissions on created object
-        Permission newPermission = new Permission();
-        newPermission.setType( "default" );
-        newPermission.setPermissions( 32 );
+        Permission newPermission = new Permission().withType( "default" ).withPermissions( 32 );
         List<Permission> newAcls = new ArrayList<Permission>();
         newAcls.add( newPermission );
         apiClient.getPermissionsApi().change( "asset-list", created.getId(), newAcls );

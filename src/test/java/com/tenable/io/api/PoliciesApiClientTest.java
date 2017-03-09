@@ -181,12 +181,12 @@ public class PoliciesApiClientTest extends TestBase {
         audits.setFeed( auditFeed );
 
         //permissions
-        Permission permission = new Permission();
-        permission.setId( 7 );
-        permission.setName( getTestUsername( 0 ) );
-        permission.setOwner( 1 );
-        permission.setType( "user" );
-        permission.setPermissions( 128 );
+        Permission permission = new Permission()
+        .withId( 7 )
+        .withName( getTestUsername( 0 ) )
+        .withOwner( 1 )
+        .withType( "user" )
+        .withPermissions( 128 );
 
         //settings
         PolicySettings settings = new PolicySettings();

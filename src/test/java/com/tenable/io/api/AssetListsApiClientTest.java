@@ -22,17 +22,14 @@ public class AssetListsApiClientTest extends TestBase {
         TenableIoClient apiClient = new TenableIoClient();
 
         //create asset list
-        Permission permission = new Permission();
-        permission.setType( "default" );
-        permission.setPermissions( 64 );
+        Permission permission = new Permission().withType( "default" ).withPermissions( 64 );
         List<Permission> acls = new ArrayList<Permission>();
         acls.add( permission );
 
-        AssetListRequest request = new AssetListRequest();
-        request.setName( "test" );
-        request.setMembers( getTestUsername( 0 ) );
-        request.setType( "user" );
-        request.setAcls( acls );
+        AssetListRequest request = new AssetListRequest().withName( "test" )
+                .withMembers(getTestUsername( 0 ) )
+                .withType( "user" )
+                .withAcls( acls );
 
         AssetList created = apiClient.getAssetListsApi().create( request );
         assertNotNull( created );
@@ -45,8 +42,7 @@ public class AssetListsApiClientTest extends TestBase {
         assertNotNull( result );
 
         //edit
-        AssetListRequest editRequest = new AssetListRequest();
-        editRequest.setName( "testrenamed" );
+        AssetListRequest editRequest = new AssetListRequest().withName( "testrenamed" );
         apiClient.getAssetListsApi().edit( created.getId(), editRequest );
 
         //details

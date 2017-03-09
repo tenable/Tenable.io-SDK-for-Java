@@ -4,8 +4,8 @@ package com.tenable.io.api.workbenches.models;
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
-public class AssetInfoCounts {
-    private AssetVulnerabilities vulnerabilities;
+public class WbAssetInfoCounts {
+    private WbAssetVulnerabilities vulnerabilities;
 
 
     /**
@@ -13,7 +13,7 @@ public class AssetInfoCounts {
      *
      * @return the vulnerabilities
      */
-    public AssetVulnerabilities getVulnerabilities() {
+    public WbAssetVulnerabilities getVulnerabilities() {
         return vulnerabilities;
     }
 
@@ -23,7 +23,7 @@ public class AssetInfoCounts {
      *
      * @param vulnerabilities the vulnerabilities
      */
-    public void setVulnerabilities( AssetVulnerabilities vulnerabilities ) {
+    public void setVulnerabilities( WbAssetVulnerabilities vulnerabilities ) {
         this.vulnerabilities = vulnerabilities;
     }
 }

@@ -39,6 +39,17 @@ public class AssetListRequest {
 
 
     /**
+     * The name of the list.
+     *
+     * @param name The name of the list.
+     */
+    public AssetListRequest withName( String name ) {
+        this.name = name;
+        return this;
+    }
+
+
+    /**
      * The members of the list.
      *
      * @return The members of the list.
@@ -55,6 +66,17 @@ public class AssetListRequest {
      */
     public void setMembers( String members ) {
         this.members = members;
+    }
+
+
+    /**
+     * The  members of the list.
+     *
+     * @param members The members of the list.
+     */
+    public AssetListRequest withMembers( String members ) {
+        this.members = members;
+        return this;
     }
 
 
@@ -79,6 +101,17 @@ public class AssetListRequest {
 
 
     /**
+     * The list type (user or system).
+     *
+     * @param type The list type (user or system).
+     */
+    public AssetListRequest withType( String type ) {
+        this.type = type;
+        return this;
+    }
+
+
+    /**
      * A list containing permissions to apply to the list.
      *
      * @return A list containing permissions to apply to the list.
@@ -95,5 +128,15 @@ public class AssetListRequest {
      */
     public void setAcls( List<Permission> acls ) {
         this.acls = acls;
+    }
+
+    /**
+     * A list containing permissions to apply to the list.
+     *
+     * @param acls A list containing permissions to apply to the list.
+     */
+    public AssetListRequest withAcls( List<Permission> acls ) {
+        this.acls = acls;
+        return this;
     }
 }

@@ -135,8 +135,7 @@ public class ScannersApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void controlScans( int scannerId, String scanUuid, String action ) throws TenableIoException {
-        ScannerControlRequest request = new ScannerControlRequest();
-        request.setAction( action );
+        ScannerControlRequest request = new ScannerControlRequest().withAction( action );
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scanners/" + scannerId +
                 "/scans/" + scanUuid + "/control" ).build(), request );
         httpFuture.get();
@@ -151,8 +150,7 @@ public class ScannersApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void toggleLinkState( int scannerId, int link ) throws TenableIoException {
-        ScannerToggleLinkRequest request = new ScannerToggleLinkRequest();
-        request.setLink( link );
+        ScannerToggleLinkRequest request = new ScannerToggleLinkRequest().withLink( link );
         HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/settings/" + scannerId +
                 "/link" ).build(), request );
         httpFuture.get();
@@ -181,6 +179,17 @@ public class ScannersApi extends ApiWrapperBase {
         public void setLink( int link ) {
             this.link = link;
         }
+
+
+        /**
+         * Sets link.
+         *
+         * @param link the link
+         */
+        public ScannerToggleLinkRequest withLink( int link ) {
+            this.link = link;
+            return this;
+        }
     }
 
     private class ScannerControlRequest {
@@ -204,6 +213,17 @@ public class ScannersApi extends ApiWrapperBase {
          */
         public void setAction( String action ) {
             this.action = action;
+        }
+
+
+        /**
+         * Sets action.
+         *
+         * @param action the action
+         */
+        public ScannerControlRequest withAction( String action ) {
+            this.action = action;
+            return this;
         }
     }
 

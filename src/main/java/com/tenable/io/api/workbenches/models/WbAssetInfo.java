@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
-public class AssetInfo {
+public class WbAssetInfo {
     private String firstSeen;
     private List<String> fqdn;
     private List<String> ipv4;

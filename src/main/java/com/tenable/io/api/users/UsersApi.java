@@ -45,13 +45,8 @@ public class UsersApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public User create( String username, String password, UserRole permissions, String name, String email, String type ) throws TenableIoException {
-        CreateUserRequest request = new CreateUserRequest();
-        request.setUsername( username );
-        request.setPassword( password );
-        request.setPermissions( permissions );
-        request.setName( name );
-        request.setEmail( email );
-        request.setType( type );
+        CreateUserRequest request = new CreateUserRequest().withUsername( username).withPassword( password )
+                .withPermissions( permissions).withName( name ).withEmail( email ).withType( type );
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/users" ).build(), request );
         return httpFuture.getAsType( User.class );
     }
@@ -82,11 +77,8 @@ public class UsersApi extends ApiWrapperBase {
      */
     public User edit( int userId, UserRole permissions, String name, String email, Boolean enabled )
             throws TenableIoException {
-        EditUserRequest request = new EditUserRequest();
-        request.setPermissions( permissions );
-        request.setName( name );
-        request.setEmail( email );
-        request.setEnabled( enabled );
+        EditUserRequest request = new EditUserRequest().withPermissions( permissions ).withName( name )
+                .withEmail( email).withEnabled( enabled );
         HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/users/" + userId ).build(), request );
         return httpFuture.getAsType( User.class );
     }
@@ -138,9 +130,7 @@ public class UsersApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void password( int userId, String currentPassword, String password ) throws TenableIoException {
-        ChangePasswordRequest request = new ChangePasswordRequest();
-        request.setPassword( password );
-        request.setCurrentPassword( currentPassword );
+        ChangePasswordRequest request = new ChangePasswordRequest().withPassword( password ).withCurrentPassword( currentPassword );
         HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/users/" + userId + "/chpasswd" ).build(), request );
         httpFuture.get();
     }
@@ -170,8 +160,7 @@ public class UsersApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public User enabled( int userId, boolean enabled ) throws TenableIoException {
-        EnableUserRequest request = new EnableUserRequest();
-        request.setEnabled( enabled );
+        EnableUserRequest request = new EnableUserRequest().withEnabled( enabled );
         HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/users/" + userId +
                 "/enabled" ).build(), request );
         return httpFuture.getAsType( User.class );
@@ -189,9 +178,7 @@ public class UsersApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void twoFactor( int userId, boolean emailEnabled, boolean smsEnabled ) throws TenableIoException {
-        TwoFactorRequest request = new TwoFactorRequest();
-        request.setEmailEnabled( emailEnabled );
-        request.setSmsEnabled( smsEnabled );
+        TwoFactorRequest request = new TwoFactorRequest().withEmailEnabled( emailEnabled ).withSmsEnabled( smsEnabled);
         HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/users/" + userId +
                 "/two-factor" ).build(), request );
         httpFuture.get();
@@ -208,8 +195,7 @@ public class UsersApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void twoFactorEnable( int userId, String phone ) throws TenableIoException {
-        TwoFactorRequest request = new TwoFactorRequest();
-        request.setSmsPhone( phone );
+        TwoFactorRequest request = new TwoFactorRequest().withSmsPhone( phone );
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/users/" + userId +
                 "/two-factor/send-verification" ).build(), request );
         httpFuture.get();
@@ -225,8 +211,7 @@ public class UsersApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void twoFactorEnableVerify( int userId, String verificationCode ) throws TenableIoException {
-        TwoFactorRequest request = new TwoFactorRequest();
-        request.setVerificationCode( verificationCode );
+        TwoFactorRequest request = new TwoFactorRequest().withVerificationCode( verificationCode );
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/users/" + userId +
                 "/two-factor/verify-code" ).build(), request );
         httpFuture.get();
@@ -287,6 +272,26 @@ public class UsersApi extends ApiWrapperBase {
         public void setSmsEnabled( boolean smsEnabled ) {
             this.smsEnabled = smsEnabled;
         }
+
+        public TwoFactorRequest withEmailEnabled( boolean emailEnabled ) {
+            this.emailEnabled = emailEnabled;
+            return this;
+        }
+
+        public TwoFactorRequest withSmsEnabled( boolean smsEnabled ) {
+            this.smsEnabled = smsEnabled;
+            return this;
+        }
+
+        public TwoFactorRequest withSmsPhone( String smsPhone ) {
+            this.smsPhone = smsPhone;
+            return this;
+        }
+
+        public TwoFactorRequest withVerificationCode( String verificationCode ) {
+            this.verificationCode = verificationCode;
+            return this;
+        }
     }
 
     private class EnableUserRequest {
@@ -300,6 +305,11 @@ public class UsersApi extends ApiWrapperBase {
 
         public void setEnabled( boolean enabled ) {
             this.enabled = enabled;
+        }
+
+        public EnableUserRequest withEnabled( boolean enabled ) {
+            this.enabled = enabled;
+            return this;
         }
     }
 
@@ -372,6 +382,37 @@ public class UsersApi extends ApiWrapperBase {
         }
 
 
+        public CreateUserRequest withUsername( String username ) {
+            this.username = username;
+            return this;
+        }
+
+        public CreateUserRequest withName( String name ) {
+            this.name = name;
+            return this;
+        }
+
+        public CreateUserRequest withEmail( String email ) {
+            this.email = email;
+            return this;
+        }
+
+        public CreateUserRequest withPassword( String password ) {
+            this.password = password;
+            return this;
+        }
+
+        public CreateUserRequest withPermissions( UserRole permissions ) {
+            this.permissions = permissions;
+            return this;
+        }
+
+        public CreateUserRequest withType( String type ) {
+            this.type = type;
+            return this;
+        }
+
+
     }
 
     @JsonInclude( JsonInclude.Include.NON_NULL )
@@ -420,6 +461,26 @@ public class UsersApi extends ApiWrapperBase {
         public void setEmail( String email ) {
             this.email = email;
         }
+
+        public EditUserRequest withEnabled( Boolean enabled ) {
+            this.enabled = enabled;
+            return this;
+        }
+
+        public EditUserRequest withPermissions( UserRole permissions ) {
+            this.permissions = permissions;
+            return this;
+        }
+
+        public EditUserRequest withName( String name ) {
+            this.name = name;
+            return this;
+        }
+
+        public EditUserRequest withEmail( String email ) {
+            this.email = email;
+            return this;
+        }
     }
 
     private class ChangePasswordRequest {
@@ -446,6 +507,17 @@ public class UsersApi extends ApiWrapperBase {
 
         public void setPassword( String password ) {
             this.password = password;
+        }
+
+
+        public ChangePasswordRequest withPassword( String password ) {
+            this.password = password;
+            return this;
+        }
+
+        public ChangePasswordRequest withCurrentPassword( String currentPassword ) {
+            this.currentPassword = currentPassword;
+            return this;
         }
     }
 

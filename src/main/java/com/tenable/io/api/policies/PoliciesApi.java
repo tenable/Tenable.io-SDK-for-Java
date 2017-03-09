@@ -118,8 +118,7 @@ public class PoliciesApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public Policy importPolicy( String file ) throws TenableIoException {
-        ImportRequest request = new ImportRequest();
-        request.setFile( file );
+        ImportRequest request = new ImportRequest().withFile( file );
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/policies/import" ).build(), request );
         return httpFuture.getAsType( Policy.class );
     }
@@ -161,6 +160,17 @@ public class PoliciesApi extends ApiWrapperBase {
         public void setFile( String file ) {
             this.file = file;
         }
+
+
+        /**
+         * Sets file.
+         *
+         * @param file the file
+         */
+        public ImportRequest withFile( String file ) {
+            this.file = file;
+            return this;
+        }
     }
 
     @JsonInclude( JsonInclude.Include.NON_DEFAULT )
@@ -168,13 +178,34 @@ public class PoliciesApi extends ApiWrapperBase {
         private String value;
 
 
+        /**
+         * Gets value.
+         *
+         * @return the value
+         */
         public String getValue() {
             return value;
         }
 
 
+        /**
+         * Sets value.
+         *
+         * @param value the value
+         */
         public void setValue( String value ) {
             this.value = value;
+        }
+
+
+        /**
+         * Sets value.
+         *
+         * @param value the value
+         */
+        public CopyRequest withValue( String value ) {
+            this.value = value;
+            return this;
         }
     }
 

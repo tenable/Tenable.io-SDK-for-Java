@@ -6,11 +6,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.tenable.io.api.ApiError;
 import com.tenable.io.core.exceptions.TenableIoException;
 import com.tenable.io.core.exceptions.TenableIoErrorCode;
+import com.tenable.io.core.utilities.LoggerHelper;
+import com.tenable.io.core.utilities.models.LogInstance;
+import com.tenable.io.core.utilities.models.LogLevel;
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.nio.protocol.HttpAsyncResponseConsumer;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -22,7 +29,9 @@ import java.util.concurrent.Future;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class HttpFuture {
+    private static Logger logger = LoggerFactory.getLogger( HttpFuture.class );
     private static final Map<TenableIoErrorCode, int[]> retrySteps;
+    private static final int REQUEST_AND_RESPONSE_BODY_LOG_MAX_LENGTH = 100 * 1024;
 
     static {
         retrySteps = new HashMap<>();
@@ -33,10 +42,12 @@ public class HttpFuture {
     }
 
     private final AsyncHttpService asyncHttpService;
+    private final LogLevel logLevel;
     private HttpAsyncResponseConsumer<HttpResponse> responseConsumer;
     private Future<HttpResponse> httpResponseFuture;
     private int numRetry;
     private final HttpUriRequest httpUriRequest;
+    private final String body;
 
 
     /**
@@ -45,13 +56,16 @@ public class HttpFuture {
      * @param asyncHttpService   async http service instance
      * @param httpUriRequest     the http uri request
      * @param httpResponseFuture the http response future
+     * @param body               the body of the request (optional, can be set to null. Only retained and used for TRACE logging)
      */
-    public HttpFuture( AsyncHttpService asyncHttpService, HttpUriRequest httpUriRequest, Future<HttpResponse> httpResponseFuture ) {
+    public HttpFuture( AsyncHttpService asyncHttpService, HttpUriRequest httpUriRequest, Future<HttpResponse> httpResponseFuture, String body ) {
         this.asyncHttpService = asyncHttpService;
         this.httpResponseFuture = httpResponseFuture;
         this.httpUriRequest = httpUriRequest;
         this.responseConsumer = null;
         this.numRetry = 0;
+        this.logLevel = LoggerHelper.getLogLevel( logger );
+        this.body = logLevel == LogLevel.TRACE ? body : null;
     }
 
 
@@ -62,9 +76,10 @@ public class HttpFuture {
      * @param httpUriRequest     the http uri request
      * @param responseConsumer   the response consumer
      * @param httpResponseFuture the http response future
+     * @param body               the body
      */
-    public HttpFuture( AsyncHttpService asyncHttpService, HttpUriRequest httpUriRequest, HttpAsyncResponseConsumer<HttpResponse> responseConsumer, Future<HttpResponse> httpResponseFuture ) {
-        this( asyncHttpService, httpUriRequest, httpResponseFuture );
+    public HttpFuture( AsyncHttpService asyncHttpService, HttpUriRequest httpUriRequest, HttpAsyncResponseConsumer<HttpResponse> responseConsumer, Future<HttpResponse> httpResponseFuture, String body ) {
+        this( asyncHttpService, httpUriRequest, httpResponseFuture, body );
         this.responseConsumer = responseConsumer;
     }
 
@@ -78,7 +93,7 @@ public class HttpFuture {
      * then the {@code mayInterruptIfRunning} parameter determines
      * whether the thread executing this task should be interrupted in
      * an attempt to stop the task.
-     *
+     * <p>
      * <p>After this method returns, subsequent calls to {@link #isDone} will
      * always return {@code true}.  Subsequent calls to {@link #isCancelled}
      * will always return {@code true} if this method returned {@code true}.
@@ -124,7 +139,7 @@ public class HttpFuture {
      * @throws TenableIoException Thrown if the HTTP call errors out
      */
     public void get() throws TenableIoException {
-        getResponse();
+        logEvent( getResponse(), "" );
     }
 
 
@@ -221,7 +236,9 @@ public class HttpFuture {
         response = getResponse();
 
         try {
-            return EntityUtils.toString( response.getEntity() );
+            String body = EntityUtils.toString( response.getEntity() );
+            logEvent( response, body );
+            return body;
         } catch( Exception e ) {
             throw new TenableIoException( TenableIoErrorCode.Generic, "Error while executing HTTP request.", e );
         }
@@ -251,7 +268,7 @@ public class HttpFuture {
                 }
             }
 
-            return checkAndHandleRetries( exceptionToThrow );
+            return checkAndHandleRetries( exceptionToThrow, null );
         }
 
         boolean retry = false;
@@ -296,8 +313,9 @@ public class HttpFuture {
             }
 
             if( retry ) {
-                return checkAndHandleRetries( exceptionToThrow );
+                return checkAndHandleRetries( exceptionToThrow, response );
             } else {
+                logEvent( response, "", exceptionToThrow.getMessage(), exceptionToThrow, 1, true );
                 throw exceptionToThrow;
             }
         }
@@ -310,13 +328,16 @@ public class HttpFuture {
      * Encapsulates and handles retries logic if needed
      *
      * @param e this exception will be thrown as is if no retries or no more retries need to be performed
+     * @param response current failed attempt response, used for logging
      * @return the HTTP call HttpResponse of possible retry(ies)
      * @throws TenableIoException Thrown if the HTTP call errors out
      */
-    private HttpResponse checkAndHandleRetries( TenableIoException e ) throws TenableIoException {
+    private HttpResponse checkAndHandleRetries( TenableIoException e, HttpResponse response ) throws TenableIoException {
         if( retrySteps.containsKey( e.getErrorCode() ) ) {
             if( numRetry < 3 ) {
                 numRetry++;
+
+                logEvent( response, "", e.getMessage(), e, numRetry, false );
 
                 try {
                     int[] sleepTimes = retrySteps.get( e.getErrorCode() );
@@ -326,8 +347,108 @@ public class HttpFuture {
                 httpResponseFuture = asyncHttpService.retryOperation( httpUriRequest, responseConsumer );
                 return getResponse();
             }
+            else logEvent( response, "", e.getMessage(), e, numRetry + 1, true );
         }
 
         throw e;
+    }
+
+
+    private void logEvent( HttpResponse response, String respBody ) {
+        logEvent( response, respBody, null, null, 0, false );
+    }
+
+
+    private void logEvent( HttpResponse response, String respBody, String error, Exception exception, int attempt, boolean isFinal ) {
+        if( logLevel == LogLevel.TRACE || logLevel == LogLevel.DEBUG || ( error != null && ( isFinal || ( logLevel == LogLevel.WARN || logLevel == LogLevel.INFO ) ) ) ) {
+            LogInstance logInstance = new LogInstance();
+
+            logRequest( logInstance );
+            logResponse( logInstance, response, respBody );
+
+            if( error != null ) {
+                logInstance.setError( String.format( "%s. Attempt #: %d. IsLastAttempt: %b.", error, attempt, isFinal ) );
+            }
+
+            StringBuilder sb = new StringBuilder( asyncHttpService.getJsonHelper().stringify( asyncHttpService.getJsonHelper().toJson( logInstance ) ) );
+            if( logInstance.getReqBody() != null ) {
+                sb.append( "\nREQUEST_BODY:\n" ).append( logInstance.getReqBody() );
+            }
+            if( logInstance.getRespBody() != null ) {
+                sb.append( "\nRESPONSE_BODY:\n" ).append( logInstance.getRespBody() );
+            }
+            String message = sb.toString();
+
+            LogLevel actualLevel = ( error != null ) ? ( isFinal ? LogLevel.ERROR : LogLevel.WARN ) : logLevel;
+            switch( actualLevel ) {
+                case ERROR:
+                    logger.error( message, exception != null ? exception : null );
+                    break;
+                case WARN:
+                    logger.warn( message, exception != null ? exception : null );
+                    break;
+                case DEBUG:
+                    logger.debug( message, exception != null ? exception : null );
+                    break;
+                case TRACE:
+                    logger.trace( message, exception != null ? exception : null );
+                    break;
+            }
+        }
+    }
+
+
+    private LogInstance logResponse( LogInstance logInstance, HttpResponse response, String respBody ) {
+        if( response != null ) {
+            logInstance.setRespHttpStatus( response.getStatusLine().getStatusCode() );
+
+            // log request headers and body?
+            for( Header header : response.getAllHeaders() ) {
+                if( logLevel == LogLevel.TRACE || header.getName().toLowerCase().equals( "x-gateway-site-id" ) || header.getName().toLowerCase().equals( "x-request-uuid" ) ) {
+                    logInstance.addRespHeader( header.getName(), header.getValue() );
+                }
+            }
+
+            if( logLevel == LogLevel.TRACE ) {
+                if( respBody != null ) {
+                    String logRespBody;
+                    if( respBody.length() > REQUEST_AND_RESPONSE_BODY_LOG_MAX_LENGTH ) {
+                        logRespBody = respBody.substring( 0, REQUEST_AND_RESPONSE_BODY_LOG_MAX_LENGTH ) + "...response body truncated...";
+                    }
+                    else logRespBody = respBody;
+
+                    logInstance.setRespBody( logRespBody );
+                }
+           }
+        }
+        return logInstance;
+    }
+
+
+    private LogInstance logRequest( LogInstance logInstance ) {
+        logInstance.withHttpMethod( httpUriRequest.getMethod() ).withUrl( httpUriRequest.getURI().toString() );
+
+        // log request headers and body?
+        if( logLevel == LogLevel.TRACE ) {
+            for( Header header : httpUriRequest.getAllHeaders() ) {
+                logInstance.addReqHeader( header.getName(), header.getValue() );
+            }
+
+            for( Header header : asyncHttpService.getDefaultHeaders() ) {
+                logInstance.addReqHeader( header.getName(), "X-ApiKeys".equals( header.getName() ) ? "******REDACTED******" : header.getValue() );
+            }
+
+            if( body != null ) {
+                String logBody;
+                if( body.length() > REQUEST_AND_RESPONSE_BODY_LOG_MAX_LENGTH ) {
+                    logBody = body.substring( 0, REQUEST_AND_RESPONSE_BODY_LOG_MAX_LENGTH ) + "...request body truncated...";
+                }
+                else logBody = body;
+
+                logInstance.setReqBody( logBody );
+            }
+        }
+
+        return logInstance;
     }
 }

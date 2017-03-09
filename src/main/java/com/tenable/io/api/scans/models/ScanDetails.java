@@ -11,12 +11,12 @@ import java.util.List;
  */
 public class ScanDetails {
     private ScanDetailsInfo info;
-    private List<Host> hosts;
-    private List<Host> comphosts;
+    private List<ScanHost> hosts;
+    private List<ScanHost> comphosts;
     private List<Note> notes;
     private RemediationsResult remediations;
-    private List<Vulnerability> vulnerabilities;
-    private List<Vulnerability> compliance;
+    private List<ScanVulnerability> vulnerabilities;
+    private List<ScanVulnerability> compliance;
     private List<History> history;
     private List<Filter> filters;
 
@@ -46,7 +46,7 @@ public class ScanDetails {
      *
      * @return the host list
      */
-    public List<Host> getHosts() {
+    public List<ScanHost> getHosts() {
         return hosts;
     }
 
@@ -56,7 +56,7 @@ public class ScanDetails {
      *
      * @param hosts the host list
      */
-    public void setHosts( List<Host> hosts ) {
+    public void setHosts( List<ScanHost> hosts ) {
         this.hosts = hosts;
     }
 
@@ -66,7 +66,7 @@ public class ScanDetails {
      *
      * @return the list of compromised hosts
      */
-    public List<Host> getComphosts() {
+    public List<ScanHost> getComphosts() {
         return comphosts;
     }
 
@@ -76,7 +76,7 @@ public class ScanDetails {
      *
      * @param comphosts the list of compromised hosts
      */
-    public void setComphosts( List<Host> comphosts ) {
+    public void setComphosts( List<ScanHost> comphosts ) {
         this.comphosts = comphosts;
     }
 
@@ -126,7 +126,7 @@ public class ScanDetails {
      *
      * @return the list of vulnerabilities
      */
-    public List<Vulnerability> getVulnerabilities() {
+    public List<ScanVulnerability> getVulnerabilities() {
         return vulnerabilities;
     }
 
@@ -136,7 +136,7 @@ public class ScanDetails {
      *
      * @param vulnerabilities the list of vulnerabilities
      */
-    public void setVulnerabilities( List<Vulnerability> vulnerabilities ) {
+    public void setVulnerabilities( List<ScanVulnerability> vulnerabilities ) {
         this.vulnerabilities = vulnerabilities;
     }
 
@@ -146,7 +146,7 @@ public class ScanDetails {
      *
      * @return the list of compliance
      */
-    public List<Vulnerability> getCompliance() {
+    public List<ScanVulnerability> getCompliance() {
         return compliance;
     }
 
@@ -156,7 +156,7 @@ public class ScanDetails {
      *
      * @param compliance the list of compliance
      */
-    public void setCompliance( List<Vulnerability> compliance ) {
+    public void setCompliance( List<ScanVulnerability> compliance ) {
         this.compliance = compliance;
     }
 

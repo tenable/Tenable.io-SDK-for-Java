@@ -29,7 +29,7 @@ public class GroupsApiClientTest extends TestBase {
 
 
     @Test
-    public void TestGroup() throws Exception {
+    public void testGroup() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
         //create new group
         apiClient.getUserGroupsApi().create( testGroupsNames[0] );
@@ -97,7 +97,7 @@ public class GroupsApiClientTest extends TestBase {
 
 
     @Test
-    public void TestGroupEdit() throws Exception {
+    public void testGroupEdit() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
         //create new group
         apiClient.getUserGroupsApi().create( testGroupsNames[0] );

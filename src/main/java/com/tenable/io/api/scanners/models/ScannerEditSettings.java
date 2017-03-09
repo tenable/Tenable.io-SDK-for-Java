@@ -129,4 +129,61 @@ public class ScannerEditSettings {
     public void setAwsUpdateInterval( int awsUpdateInterval ) {
         this.awsUpdateInterval = awsUpdateInterval;
     }
+
+
+    /**
+     * Sets force plugin update. Pass 1 to force a plugin update.
+     *
+     * @param forcePluginUpdate the force plugin update
+     */
+    public ScannerEditSettings withForcePluginUpdate(int forcePluginUpdate) {
+        this.forcePluginUpdate = forcePluginUpdate;
+        return this;
+    }
+
+
+    /**
+     * Sets force ui update. Pass 1 to force a UI update.
+     *
+     * @param forceUiUpdate the force ui update
+     */
+    public ScannerEditSettings withForceUiUpdate(int forceUiUpdate) {
+        this.forceUiUpdate = forceUiUpdate;
+        return this;
+    }
+
+
+    /**
+     * Sets finish update. Pass 1 to reboot the scanner and run the latest software update (only valid if automatic
+     * updates are disabled).
+     *
+     * @param finishUpdate the finish update
+     */
+    public ScannerEditSettings withFinishUpdate(int finishUpdate) {
+        this.finishUpdate = finishUpdate;
+        return this;
+    }
+
+
+    /**
+     * Sets registration code for the scanner.
+     *
+     * @param registrationCode the registration code for the scanner
+     */
+    public ScannerEditSettings withRegistrationCode(String registrationCode) {
+        this.registrationCode = registrationCode;
+        return this;
+    }
+
+
+    /**
+     * Sets aws update interval. For Amazon Web Services scanners this will tell the scanner how often to check in
+     * with its manager.
+     *
+     * @param awsUpdateInterval the aws update interval
+     */
+    public ScannerEditSettings withAwsUpdateInterval(int awsUpdateInterval) {
+        this.awsUpdateInterval = awsUpdateInterval;
+        return this;
+    }
 }

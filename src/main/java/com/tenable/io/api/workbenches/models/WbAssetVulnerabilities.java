@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
-public class AssetVulnerabilities {
+public class WbAssetVulnerabilities {
     private List<Severity> severities;
     private int total;
 

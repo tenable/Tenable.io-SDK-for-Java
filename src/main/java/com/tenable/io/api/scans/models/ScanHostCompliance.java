@@ -7,15 +7,57 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
-public class Vulnerability {
+public class ScanHostCompliance {
+    private int hostId;
+    private String hostname;
     private int pluginId;
     private String pluginName;
     private String pluginFamily;
     private int count;
-    private int vulnIndex;
     private int severityIndex;
-    private String vulnerabilityState;
     private int severity;
+
+
+    /**
+     * Gets the unique id of the host.
+     *
+     * @return the unique id of the host.
+     */
+    @JsonProperty( "host_id" )
+    public int getHostId() {
+        return hostId;
+    }
+
+
+    /**
+     * Sets the unique id of the host.
+     *
+     * @param hostId the unique id of the host.
+     */
+    @JsonProperty( "host_id" )
+    public void setHostId( int hostId ) {
+        this.hostId = hostId;
+    }
+
+
+    /**
+     * Gets the name of the host.
+     *
+     * @return the name of the host.
+     */
+    public String getHostname() {
+        return hostname;
+    }
+
+
+    /**
+     * Sets the name of the host.
+     *
+     * @param hostname the name of the host.
+     */
+    public void setHostname( String hostname ) {
+        this.hostname = hostname;
+    }
 
 
     /**
@@ -105,31 +147,9 @@ public class Vulnerability {
 
 
     /**
-     * Gets the index of the vulnerability plugin.
-     *
-     * @return the index of the vulnerability plugin.
-     */
-    @JsonProperty( "vuln_index" )
-    public int getVulnIndex() {
-        return vulnIndex;
-    }
-
-
-    /**
-     * Sets the index of the vulnerability plugin.
-     *
-     * @param vulnIndex the index of the vulnerability plugin.
-     */
-    @JsonProperty( "vuln_index" )
-    public void setVulnIndex( int vulnIndex ) {
-        this.vulnIndex = vulnIndex;
-    }
-
-
-    /**
      * Gets the severity index order of the plugin.
      *
-     * @return The severity index order of the plugin.
+     * @return the severity index order of the plugin.
      */
     @JsonProperty( "severity_index" )
     public int getSeverityIndex() {
@@ -138,9 +158,9 @@ public class Vulnerability {
 
 
     /**
-     * Sets The severity index order of the plugin.
+     * Sets the severity index order of the plugin.
      *
-     * @param severityIndex The severity index order of the plugin.
+     * @param severityIndex the severity index order of the plugin.
      */
     @JsonProperty( "severity_index" )
     public void setSeverityIndex( int severityIndex ) {
@@ -149,31 +169,9 @@ public class Vulnerability {
 
 
     /**
-     * Gets vulnerability state.
+     * Gets the severity of plugin.
      *
-     * @return the vulnerability state
-     */
-    @JsonProperty( "vulnerability_state" )
-    public String getVulnerabilityState() {
-        return vulnerabilityState;
-    }
-
-
-    /**
-     * Sets vulnerability state.
-     *
-     * @param vulnerabilityState the vulnerability state
-     */
-    @JsonProperty( "vulnerability_state" )
-    public void setVulnerabilityState( String vulnerabilityState ) {
-        this.vulnerabilityState = vulnerabilityState;
-    }
-
-
-    /**
-     * Gets severity of plugin.
-     *
-     * @return the severity
+     * @return the severity of plugin.
      */
     public int getSeverity() {
         return severity;
@@ -181,9 +179,9 @@ public class Vulnerability {
 
 
     /**
-     * Sets severity of plugin.
+     * Sets the severity of plugin.
      *
-     * @param severity the severity
+     * @param severity the severity of plugin.
      */
     public void setSeverity( int severity ) {
         this.severity = severity;

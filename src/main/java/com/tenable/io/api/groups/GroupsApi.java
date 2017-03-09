@@ -115,8 +115,7 @@ public class GroupsApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void edit( int groupId, String name ) throws TenableIoException {
-        GroupRequest request = new GroupRequest();
-        request.setName( name );
+        GroupRequest request = new GroupRequest().withName( name );
         HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/groups/" + groupId ).build(), request );
         httpFuture.get();
     }
@@ -144,6 +143,17 @@ public class GroupsApi extends ApiWrapperBase {
          */
         public void setName( String name ) {
             this.name = name;
+        }
+
+
+        /**
+         * Sets the name of the group.
+         *
+         * @param name the name of the group.
+         */
+        public GroupRequest withName( String name ) {
+            this.name = name;
+            return this;
         }
     }
 

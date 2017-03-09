@@ -3,12 +3,12 @@ package com.tenable.io.examples;
 
 import com.tenable.io.api.TenableIoClient;
 import com.tenable.io.api.TestBase;
-import com.tenable.io.api.scans.models.Vulnerability;
-import com.tenable.io.api.workbenches.models.VulnerabilityAsset;
-import com.tenable.io.api.workbenches.models.VulnerabilityOutput;
+import com.tenable.io.api.models.AssetVulnerabilities;
+import com.tenable.io.api.models.Vulnerability;
+import com.tenable.io.api.workbenches.ParseWorkbenchByAsset;
+import com.tenable.io.api.workbenches.ParseWorkbenchByVulnerability;
 import org.junit.Test;
 
-import java.io.File;
 import java.util.List;
 
 
@@ -21,22 +21,41 @@ public class WorkbenchWorkflowsExamples extends TestBase {
     public void testWorkbenchWorkflows() throws Exception {
         TenableIoClient client = new TenableIoClient();
 
-        // Can get all assets with 0 or more vuln(s) bound by date up to today
-        List<VulnerabilityAsset> assets =  client.getWorkbenchHelper().getAllRecentAssetsWithVulns( 100 );
+        AssetVulnerabilities assetVulnerabilities = null;
 
-        // Can get all vulns associated with 0 or more asset(s) bound by date up to today
-        List<Vulnerability> vulns =  client.getWorkbenchHelper().getAllRecentVulnerabilities( 100 );
+        // Can get all assets bound by date up to today
+        List<AssetVulnerabilities> assetPage;
+        try( ParseWorkbenchByAsset assetParser = client.getWorkbenchHelper().getAllRecentAssetsWithVulns( 100,10 ) ) {
+            do {
+                assetPage = assetParser.getNextAssetPage();
+
+                // save first asset for next calls **** only used for testing ****
+                if( assetVulnerabilities == null && assetPage != null && assetPage.size() > 0 )
+                    assetVulnerabilities = assetPage.get( 0 );
+
+            } while( assetPage != null && assetPage.size() > 0 );
+        }
 
         // Can get all assets with the given vuln bound by date up to today.
-        List<VulnerabilityOutput> assetsForVuln = client.getWorkbenchHelper().getAllRecentAssetsByVuln( vulns.get( 0 ).getPluginId(), 100 );
+        try( ParseWorkbenchByAsset assetParser = client.getWorkbenchHelper().getAllRecentAssetsByVuln( assetVulnerabilities.getVulnerabilities().get( 0 ).getPluginID(),100,10 ) ) {
+            do {
+                assetPage = assetParser.getNextAssetPage();
+            } while( assetPage != null && assetPage.size() > 0 );
+        }
+
+        // Can get all vulns bound by date up to today
+        List<Vulnerability> vulnPage;
+        try( ParseWorkbenchByVulnerability vulnParser = client.getWorkbenchHelper().getAllRecentVulnerabilities(  100, 10 ) ) {
+            do {
+                vulnPage = vulnParser.getNextVulnerabilitiesPage();
+            } while( vulnPage != null && vulnPage.size() > 0 );
+        }
 
         // Can get all vulns associated with the given asset bound by date up to today.
-        List<Vulnerability> vulnsByAsset = client.getWorkbenchHelper().getAllRecentVulnerabilitiesByAsset( assetsForVuln.get( 0 ).getAssets().get( 0 ).getId(), 100  );
-
-        // export workbench to file
-        File file = new File( "src/test/resources/workbench.xml" );
-        client.getWorkbenchHelper().exportToFile( file, 100 );
-
-
+        try( ParseWorkbenchByVulnerability vulnParser = client.getWorkbenchHelper().getAllRecentVulnerabilitiesByAsset( assetVulnerabilities.getAsset().getHostName(), 100, 10 ) ) {
+            do {
+                vulnPage = vulnParser.getNextVulnerabilitiesPage();
+            } while( vulnPage != null && vulnPage.size() > 0 );
+        }
     }
 }

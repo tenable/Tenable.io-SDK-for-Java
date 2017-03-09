@@ -7,10 +7,10 @@ import java.util.List;
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
-public class HostDetails {
-    private HostDetailsInfo info;
-    private List<HostCompliance> compliance;
-    private HostVulnerability vulnerabilities;
+public class ScanHostDetails {
+    private ScanHostDetailsInfo info;
+    private List<ScanHostCompliance> compliance;
+    private ScanHostVulnerability vulnerabilities;
 
 
     /**
@@ -18,7 +18,7 @@ public class HostDetails {
      *
      * @return the info
      */
-    public HostDetailsInfo getInfo() {
+    public ScanHostDetailsInfo getInfo() {
         return info;
     }
 
@@ -28,7 +28,7 @@ public class HostDetails {
      *
      * @param info the info
      */
-    public void setInfo( HostDetailsInfo info ) {
+    public void setInfo( ScanHostDetailsInfo info ) {
         this.info = info;
     }
 
@@ -38,7 +38,7 @@ public class HostDetails {
      *
      * @return the host compliance list
      */
-    public List<HostCompliance> getCompliance() {
+    public List<ScanHostCompliance> getCompliance() {
         return compliance;
     }
 
@@ -48,7 +48,7 @@ public class HostDetails {
      *
      * @param compliance the compliance list
      */
-    public void setCompliance( List<HostCompliance> compliance ) {
+    public void setCompliance( List<ScanHostCompliance> compliance ) {
         this.compliance = compliance;
     }
 
@@ -58,7 +58,7 @@ public class HostDetails {
      *
      * @return the vulnerabilities list
      */
-    public HostVulnerability getVulnerabilities() {
+    public ScanHostVulnerability getVulnerabilities() {
         return vulnerabilities;
     }
 
@@ -68,7 +68,7 @@ public class HostDetails {
      *
      * @param vulnerabilities the list of host vulnerabilities
      */
-    public void setVulnerabilities( HostVulnerability vulnerabilities ) {
+    public void setVulnerabilities( ScanHostVulnerability vulnerabilities ) {
         this.vulnerabilities = vulnerabilities;
     }
 }

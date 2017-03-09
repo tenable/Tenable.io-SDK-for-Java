@@ -3,7 +3,7 @@
     <Report name="" xmlns:cm="http://www.nessus.org/cm">
         <ReportHost name="127.0.0.1">
             <HostProperties>
-                <tag name="mac-address">14:10:9f:db:1b:db
+                <tag name="mac-macAddress">14:10:9f:db:1b:db
                     32:00:19:95:52:81
                     32:00:19:95:52:80
                     06:10:9f:db:1b:db
@@ -2860,7 +2860,7 @@
         </ReportHost>
         <ReportHost name="CPKevin">
             <HostProperties>
-                <tag name="mac-address">32:00:13:a2:3a:00
+                <tag name="mac-macAddress">32:00:13:a2:3a:00
                     32:00:13:a2:3a:01
                     0a:f6:b1:19:c1:25
                     62:5d:e7:f3:6f:85
@@ -4654,15 +4654,15 @@
                 <plugin_modification_date>2017-01-03T00:00:00Z</plugin_modification_date>
             </ReportItem>
         </ReportHost>
-        <ReportHost name="yahoo.com">
+        <ReportHost name="testhost">
             <HostProperties>
-                <tag name="hostname">yahoo.com</tag>
-                <tag name="host-fqdn">yahoo.com</tag>
+                <tag name="hostname">testhost</tag>
+                <tag name="host-fqdn">testhost</tag>
                 <tag name="HOST_START">2017-01-27T22:30:22Z</tag>
                 <tag name="LastAuthenticatedResults">2017-01-27T22:39:15Z</tag>
-                <tag name="host-ip">98.138.253.109</tag>
+                <tag name="host-ip">192.168.14.151</tag>
                 <tag name="HOST_END">2017-01-27T22:39:44Z</tag>
-                <tag name="host-uuid">947ebfd3-b8f5-4f2a-8d78-16a449d5b2a2</tag>
+                <tag name="host-uuid">3ac4028d-c7e4-4545-8fa4-1669f09a89c8</tag>
             </HostProperties>
             <ReportItem severity="2" protocol="tcp" pluginFaimily="General" port="443" pluginID="42873"
                         pluginName="SSL Medium Strength Cipher Suites Supported">
@@ -4821,22 +4821,22 @@
                 <in_the_news>1</in_the_news>
             </ReportItem>
         </ReportHost>
-        <ReportHost name="tenable.com">
+        <ReportHost name="testhost2">
             <HostProperties>
-                <tag name="hostname">tenable.com</tag>
+                <tag name="hostname">testhost2</tag>
                 <tag name="system-type">embedded</tag>
-                <tag name="host-fqdn">tenable.com</tag>
+                <tag name="host-fqdn">testhost2</tag>
                 <tag name="HOST_START">2017-01-07T01:47:09Z</tag>
                 <tag name="operating-system">Citrix NetScaler</tag>
                 <tag name="HOST_END">2017-01-07T02:01:25Z</tag>
-                <tag name="host-ip">4.59.136.200</tag>
-                <tag name="host-uuid">2ddb23ee-487a-4760-af8d-ee4203874e10</tag>
+                <tag name="host-ip">192.168.14.152</tag>
+                <tag name="host-uuid">3ac4028d-c7e4-4545-8fa4-1669f09a89c8</tag>
             </HostProperties>
             <ReportItem severity="1" protocol="tcp" pluginFaimily="Web Servers" port="80" pluginID="10759"
                         pluginName="Web Server HTTP Header Internal IP Disclosure">
                 <bid>1499</bid>
                 <cve>CVE-2000-0649</cve>
-                <synopsis>This web server leaks a private IP address through its HTTP headers.</synopsis>
+                <synopsis>This web server leaks a private IP macAddress through its HTTP headers.</synopsis>
                 <cvss_temporal_vector>E:H/RL:U/RC:C</cvss_temporal_vector>
                 <risk_factor>Low</risk_factor>
                 <description>This may expose internal IP addresses that are usually hidden or
@@ -4862,7 +4862,7 @@
 
                     GET / HTTP/1.0
 
-                    this web server leaks the following private IP address :
+                    this web server leaks the following private IP macAddress :
 
                     172.25.210.103
 
@@ -4897,7 +4897,7 @@
                         pluginName="Web Server HTTP Header Internal IP Disclosure">
                 <bid>1499</bid>
                 <cve>CVE-2000-0649</cve>
-                <synopsis>This web server leaks a private IP address through its HTTP headers.</synopsis>
+                <synopsis>This web server leaks a private IP macAddress through its HTTP headers.</synopsis>
                 <cvss_temporal_vector>E:H/RL:U/RC:C</cvss_temporal_vector>
                 <risk_factor>Low</risk_factor>
                 <description>This may expose internal IP addresses that are usually hidden or
@@ -4923,7 +4923,7 @@
 
                     GET / HTTP/1.0
 
-                    this web server leaks the following private IP address :
+                    this web server leaks the following private IP macAddress :
 
                     172.25.210.103
 

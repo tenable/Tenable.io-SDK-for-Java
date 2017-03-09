@@ -342,4 +342,163 @@ public class Settings {
     public void setAcls( List<Permission> acls ) {
         this.acls = acls;
     }
+
+
+    /**
+     * Sets the name of the scan.
+     *
+     * @param name the name of the scan.
+     */
+    public Settings withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+
+    /**
+     * Sets the description of the scan.
+     *
+     * @param description the description of the scan.
+     */
+    public Settings withDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+
+    /**
+     * Sets the unique id of the policy to use.
+     *
+     * @param policyId the unique id of the policy to use.
+     */
+    public Settings withPolicyId(int policyId) {
+        this.policyId = policyId;
+        return this;
+    }
+
+
+    /**
+     * Sets the unique id of the destination folder for the scan.
+     *
+     * @param folderId the unique id of the destination folder for the scan.
+     */
+    public Settings withFolderId(int folderId) {
+        this.folderId = folderId;
+        return this;
+    }
+
+
+    /**
+     * Sets the unique id of the scanner to use.
+     *
+     * @param scannerId the unique id of the scanner to use.
+     */
+    public Settings withScannerId(int scannerId) {
+        this.scannerId = scannerId;
+        return this;
+    }
+
+
+    /**
+     * Sets the schedule for the scan to be enabled.
+     *
+     * @param enabled boolean whether the schedule for the scan is enabled.
+     */
+    public Settings withEnabled(Boolean enabled) {
+        this.enabled = enabled;
+        return this;
+    }
+
+
+    /**
+     * Sets when to launch the scan. (i.e. DAILY, WEEKLY, MONTHLY, YEARLY)
+     *
+     * @param launch when to launch the scan. (i.e. DAILY, WEEKLY, MONTHLY, YEARLY)
+     */
+    public Settings withLaunch(LaunchFrequency launch) {
+        this.launch = launch;
+        return this;
+    }
+
+
+    /**
+     * Sets the starting time and date for the scan (i.e. YYYYMMDDTHHMMSS).
+     *
+     * @param startTime the starting time and date for the scan (i.e. YYYYMMDDTHHMMSS).
+     */
+    public Settings withStartTime(String startTime) {
+        this.startTime = startTime;
+        return this;
+    }
+
+
+    /**
+     * Sets a semi-colon delimited string comprised of three values. The frequency (FREQ=ONCE or DAILY or WEEKLY or MONTHLY or YEARLY),
+     * the interval (INTERVAL=1 or 2 or 3 ... x), and the days of the week (BYDAY=SU,MO,TU,WE,TH,FR,SA).
+     * To create a scan that runs every three weeks on Monday Wednesday and Friday the string would be 'FREQ=WEEKLY;INTERVAL=3;BYDAY=MO,WE,FR'
+     *
+     * @param rRules a semi-colon delimited string comprised of three values. The frequency (FREQ=ONCE or DAILY or WEEKLY or MONTHLY or YEARLY),
+     *               the interval (INTERVAL=1 or 2 or 3 ... x), and the days of the week (BYDAY=SU,MO,TU,WE,TH,FR,SA).
+     *               To create a scan that runs every three weeks on Monday Wednesday and Friday the string would be 'FREQ=WEEKLY;INTERVAL=3;BYDAY=MO,WE,FR'
+     */
+    public Settings withRRules(RRules rRules) {
+        this.rRules = rRules;
+        return this;
+    }
+
+
+    /**
+     * Sets the timezone for the scan schedule.
+     *
+     * @param timezone the timezone for the scan schedule.
+     */
+    public Settings withTimezone(String timezone) {
+        this.timezone = timezone;
+        return this;
+    }
+
+
+    /**
+     * Sets the list of targets to scan.
+     *
+     * @param textTargets the list of targets to scan.
+     */
+    public Settings withTextTargets(String textTargets) {
+        this.textTargets = textTargets;
+        return this;
+    }
+
+
+    /**
+     * Sets the name of a file containing the list of targets to scan.
+     *
+     * @param fileTargets the name of a file containing the list of targets to scan.
+     */
+    public Settings withFileTargets(String fileTargets) {
+        this.fileTargets = fileTargets;
+        return this;
+    }
+
+
+    /**
+     * Sets a comma separated list of accounts who will recieve the email summary report.
+     *
+     * @param emails a comma separated list of accounts who will recieve the email summary report.
+     */
+    public Settings withEmails(String emails) {
+        this.emails = emails;
+        return this;
+    }
+
+
+    /**
+     * Sets an array containing permissions to apply to the scan
+     *
+     * @param acls an array containing permissions to apply to the scan
+     */
+    public Settings withAcls(List<Permission> acls) {
+        this.acls = acls;
+        return this;
+    }
+
 }
