@@ -188,7 +188,7 @@ public class WorkbenchNessusFileParser {
                                 }
                                 break;
                             case "host-uuid":
-                                currentObject.setHostUuid( UUID.fromString( tagValue ) );
+                                currentObject.setId( UUID.fromString( tagValue ) );
                                 break;
                             case "host_start":
                                 currentObject.setLastHostScanStart( new ISO8601DateFormat().parse( tagValue ) );

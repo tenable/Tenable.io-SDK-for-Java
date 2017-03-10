@@ -66,7 +66,7 @@ public class WorkbenchHelper {
      * @throws TenableIoException the tenable io exception
      */
     public ParseWorkbenchByAsset getAllRecentAssetsWithVulns( int startingFromDays, int pageSize, SeverityLevel minimumSeverity ) throws TenableIoException {
-        return getNessusExport( startingFromDays, pageSize, minimumSeverity, null );
+        return getNessusExport( startingFromDays, pageSize, minimumSeverity, null, null );
     }
 
 
@@ -79,7 +79,7 @@ public class WorkbenchHelper {
      * @throws TenableIoException the tenable io exception
      */
     public ParseWorkbenchByAsset getAllRecentAssetsByVuln( long pluginId, int startingFromDays, int pageSize ) throws TenableIoException {
-        return getNessusExport( startingFromDays, pageSize, SeverityLevel.INFO, pluginId );
+        return getNessusExport( startingFromDays, pageSize, SeverityLevel.INFO, pluginId, null );
     }
 
 
@@ -92,7 +92,7 @@ public class WorkbenchHelper {
      * @throws TenableIoException the tenable io exception
      */
     public ParseWorkbenchByVulnerability getAllRecentVulnerabilities( int startingFromDays, int pageSize ) throws TenableIoException {
-        return getNessusExport( startingFromDays, pageSize, SeverityLevel.INFO, null );
+        return getNessusExport( startingFromDays, pageSize, SeverityLevel.INFO, null, null );
     }
 
 
@@ -107,24 +107,24 @@ public class WorkbenchHelper {
      * @throws TenableIoException the tenable io exception
      */
     public ParseWorkbenchByVulnerability getAllRecentVulnerabilities( int startingFromDays, int pageSize, SeverityLevel minimumSeverity ) throws TenableIoException {
-        return getNessusExport( startingFromDays, pageSize, minimumSeverity, null );
+        return getNessusExport( startingFromDays, pageSize, minimumSeverity, null, null );
     }
 
 
     /**
      * Gets all vulns associated with the given asset bound by date up to today.
      *
-     * @param hostName         the host name
+     * @param assetId          the asset UUID
      * @param startingFromDays the starting from days
      * @return all vulns associated with the given asset bound by date up to today
      * @throws TenableIoException the tenable io exception
      */
-    public ParseWorkbenchByVulnerability getAllRecentVulnerabilitiesByAsset( String hostName, int startingFromDays, int pageSize ) throws TenableIoException {
-        return getNessusExport( startingFromDays, pageSize, SeverityLevel.INFO, null, new Filter().withFilter( "host.hostname" ).withQuality( FilterOperator.EQUAL ).withValue( hostName ) );
+    public ParseWorkbenchByVulnerability getAllRecentVulnerabilitiesByAsset( UUID assetId, int startingFromDays, int pageSize ) throws TenableIoException {
+        return getNessusExport( startingFromDays, pageSize, SeverityLevel.INFO, null, assetId );
     }
 
 
-    private WorkbenchRef getNessusExport( int startingFromDays, int pageSize, SeverityLevel minimumSeverity, Long pluginId, Filter... additionalFilters ) throws TenableIoException {
+    private WorkbenchRef getNessusExport( int startingFromDays, int pageSize, SeverityLevel minimumSeverity, Long pluginId, UUID assetId, Filter... additionalFilters ) throws TenableIoException {
         String absoluteFilePath = EXPORT_FILE_DIRECTORY + File.separator + UUID.randomUUID();
         File exportFile = new File( absoluteFilePath );
 
@@ -142,7 +142,8 @@ public class WorkbenchHelper {
                 .withChapter( "vuln_by_asset" )
                 .withStartDate( startingFromDays )
                 .withFilters( filters )
-                .withPluginId( pluginId ); // can be null
+                .withPluginId( pluginId ) // can be null
+                .withAssetId( assetId ); // can be null
 
         exportToFile( exportFile, options );
         return new WorkbenchRef( exportFile, pageSize );

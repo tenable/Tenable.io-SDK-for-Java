@@ -131,7 +131,7 @@ public class WorkbenchNessusFileParserTest extends TestBase {
         assertEquals( asset.getLastHostScanEnd(), new ISO8601DateFormat().parse("2016-12-28T20:49:22Z" ) );
         assertEquals( asset.getLastAuthenticatedResult(), new ISO8601DateFormat().parse("2016-12-28T18:55:55Z" ) );
         assertEquals( asset.getHostIpV4().getHostAddress(), "127.0.0.1" );
-        assertEquals( asset.getHostUuid(), UUID.fromString( "3ac4028d-c7e4-4545-8fa4-1669f09a89c8" ) );
+        assertEquals( asset.getId(), UUID.fromString( "3ac4028d-c7e4-4545-8fa4-1669f09a89c8" ) );
     }
 
 

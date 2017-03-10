@@ -4,6 +4,7 @@ package com.tenable.io.api.workbenches.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -19,7 +20,7 @@ public class ExportOptions {
     private String searchType;
     private Boolean minimumVulnInfo;
     private Long pluginId;
-    private String assetId;
+    private UUID assetId;
 
 
     /**
@@ -331,7 +332,7 @@ public class ExportOptions {
      * @return the asset id
      */
     @JsonProperty( "asset_id" )
-    public String getAssetId() {
+    public UUID getAssetId() {
         return assetId;
     }
 
@@ -342,7 +343,7 @@ public class ExportOptions {
      * @param assetId the asset id
      */
     @JsonProperty( "asset_id" )
-    public void setAssetId( String assetId ) {
+    public void setAssetId( UUID assetId ) {
         this.assetId = assetId;
     }
 
@@ -352,7 +353,7 @@ public class ExportOptions {
      *
      * @param assetId the asset id
      */
-    public ExportOptions withAssetId( String assetId ) {
+    public ExportOptions withAssetId( UUID assetId ) {
         this.assetId = assetId;
         return this;
     }

@@ -52,7 +52,7 @@ public class WorkbenchWorkflowsExamples extends TestBase {
         }
 
         // Can get all vulns associated with the given asset bound by date up to today.
-        try( ParseWorkbenchByVulnerability vulnParser = client.getWorkbenchHelper().getAllRecentVulnerabilitiesByAsset( assetVulnerabilities.getAsset().getHostName(), 100, 10 ) ) {
+        try( ParseWorkbenchByVulnerability vulnParser = client.getWorkbenchHelper().getAllRecentVulnerabilitiesByAsset( assetVulnerabilities.getAsset().getId(), 100, 10 ) ) {
             do {
                 vulnPage = vulnParser.getNextVulnerabilitiesPage();
             } while( vulnPage != null && vulnPage.size() > 0 );
