@@ -130,7 +130,7 @@ public interface ScanBaseOp {
      * @return the scan status
      * @throws TenableIoException the Tenable IO exception
      */
-    ScanStatus getStatus( int historyId ) throws TenableIoException;
+    ScanStatus getStatus( Integer historyId ) throws TenableIoException;
 
 
     /**

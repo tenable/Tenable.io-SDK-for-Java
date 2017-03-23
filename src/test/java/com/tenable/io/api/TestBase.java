@@ -1,6 +1,7 @@
 package com.tenable.io.api;
 
 
+import com.tenable.io.api.folders.models.Folder;
 import com.tenable.io.api.users.models.User;
 import com.tenable.io.core.exceptions.TenableIoException;
 import org.junit.Before;
@@ -15,6 +16,7 @@ import java.util.Set;
  */
 public class TestBase {
     private static final String testUsernameBase = "tioTestUsername";
+    protected static final String testFolderName = "testFolder";
     private Set<String> testUsernames = new HashSet<>();
 
     // A valid domain name for username
@@ -52,11 +54,27 @@ public class TestBase {
         List<User> users = apiClient.getUsersApi().list();
         if( users != null ) {
             for( User user : users ) {
+                boolean deleted = false;
                 for( String testUsername: testUsernames ) {
-                    if( user.getUsername().startsWith( testUsername ) ) {
+                    if( user.getUsername().toLowerCase().equals( testUsername.toLowerCase() ) ) {
                         apiClient.getUsersApi().delete( user.getId() );
+                        deleted = true;
+                        break;
                     }
                 }
+
+                if( !deleted && user.getUsername().toLowerCase().startsWith( testUsernameBase.toLowerCase() ) ) {
+                    apiClient.getUsersApi().delete( user.getId() );
+                }
+            }
+        }
+
+        //delete potential test folder
+        List<Folder> folders = apiClient.getFoldersApi().list();
+        for( Folder folder : folders ) {
+            if( testFolderName.toLowerCase().equals( folder.getName().toLowerCase() ) ) {
+                apiClient.getFoldersApi().delete( folder.getId() );
+                break;
             }
         }
     }

@@ -18,7 +18,7 @@ public class AgentsApiClientTest extends TestBase {
     public void testAgents() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
 
-        List<Agent> agents = apiClient.getAgentsApi().list( 1 );
+        List<Agent> agents = apiClient.getAgentsApi().list();
         assertNotNull( agents );
         assertTrue( agents.size() > 0 );
 

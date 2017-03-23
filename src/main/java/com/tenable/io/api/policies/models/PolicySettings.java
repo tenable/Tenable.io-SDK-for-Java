@@ -2700,4 +2700,1174 @@ public class PolicySettings {
     public void setWolWaitTime( String wolWaitTime ) {
         this.wolWaitTime = wolWaitTime;
     }
+
+
+    /**
+     * Sets acls.
+     *
+     * @param acls the acls
+     */
+    public void withAcls(Permission acls) {
+        this.acls = acls;
+    }
+
+
+    /**
+     * Sets additional snmp port 1.
+     *
+     * @param additionalSnmpPort1 the additional snmp port 1
+     */
+    public void withAdditionalSnmpPort1(String additionalSnmpPort1) {
+        this.additionalSnmpPort1 = additionalSnmpPort1;
+    }
+
+
+    /**
+     * Sets additional snmp port 2.
+     *
+     * @param additionalSnmpPort2 the additional snmp port 2
+     */
+    public void withAdditionalSnmpPort2(String additionalSnmpPort2) {
+        this.additionalSnmpPort2 = additionalSnmpPort2;
+    }
+
+
+    /**
+     * withs additional snmp port 3.
+     *
+     * @param additionalSnmpPort3 the additional snmp port 3
+     */
+    public void withAdditionalSnmpPort3( String additionalSnmpPort3 ) {
+        this.additionalSnmpPort3 = additionalSnmpPort3;
+    }
+
+
+    /**
+     * Sets adtran aos offline configs.
+     *
+     * @param adtranAosOfflineConfigs the adtran aos offline configs
+     */
+    public void withAdtranAosOfflineConfigs( String adtranAosOfflineConfigs ) {
+        this.adtranAosOfflineConfigs = adtranAosOfflineConfigs;
+    }
+
+
+    /**
+     * Sets allow post scan editing.
+     *
+     * @param allowPostScanEditing the allow post scan editing
+     */
+    public void withAllowPostScanEditing( String allowPostScanEditing ) {
+        this.allowPostScanEditing = allowPostScanEditing;
+    }
+
+
+    /**
+     * Sets apm force updates.
+     *
+     * @param apmForceUpdates the apm force updates
+     */
+    public void withApmForceUpdates( String apmForceUpdates ) {
+        this.apmForceUpdates = apmForceUpdates;
+    }
+
+
+    /**
+     * Sets apm update timeout.
+     *
+     * @param apmUpdateTimeout the apm update timeout
+     */
+    public void withApmUpdateTimeout( String apmUpdateTimeout ) {
+        this.apmUpdateTimeout = apmUpdateTimeout;
+    }
+
+
+    /**
+     * Sets arp ping.
+     *
+     * @param arpPing the arp ping
+     */
+    public void withArpPing( String arpPing ) {
+        this.arpPing = arpPing;
+    }
+
+
+    /**
+     * Sets av grace period.
+     *
+     * @param avGracePeriod the av grace period
+     */
+    public void withAvGracePeriod( String avGracePeriod ) {
+        this.avGracePeriod = avGracePeriod;
+    }
+
+
+    /**
+     * Sets aws ap northeast 1.
+     *
+     * @param awsApNortheast1 the aws ap northeast 1
+     */
+    public void withAwsApNortheast1( String awsApNortheast1 ) {
+        this.awsApNortheast1 = awsApNortheast1;
+    }
+
+
+    /**
+     * Sets aws ap southeast 1.
+     *
+     * @param awsApSoutheast1 the aws ap southeast 1
+     */
+    public void withAwsApSoutheast1( String awsApSoutheast1 ) {
+        this.awsApSoutheast1 = awsApSoutheast1;
+    }
+
+
+    /**
+     * Sets aws ap southeast 2.
+     *
+     * @param awsApSoutheast2 the aws ap southeast 2
+     */
+    public void withAwsApSoutheast2( String awsApSoutheast2 ) {
+        this.awsApSoutheast2 = awsApSoutheast2;
+    }
+
+
+    /**
+     * Sets aws eu west 1.
+     *
+     * @param awsEuWest1 the aws eu west 1
+     */
+    public void withAwsEuWest1( String awsEuWest1 ) {
+        this.awsEuWest1 = awsEuWest1;
+    }
+
+
+    /**
+     * Sets aws sa east 1.
+     *
+     * @param awsSaEast1 the aws sa east 1
+     */
+    public void withAwsSaEast1( String awsSaEast1 ) {
+        this.awsSaEast1 = awsSaEast1;
+    }
+
+
+    /**
+     * Sets aws ui region type.
+     *
+     * @param awsUiRegionType the aws ui region type
+     */
+    public void withAwsUiRegionType( String awsUiRegionType ) {
+        this.awsUiRegionType = awsUiRegionType;
+    }
+
+
+    /**
+     * Sets aws us east 1.
+     *
+     * @param awsUsEast1 the aws us east 1
+     */
+    public void withAwsUsEast1( String awsUsEast1 ) {
+        this.awsUsEast1 = awsUsEast1;
+    }
+
+
+    /**
+     * Sets aws us gov west 1.
+     *
+     * @param awsUsGovWest1 the aws us gov west 1
+     */
+    public void withAwsUsGovWest1( String awsUsGovWest1 ) {
+        this.awsUsGovWest1 = awsUsGovWest1;
+    }
+
+
+    /**
+     * Sets aws us west 1.
+     *
+     * @param awsUsWest1 the aws us west 1
+     */
+    public void withAwsUsWest1( String awsUsWest1 ) {
+        this.awsUsWest1 = awsUsWest1;
+    }
+
+
+    /**
+     * Sets aws us west 2.
+     *
+     * @param awsUsWest2 the aws us west 2
+     */
+    public void withAwsUsWest2( String awsUsWest2 ) {
+        this.awsUsWest2 = awsUsWest2;
+    }
+
+
+    /**
+     * Sets aws use https.
+     *
+     * @param awsUseHttps the aws use https
+     */
+    public void withAwsUseHttps( String awsUseHttps ) {
+        this.awsUseHttps = awsUseHttps;
+    }
+
+
+    /**
+     * Sets aws verify ssl.
+     *
+     * @param awsVerifySsl the aws verify ssl
+     */
+    public void withAwsVerifySsl( String awsVerifySsl ) {
+        this.awsVerifySsl = awsVerifySsl;
+    }
+
+
+    /**
+     * Sets brocade offline configs.
+     *
+     * @param brocadeOfflineConfigs the brocade offline configs
+     */
+    public void withBrocadeOfflineConfigs( String brocadeOfflineConfigs ) {
+        this.brocadeOfflineConfigs = brocadeOfflineConfigs;
+    }
+
+
+    /**
+     * Sets check crl.
+     *
+     * @param checkCrl the check crl
+     */
+    public void withCheckCrl( String checkCrl ) {
+        this.checkCrl = checkCrl;
+    }
+
+
+    /**
+     * Sets cisco config to audit.
+     *
+     * @param ciscoConfigToAudit the cisco config to audit
+     */
+    public void withCiscoConfigToAudit( String ciscoConfigToAudit ) {
+        this.ciscoConfigToAudit = ciscoConfigToAudit;
+    }
+
+
+    /**
+     * Sets cisco offline configs.
+     *
+     * @param ciscoOfflineConfigs the cisco offline configs
+     */
+    public void withCiscoOfflineConfigs( String ciscoOfflineConfigs ) {
+        this.ciscoOfflineConfigs = ciscoOfflineConfigs;
+    }
+
+
+    /**
+     * Sets dell f 10 offline configs.
+     *
+     * @param dellF10OfflineConfigs the dell f 10 offline configs
+     */
+    public void withDellF10OfflineConfigs( String dellF10OfflineConfigs ) {
+        this.dellF10OfflineConfigs = dellF10OfflineConfigs;
+    }
+
+
+    /**
+     * Sets description.
+     *
+     * @param description the description
+     */
+    public void withDescription( String description ) {
+        this.description = description;
+    }
+
+
+    /**
+     * Sets detect ssl.
+     *
+     * @param detectSsl the detect ssl
+     */
+    public void withDetectSsl( String detectSsl ) {
+        this.detectSsl = detectSsl;
+    }
+
+
+    /**
+     * Sets display unreachable hosts.
+     *
+     * @param displayUnreachableHosts the display unreachable hosts
+     */
+    public void withDisplayUnreachableHosts( String displayUnreachableHosts ) {
+        this.displayUnreachableHosts = displayUnreachableHosts;
+    }
+
+
+    /**
+     * Sets dont use ntlmv 1.
+     *
+     * @param dontUseNtlmv1 the dont use ntlmv 1
+     */
+    public void withDontUseNtlmv1( String dontUseNtlmv1 ) {
+        this.dontUseNtlmv1 = dontUseNtlmv1;
+    }
+
+
+    /**
+     * Sets enable admin shares.
+     *
+     * @param enableAdminShares the enable admin shares
+     */
+    public void withEnableAdminShares( String enableAdminShares ) {
+        this.enableAdminShares = enableAdminShares;
+    }
+
+
+    /**
+     * Sets enum domain users end uid.
+     *
+     * @param enumDomainUsersEndUid the enum domain users end uid
+     */
+    public void withEnumDomainUsersEndUid( String enumDomainUsersEndUid ) {
+        this.enumDomainUsersEndUid = enumDomainUsersEndUid;
+    }
+
+
+    /**
+     * Sets enum domain users start uid.
+     *
+     * @param enumDomainUsersStartUid the enum domain users start uid
+     */
+    public void withEnumDomainUsersStartUid( String enumDomainUsersStartUid ) {
+        this.enumDomainUsersStartUid = enumDomainUsersStartUid;
+    }
+
+
+    /**
+     * Sets enum local users end uid.
+     *
+     * @param enumLocalUsersEndUid the enum local users end uid
+     */
+    public void withEnumLocalUsersEndUid( String enumLocalUsersEndUid ) {
+        this.enumLocalUsersEndUid = enumLocalUsersEndUid;
+    }
+
+
+    /**
+     * Sets enum local users start uid.
+     *
+     * @param enumLocalUsersStartUid the enum local users start uid
+     */
+    public void withEnumLocalUsersStartUid( String enumLocalUsersStartUid ) {
+        this.enumLocalUsersStartUid = enumLocalUsersStartUid;
+    }
+
+
+    /**
+     * Sets enumerate all ciphers.
+     *
+     * @param enumerateAllCiphers the enumerate all ciphers
+     */
+    public void withEnumerateAllCiphers( String enumerateAllCiphers ) {
+        this.enumerateAllCiphers = enumerateAllCiphers;
+    }
+
+
+    /**
+     * Sets extremeos offline configs.
+     *
+     * @param extremeosOfflineConfigs the extremeos offline configs
+     */
+    public void withExtremeosOfflineConfigs( String extremeosOfflineConfigs ) {
+        this.extremeosOfflineConfigs = extremeosOfflineConfigs;
+    }
+
+
+    /**
+     * Sets fast network discovery.
+     *
+     * @param fastNetworkDiscovery the fast network discovery
+     */
+    public void withFastNetworkDiscovery( String fastNetworkDiscovery ) {
+        this.fastNetworkDiscovery = fastNetworkDiscovery;
+    }
+
+
+    /**
+     * Sets fireeye offline configs.
+     *
+     * @param fireeyeOfflineConfigs the fireeye offline configs
+     */
+    public void withFireeyeOfflineConfigs( String fireeyeOfflineConfigs ) {
+        this.fireeyeOfflineConfigs = fireeyeOfflineConfigs;
+    }
+
+
+    /**
+     * Sets host whitelist.
+     *
+     * @param hostWhitelist the host whitelist
+     */
+    public void withHostWhitelist( String hostWhitelist ) {
+        this.hostWhitelist = hostWhitelist;
+    }
+
+
+    /**
+     * Sets http login auth regex nocase.
+     *
+     * @param httpLoginAuthRegexNocase the http login auth regex nocase
+     */
+    public void withHttpLoginAuthRegexNocase( String httpLoginAuthRegexNocase ) {
+        this.httpLoginAuthRegexNocase = httpLoginAuthRegexNocase;
+    }
+
+
+    /**
+     * Sets http login auth regex on headers.
+     *
+     * @param httpLoginAuthRegexOnHeaders the http login auth regex on headers
+     */
+    public void withHttpLoginAuthRegexOnHeaders( String httpLoginAuthRegexOnHeaders ) {
+        this.httpLoginAuthRegexOnHeaders = httpLoginAuthRegexOnHeaders;
+    }
+
+
+    /**
+     * Sets http login invert auth regex.
+     *
+     * @param httpLoginInvertAuthRegex the http login invert auth regex
+     */
+    public void withHttpLoginInvertAuthRegex( String httpLoginInvertAuthRegex ) {
+        this.httpLoginInvertAuthRegex = httpLoginInvertAuthRegex;
+    }
+
+
+    /**
+     * Sets http login max redir.
+     *
+     * @param httpLoginMaxRedir the http login max redir
+     */
+    public void withHttpLoginMaxRedir( String httpLoginMaxRedir ) {
+        this.httpLoginMaxRedir = httpLoginMaxRedir;
+    }
+
+
+    /**
+     * Sets http login method.
+     *
+     * @param httpLoginMethod the http login method
+     */
+    public void withHttpLoginMethod( String httpLoginMethod ) {
+        this.httpLoginMethod = httpLoginMethod;
+    }
+
+
+    /**
+     * Sets huawei offline configs.
+     *
+     * @param huaweiOfflineConfigs the huawei offline configs
+     */
+    public void withHuaweiOfflineConfigs( String huaweiOfflineConfigs ) {
+        this.huaweiOfflineConfigs = huaweiOfflineConfigs;
+    }
+
+
+    /**
+     * Sets icmp ping.
+     *
+     * @param icmpPing the icmp ping
+     */
+    public void withIcmpPing( String icmpPing ) {
+        this.icmpPing = icmpPing;
+    }
+
+
+    /**
+     * Sets icmp ping retries.
+     *
+     * @param icmpPingRetries the icmp ping retries
+     */
+    public void withIcmpPingRetries( String icmpPingRetries ) {
+        this.icmpPingRetries = icmpPingRetries;
+    }
+
+
+    /**
+     * Sets icmp unreach means host down.
+     *
+     * @param icmpUnreachMeansHostDown the icmp unreach means host down
+     */
+    public void withIcmpUnreachMeansHostDown( String icmpUnreachMeansHostDown ) {
+        this.icmpUnreachMeansHostDown = icmpUnreachMeansHostDown;
+    }
+
+
+    /**
+     * Sets junos offline configs.
+     *
+     * @param junosOfflineConfigs the junos offline configs
+     */
+    public void withJunosOfflineConfigs( String junosOfflineConfigs ) {
+        this.junosOfflineConfigs = junosOfflineConfigs;
+    }
+
+
+    /**
+     * Sets log live hosts.
+     *
+     * @param logLiveHosts the log live hosts
+     */
+    public void withLogLiveHosts( String logLiveHosts ) {
+        this.logLiveHosts = logLiveHosts;
+    }
+
+
+    /**
+     * Sets log whole attack.
+     *
+     * @param logWholeAttack the log whole attack
+     */
+    public void withLogWholeAttack( String logWholeAttack ) {
+        this.logWholeAttack = logWholeAttack;
+    }
+
+
+    /**
+     * Sets max checks per host.
+     *
+     * @param maxChecksPerHost the max checks per host
+     */
+    public void withMaxChecksPerHost( String maxChecksPerHost ) {
+        this.maxChecksPerHost = maxChecksPerHost;
+    }
+
+
+    /**
+     * Sets max hosts per scan.
+     *
+     * @param maxHostsPerScan the max hosts per scan
+     */
+    public void withMaxHostsPerScan( String maxHostsPerScan ) {
+        this.maxHostsPerScan = maxHostsPerScan;
+    }
+
+
+    /**
+     * Sets max simult tcp sessions per host.
+     *
+     * @param maxSimultTcpSessionsPerHost the max simult tcp sessions per host
+     */
+    public void withMaxSimultTcpSessionsPerHost( String maxSimultTcpSessionsPerHost ) {
+        this.maxSimultTcpSessionsPerHost = maxSimultTcpSessionsPerHost;
+    }
+
+
+    /**
+     * Sets max simult tcp sessions per scan.
+     *
+     * @param maxSimultTcpSessionsPerScan the max simult tcp sessions per scan
+     */
+    public void withMaxSimultTcpSessionsPerScan( String maxSimultTcpSessionsPerScan ) {
+        this.maxSimultTcpSessionsPerScan = maxSimultTcpSessionsPerScan;
+    }
+
+
+    /**
+     * Sets modbus end reg.
+     *
+     * @param modbusEndReg the modbus end reg
+     */
+    public void withModbusEndReg( String modbusEndReg ) {
+        this.modbusEndReg = modbusEndReg;
+    }
+
+
+    /**
+     * Sets modbus start reg.
+     *
+     * @param modbusStartReg the modbus start reg
+     */
+    public void withModbusStartReg( String modbusStartReg ) {
+        this.modbusStartReg = modbusStartReg;
+    }
+
+
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
+    public void withName( String name ) {
+        this.name = name;
+    }
+
+
+    /**
+     * Sets netapp offline configs.
+     *
+     * @param netappOfflineConfigs the netapp offline configs
+     */
+    public void withNetappOfflineConfigs( String netappOfflineConfigs ) {
+        this.netappOfflineConfigs = netappOfflineConfigs;
+    }
+
+
+    /**
+     * Sets network receive timeout.
+     *
+     * @param networkReceiveTimeout the network receive timeout
+     */
+    public void withNetworkReceiveTimeout( String networkReceiveTimeout ) {
+        this.networkReceiveTimeout = networkReceiveTimeout;
+    }
+
+
+    /**
+     * Sets network type.
+     *
+     * @param networkType the network type
+     */
+    public void withNetworkType( String networkType ) {
+        this.networkType = networkType;
+    }
+
+
+    /**
+     * Sets never send win creds in the clear.
+     *
+     * @param neverSendWinCredsInTheClear the never send win creds in the clear
+     */
+    public void withNeverSendWinCredsInTheClear( String neverSendWinCredsInTheClear ) {
+        this.neverSendWinCredsInTheClear = neverSendWinCredsInTheClear;
+    }
+
+
+    /**
+     * Sets only portscan if enum failed.
+     *
+     * @param onlyPortscanIfEnumFailed the only portscan if enum failed
+     */
+    public void withOnlyPortscanIfEnumFailed( String onlyPortscanIfEnumFailed ) {
+        this.onlyPortscanIfEnumFailed = onlyPortscanIfEnumFailed;
+    }
+
+
+    /**
+     * Sets patch audit over rexec.
+     *
+     * @param patchAuditOverRexec the patch audit over rexec
+     */
+    public void withPatchAuditOverRexec( String patchAuditOverRexec ) {
+        this.patchAuditOverRexec = patchAuditOverRexec;
+    }
+
+
+    /**
+     * Sets patch audit over rsh.
+     *
+     * @param patchAuditOverRsh the patch audit over rsh
+     */
+    public void withPatchAuditOverRsh( String patchAuditOverRsh ) {
+        this.patchAuditOverRsh = patchAuditOverRsh;
+    }
+
+
+    /**
+     * Sets patch audit over telnet.
+     *
+     * @param patchAuditOverTelnet the patch audit over telnet
+     */
+    public void withPatchAuditOverTelnet( String patchAuditOverTelnet ) {
+        this.patchAuditOverTelnet = patchAuditOverTelnet;
+    }
+
+
+    /**
+     * Sets ping the remote host.
+     *
+     * @param pingTheRemoteHost the ping the remote host
+     */
+    public void withPingTheRemoteHost( String pingTheRemoteHost ) {
+        this.pingTheRemoteHost = pingTheRemoteHost;
+    }
+
+
+    /**
+     * Sets portscan range.
+     *
+     * @param portscanRange the portscan range
+     */
+    public void withPortscanRange( String portscanRange ) {
+        this.portscanRange = portscanRange;
+    }
+
+
+    /**
+     * Sets procurve config to audit.
+     *
+     * @param procurveConfigToAudit the procurve config to audit
+     */
+    public void withProcurveConfigToAudit( String procurveConfigToAudit ) {
+        this.procurveConfigToAudit = procurveConfigToAudit;
+    }
+
+
+    /**
+     * Sets procurve offline configs.
+     *
+     * @param procurveOfflineConfigs the procurve offline configs
+     */
+    public void withProcurveOfflineConfigs( String procurveOfflineConfigs ) {
+        this.procurveOfflineConfigs = procurveOfflineConfigs;
+    }
+
+
+    /**
+     * Sets provided creds only.
+     *
+     * @param providedCredsOnly the provided creds only
+     */
+    public void withProvidedCredsOnly( String providedCredsOnly ) {
+        this.providedCredsOnly = providedCredsOnly;
+    }
+
+
+    /**
+     * Sets reduce connections on congestion.
+     *
+     * @param reduceConnectionsOnCongestion the reduce connections on congestion
+     */
+    public void withReduceConnectionsOnCongestion( String reduceConnectionsOnCongestion ) {
+        this.reduceConnectionsOnCongestion = reduceConnectionsOnCongestion;
+    }
+
+
+    /**
+     * Sets report paranoia.
+     *
+     * @param reportParanoia the report paranoia
+     */
+    public void withReportParanoia( String reportParanoia ) {
+        this.reportParanoia = reportParanoia;
+    }
+
+
+    /**
+     * Sets report superseded patches.
+     *
+     * @param reportSupersededPatches the report superseded patches
+     */
+    public void withReportSupersededPatches( String reportSupersededPatches ) {
+        this.reportSupersededPatches = reportSupersededPatches;
+    }
+
+
+    /**
+     * Sets report verbosity.
+     *
+     * @param reportVerbosity the report verbosity
+     */
+    public void withReportVerbosity( String reportVerbosity ) {
+        this.reportVerbosity = reportVerbosity;
+    }
+
+
+    /**
+     * Sets request windows domain info.
+     *
+     * @param requestWindowsDomainInfo the request windows domain info
+     */
+    public void withRequestWindowsDomainInfo( String requestWindowsDomainInfo ) {
+        this.requestWindowsDomainInfo = requestWindowsDomainInfo;
+    }
+
+
+    /**
+     * Sets reverse lookup.
+     *
+     * @param reverseLookup the reverse lookup
+     */
+    public void withReverseLookup( String reverseLookup ) {
+        this.reverseLookup = reverseLookup;
+    }
+
+
+    /**
+     * Sets safe checks.
+     *
+     * @param safeChecks the safe checks
+     */
+    public void withSafeChecks( String safeChecks ) {
+        this.safeChecks = safeChecks;
+    }
+
+
+    /**
+     * Sets scan netware hosts.
+     *
+     * @param scanNetwareHosts the scan netware hosts
+     */
+    public void withScanNetwareHosts( String scanNetwareHosts ) {
+        this.scanNetwareHosts = scanNetwareHosts;
+    }
+
+
+    /**
+     * Sets scan network printers.
+     *
+     * @param scanNetworkPrinters the scan network printers
+     */
+    public void withScanNetworkPrinters( String scanNetworkPrinters ) {
+        this.scanNetworkPrinters = scanNetworkPrinters;
+    }
+
+
+    /**
+     * Sets scan webapps.
+     *
+     * @param scanWebapps the scan webapps
+     */
+    public void withScanWebapps( String scanWebapps ) {
+        this.scanWebapps = scanWebapps;
+    }
+
+
+    /**
+     * Sets silent dependencies.
+     *
+     * @param silentDependencies the silent dependencies
+     */
+    public void withSilentDependencies( String silentDependencies ) {
+        this.silentDependencies = silentDependencies;
+    }
+
+
+    /**
+     * Sets slice network addresses.
+     *
+     * @param sliceNetworkAddresses the slice network addresses
+     */
+    public void withSliceNetworkAddresses( String sliceNetworkAddresses ) {
+        this.sliceNetworkAddresses = sliceNetworkAddresses;
+    }
+
+
+    /**
+     * Sets smtp domain.
+     *
+     * @param smtpDomain the smtp domain
+     */
+    public void withSmtpDomain( String smtpDomain ) {
+        this.smtpDomain = smtpDomain;
+    }
+
+
+    /**
+     * Sets smtp from.
+     *
+     * @param smtpFrom the smtp from
+     */
+    public void withSmtpFrom( String smtpFrom ) {
+        this.smtpFrom = smtpFrom;
+    }
+
+
+    /**
+     * Sets smtp to.
+     *
+     * @param smtpTo the smtp to
+     */
+    public void withSmtpTo( String smtpTo ) {
+        this.smtpTo = smtpTo;
+    }
+
+
+    /**
+     * Sets snmp port.
+     *
+     * @param snmpPort the snmp port
+     */
+    public void withSnmpPort( String snmpPort ) {
+        this.snmpPort = snmpPort;
+    }
+
+
+    /**
+     * Sets snmp scanner.
+     *
+     * @param snmpScanner the snmp scanner
+     */
+    public void withSnmpScanner( String snmpScanner ) {
+        this.snmpScanner = snmpScanner;
+    }
+
+
+    /**
+     * Sets sonicos offline configs.
+     *
+     * @param sonicosOfflineConfigs the sonicos offline configs
+     */
+    public void withSonicosOfflineConfigs( String sonicosOfflineConfigs ) {
+        this.sonicosOfflineConfigs = sonicosOfflineConfigs;
+    }
+
+
+    /**
+     * Sets ssh client banner.
+     *
+     * @param sshClientBanner the ssh client banner
+     */
+    public void withSshClientBanner( String sshClientBanner ) {
+        this.sshClientBanner = sshClientBanner;
+    }
+
+
+    /**
+     * Sets ssh known hosts.
+     *
+     * @param sshKnownHosts the ssh known hosts
+     */
+    public void withSshKnownHosts( String sshKnownHosts ) {
+        this.sshKnownHosts = sshKnownHosts;
+    }
+
+
+    /**
+     * Sets ssh netstat scanner.
+     *
+     * @param sshNetstatScanner the ssh netstat scanner
+     */
+    public void withSshNetstatScanner( String sshNetstatScanner ) {
+        this.sshNetstatScanner = sshNetstatScanner;
+    }
+
+
+    /**
+     * Sets ssh port.
+     *
+     * @param sshPort the ssh port
+     */
+    public void withSshPort( String sshPort ) {
+        this.sshPort = sshPort;
+    }
+
+
+    /**
+     * Sets ssl prob ports.
+     *
+     * @param sslProbPorts the ssl prob ports
+     */
+    public void withSslProbPorts( String sslProbPorts ) {
+        this.sslProbPorts = sslProbPorts;
+    }
+
+
+    /**
+     * Sets start cotp tsap.
+     *
+     * @param startCotpTsap the start cotp tsap
+     */
+    public void withStartCotpTsap( String startCotpTsap ) {
+        this.startCotpTsap = startCotpTsap;
+    }
+
+
+    /**
+     * Sets start remote registry.
+     *
+     * @param startRemoteRegistry the start remote registry
+     */
+    public void withStartRemoteRegistry( String startRemoteRegistry ) {
+        this.startRemoteRegistry = startRemoteRegistry;
+    }
+
+
+    /**
+     * Sets stop cotp tsap.
+     *
+     * @param stopCotpTsap the stop cotp tsap
+     */
+    public void withStopCotpTsap( String stopCotpTsap ) {
+        this.stopCotpTsap = stopCotpTsap;
+    }
+
+
+    /**
+     * Sets stop scan on disconnect.
+     *
+     * @param stopScanOnDisconnect the stop scan on disconnect
+     */
+    public void withStopScanOnDisconnect( String stopScanOnDisconnect ) {
+        this.stopScanOnDisconnect = stopScanOnDisconnect;
+    }
+
+
+    /**
+     * Sets svc detection on all ports.
+     *
+     * @param svcDetectionOnAllPorts the svc detection on all ports
+     */
+    public void withSvcDetectionOnAllPorts( String svcDetectionOnAllPorts ) {
+        this.svcDetectionOnAllPorts = svcDetectionOnAllPorts;
+    }
+
+
+    /**
+     * Sets syn firewall detection.
+     *
+     * @param synFirewallDetection the syn firewall detection
+     */
+    public void withSynFirewallDetection( String synFirewallDetection ) {
+        this.synFirewallDetection = synFirewallDetection;
+    }
+
+
+    /**
+     * Sets syn scanner.
+     *
+     * @param synScanner the syn scanner
+     */
+    public void withSynScanner( String synScanner ) {
+        this.synScanner = synScanner;
+    }
+
+
+    /**
+     * Sets tcp ping.
+     *
+     * @param tcpPing the tcp ping
+     */
+    public void withTcpPing( String tcpPing ) {
+        this.tcpPing = tcpPing;
+    }
+
+
+    /**
+     * Sets tcp ping dest ports.
+     *
+     * @param tcpPingDestPorts the tcp ping dest ports
+     */
+    public void withTcpPingDestPorts( String tcpPingDestPorts ) {
+        this.tcpPingDestPorts = tcpPingDestPorts;
+    }
+
+
+    /**
+     * Sets test default oracle accounts.
+     *
+     * @param testDefaultOracleAccounts the test default oracle accounts
+     */
+    public void withTestDefaultOracleAccounts( String testDefaultOracleAccounts ) {
+        this.testDefaultOracleAccounts = testDefaultOracleAccounts;
+    }
+
+
+    /**
+     * Sets test local nessus host.
+     *
+     * @param testLocalNessusHost the test local nessus host
+     */
+    public void withTestLocalNessusHost( String testLocalNessusHost ) {
+        this.testLocalNessusHost = testLocalNessusHost;
+    }
+
+
+    /**
+     * Sets thorough tests.
+     *
+     * @param thoroughTests the thorough tests
+     */
+    public void withThoroughTests( String thoroughTests ) {
+        this.thoroughTests = thoroughTests;
+    }
+
+
+    /**
+     * Sets udp ping.
+     *
+     * @param udpPing the udp ping
+     */
+    public void withUdpPing( String udpPing ) {
+        this.udpPing = udpPing;
+    }
+
+
+    /**
+     * Sets udp scanner.
+     *
+     * @param udpScanner the udp scanner
+     */
+    public void withUdpScanner( String udpScanner ) {
+        this.udpScanner = udpScanner;
+    }
+
+
+    /**
+     * Sets unscanned closed.
+     *
+     * @param unscannedClosed the unscanned closed
+     */
+    public void withUnscannedClosed( String unscannedClosed ) {
+        this.unscannedClosed = unscannedClosed;
+    }
+
+
+    /**
+     * Sets verify open ports.
+     *
+     * @param verifyOpenPorts the verify open ports
+     */
+    public void withVerifyOpenPorts( String verifyOpenPorts ) {
+        this.verifyOpenPorts = verifyOpenPorts;
+    }
+
+
+    /**
+     * Sets win known bad hashes.
+     *
+     * @param winKnownBadHashes the win known bad hashes
+     */
+    public void withWinKnownBadHashes( String winKnownBadHashes ) {
+        this.winKnownBadHashes = winKnownBadHashes;
+    }
+
+
+    /**
+     * Sets win known good hashes.
+     *
+     * @param winKnownGoodHashes the win known good hashes
+     */
+    public void withWinKnownGoodHashes( String winKnownGoodHashes ) {
+        this.winKnownGoodHashes = winKnownGoodHashes;
+    }
+
+
+    /**
+     * Sets wmi netstat scanner.
+     *
+     * @param wmiNetstatScanner the wmi netstat scanner
+     */
+    public void withWmiNetstatScanner( String wmiNetstatScanner ) {
+        this.wmiNetstatScanner = wmiNetstatScanner;
+    }
+
+
+    /**
+     * Sets wol mac addresses.
+     *
+     * @param wolMacAddresses the wol mac addresses
+     */
+    public void withWolMacAddresses( String wolMacAddresses ) {
+        this.wolMacAddresses = wolMacAddresses;
+    }
+
+
+    /**
+     * Sets wol wait time.
+     *
+     * @param wolWaitTime the wol wait time
+     */
+    public void withWolWaitTime( String wolWaitTime ) {
+        this.wolWaitTime = wolWaitTime;
+    }
 }

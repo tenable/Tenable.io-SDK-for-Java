@@ -1,6 +1,8 @@
 package com.tenable.io.api.scans.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tenable.io.api.editors.models.Filter;
 
 import java.util.List;
@@ -16,8 +18,8 @@ public class ScanDetails {
     private List<Note> notes;
     private RemediationsResult remediations;
     private List<ScanVulnerability> vulnerabilities;
-    private List<ScanVulnerability> compliance;
-    private List<History> history;
+    private List<ScanVulnerability> compliances;
+    private List<History> histories;
     private List<Filter> filters;
 
 
@@ -142,42 +144,45 @@ public class ScanDetails {
 
 
     /**
-     * Gets the list of compliance.
+     * Gets the list of compliances.
      *
-     * @return the list of compliance
+     * @return the list of compliances
      */
-    public List<ScanVulnerability> getCompliance() {
-        return compliance;
+    @JsonProperty( "compliance" )
+    public List<ScanVulnerability> getCompliances() {
+        return compliances;
     }
 
 
     /**
-     * Sets the list of compliance.
+     * Sets the list of compliances.
      *
-     * @param compliance the list of compliance
+     * @param compliances the list of compliances
      */
-    public void setCompliance( List<ScanVulnerability> compliance ) {
-        this.compliance = compliance;
+    public void setCompliances( List<ScanVulnerability> compliances ) {
+        this.compliances = compliances;
     }
 
 
     /**
-     * Gets the list of history objects.
+     * Gets the list of histories objects.
      *
-     * @return the list of history objects
+     * @return the list of histories objects
      */
-    public List<History> getHistory() {
-        return history;
+    @JsonIgnore
+    public List<History> getHistories() {
+        return histories;
     }
 
 
     /**
-     * Sets the list of history objects.
+     * Sets the list of histories objects.
      *
-     * @param history the list of history objects
+     * @param histories the list of histories objects
      */
-    public void setHistory( List<History> history ) {
-        this.history = history;
+    @JsonProperty( "history" )
+    public void setHistories( List<History> histories ) {
+        this.histories = histories;
     }
 
 

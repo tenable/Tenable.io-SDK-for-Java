@@ -52,18 +52,9 @@ public class ScansApiClientTest extends TestBase {
         String scanUuid = apiClient.getScansApi().launch( result.getId(), null );
         ScanDetails details = apiClient.getScansApi().details( result.getId() );
 
-        while( details.getInfo().getStatus() != ScanStatus.RUNNING ) {
-            Thread.sleep( 5000 );
-            details = apiClient.getScansApi().details( result.getId() );
-        }
-        assertTrue( details.getInfo().getStatus() == ScanStatus.RUNNING );
+        assertEquals( waitForStatus( apiClient, result.getId(), ScanStatus.RUNNING ), ScanStatus.RUNNING );
 
-        while( details.getInfo().getStatus() != ScanStatus.COMPLETED ) {
-            Thread.sleep( 5000 );
-            details = apiClient.getScansApi().details( result.getId() );
-        }
-
-        assertTrue( details.getInfo().getStatus() == ScanStatus.COMPLETED );
+        assertEquals( waitForStatus( apiClient, result.getId(), ScanStatus.COMPLETED ), ScanStatus.COMPLETED );
 
         apiClient.getScansApi().delete( result.getId() );
         apiClient.getFoldersApi().delete( folderId );
@@ -80,36 +71,19 @@ public class ScansApiClientTest extends TestBase {
         String scanUuid = apiClient.getScansApi().launch( result.getId(), null );
         ScanDetails details = apiClient.getScansApi().details( result.getId() );
 
-        while( details.getInfo().getStatus() != ScanStatus.RUNNING ) {
-            Thread.sleep( 5000 );
-            details = apiClient.getScansApi().details( result.getId() );
-        }
-        assertTrue( details.getInfo().getStatus() == ScanStatus.RUNNING );
+        assertEquals( waitForStatus( apiClient, result.getId(), ScanStatus.RUNNING ), ScanStatus.RUNNING );
 
         //pause the scan
         apiClient.getScansApi().pause( result.getId() );
         details = apiClient.getScansApi().details( result.getId() );
-        while( details.getInfo().getStatus() != ScanStatus.PAUSED ) {
-            Thread.sleep( 5000 );
-            details = apiClient.getScansApi().details( result.getId() );
-        }
-        assertTrue( details.getInfo().getStatus() == ScanStatus.PAUSED );
+        assertEquals( waitForStatus( apiClient, result.getId(), ScanStatus.PAUSED ), ScanStatus.PAUSED );
 
         //resume
         apiClient.getScansApi().resume( result.getId() );
         details = apiClient.getScansApi().details( result.getId() );
-        while( details.getInfo().getStatus() != ScanStatus.RUNNING ) {
-            Thread.sleep( 5000 );
-            details = apiClient.getScansApi().details( result.getId() );
-        }
-        assertTrue( details.getInfo().getStatus() == ScanStatus.RUNNING );
+        assertEquals( waitForStatus( apiClient, result.getId(), ScanStatus.RUNNING ), ScanStatus.RUNNING );
 
-        while( details.getInfo().getStatus() != ScanStatus.COMPLETED ) {
-            Thread.sleep( 5000 );
-            details = apiClient.getScansApi().details( result.getId() );
-        }
-
-        assertTrue( details.getInfo().getStatus() == ScanStatus.COMPLETED );
+        assertEquals( waitForStatus( apiClient, result.getId(), ScanStatus.COMPLETED ), ScanStatus.COMPLETED );
 
         apiClient.getScansApi().delete( result.getId() );
         apiClient.getFoldersApi().delete( folderId );
@@ -126,20 +100,12 @@ public class ScansApiClientTest extends TestBase {
         String scanUuid = apiClient.getScansApi().launch( result.getId(), null );
         ScanDetails details = apiClient.getScansApi().details( result.getId() );
 
-        while( details.getInfo().getStatus() != ScanStatus.RUNNING ) {
-            Thread.sleep( 5000 );
-            details = apiClient.getScansApi().details( result.getId() );
-        }
-        assertTrue( details.getInfo().getStatus() == ScanStatus.RUNNING );
+        assertEquals( waitForStatus( apiClient, result.getId(), ScanStatus.RUNNING ), ScanStatus.RUNNING );
 
         //stop the scan
         apiClient.getScansApi().stop( result.getId() );
         details = apiClient.getScansApi().details( result.getId() );
-        while( details.getInfo().getStatus() != ScanStatus.CANCELED ) {
-            Thread.sleep( 5000 );
-            details = apiClient.getScansApi().details( result.getId() );
-        }
-        assertTrue( details.getInfo().getStatus() == ScanStatus.CANCELED );
+        assertEquals( waitForStatus( apiClient, result.getId(), ScanStatus.CANCELED ), ScanStatus.CANCELED );
 
         apiClient.getScansApi().delete( result.getId() );
         apiClient.getFoldersApi().delete( folderId );
@@ -197,7 +163,7 @@ public class ScansApiClientTest extends TestBase {
         settings.setChapters( "vuln_hosts_summary;vuln_by_host;compliance_exec;remediations;vuln_by_plugin;compliance" );
         settings.setFormat( FileFormat.NESSUS );
 
-        int fileId = apiClient.getScansApi().exportRequest( result.getScans().get( 0 ).getId(), details.getHistory().get( 0 ).getHistoryId(), settings );
+        int fileId = apiClient.getScansApi().exportRequest( result.getScans().get( 0 ).getId(), details.getHistories().get( 0 ).getHistoryId(), settings );
         String status = apiClient.getScansApi().exportStatus( result.getScans().get( 0 ).getId(), fileId );
         while( !status.equals( "ready" ) ) {
             Thread.sleep( 5000 );
@@ -311,16 +277,32 @@ public class ScansApiClientTest extends TestBase {
 
         ScanDetails details = apiClient.getScansApi().details( newScan.getId() );
         assertNotNull( details );
-        assertTrue( details.getHistory().size() > 0 );
+        assertTrue( details.getHistories().size() > 0 );
 
-        apiClient.getScansApi().deleteHistory( newScan.getId(), details.getHistory().get( 0 ).getHistoryId() );
+        apiClient.getScansApi().deleteHistory( newScan.getId(), details.getHistories().get( 0 ).getHistoryId() );
 
         details = apiClient.getScansApi().details( newScan.getId() );
         assertNotNull( details );
-        assertTrue( details.getHistory() == null );
+        assertTrue( details.getHistories() == null );
 
         apiClient.getScansApi().delete( newScan.getId() );
         apiClient.getFoldersApi().delete( folderId );
+    }
+
+
+    private ScanStatus waitForStatus( TenableIoClient apiClient, int scanId, ScanStatus status ) throws TenableIoException, InterruptedException {
+        ScanDetails details = apiClient.getScansApi().details( scanId );
+        ScanStatus curStatus = details.getInfo().getStatus();
+        while( curStatus != status ) {
+            Thread.sleep( 5000 );
+            if( details.getInfo().getScheduleUuid() == null || details.getInfo().getUuid() == null ) {
+                details = apiClient.getScansApi().details( scanId );
+                curStatus = details.getInfo().getStatus();
+            }
+            else curStatus = apiClient.getScansApi().getScanHistoryStatus( details.getInfo().getScheduleUuid(), details.getInfo().getUuid() ).getStatus();
+        }
+
+        return curStatus;
     }
 
 

@@ -3,6 +3,8 @@ package com.tenable.io.api.users.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.UUID;
+
 
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
@@ -17,11 +19,11 @@ public class User {
     private String type;
     private int loginFailCount;
     private int lastLoginAttempt;
-    private String uuidId;
+    private UUID uuid;
     private int aggregate;
     private int containerId;
     private String containerName;
-    private String containerUuid;
+    private UUID containerUuid;
     private boolean enabled;
     private boolean lockout;
     private int loginFailTotal;
@@ -98,7 +100,7 @@ public class User {
      * @return the container uuid
      */
     @JsonProperty( "container_uuid" )
-    public String getContainerUuid() {
+    public UUID getContainerUuid() {
         return containerUuid;
     }
 
@@ -109,7 +111,7 @@ public class User {
      * @param containerUuid the container uuid
      */
     @JsonProperty( "container_uuid" )
-    public void setContainerUuid( String containerUuid ) {
+    public void setContainerUuid( UUID containerUuid ) {
         this.containerUuid = containerUuid;
     }
 
@@ -390,18 +392,18 @@ public class User {
      * @return the user UUID ID (new ID)
      */
     @JsonProperty( "uuid_id" )
-    public String getUuidId() {
-        return uuidId;
+    public UUID getUuid() {
+        return uuid;
     }
 
 
     /**
      * Sets user UUID ID (new ID).
      *
-     * @param uuidId the user UUID ID (new ID)
+     * @param uuid the user UUID ID (new ID)
      */
     @JsonProperty( "uuid_id" )
-    public void setUuidId( String uuidId ) {
-        this.uuidId = uuidId;
+    public void setUuid( UUID uuid ) {
+        this.uuid = uuid;
     }
 }

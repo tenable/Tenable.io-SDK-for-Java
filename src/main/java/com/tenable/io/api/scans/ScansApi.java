@@ -231,8 +231,8 @@ public class ScansApi extends ApiWrapperBase {
      * Export the given scan. Once requested, the file can be downloaded using the export download method upon
      * receiving a "ready" status from the export status method.
      *
-     * @param scanId the scan id
-     * @param settings  the ExportScanSettings
+     * @param scanId   the scan id
+     * @param settings the ExportScanSettings
      * @return the int
      * @throws TenableIoException the tenable IO exception
      */
@@ -327,8 +327,7 @@ public class ScansApi extends ApiWrapperBase {
      * Launches a scan.
      *
      * @param scanId     The id of the scan to launch
-     * @param altTargets If specified, these targets will be scanned instead of the default. Value can be an array
-     *                   where each index is a target, or an array with a single index of comma separated targets.
+     * @param altTargets If specified, these targets will be scanned instead of the default. Value can be an array                   where each index is a target, or an array with a single index of comma separated targets.
      * @return the scan uuid
      * @throws TenableIoException the tenable IO exception
      */
@@ -528,6 +527,20 @@ public class ScansApi extends ApiWrapperBase {
     }
 
 
+    /**
+     * Gets information about a scan history.
+     *
+     * @param scheduleUuid The schedule UUID of the scan history to get info for
+     * @param historyUuid  The history UUID
+     * @return the scan history status
+     * @throws TenableIoException the tenable IO exception
+     */
+    public ScanHistoryInfo getScanHistoryStatus( String scheduleUuid, String historyUuid ) throws TenableIoException {
+        HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( String.format( "/scans/%s/history/%s", scheduleUuid, historyUuid ) ).build() );
+        return httpFuture.getAsType( ScanHistoryInfo.class );
+    }
+
+
     @JsonInclude( JsonInclude.Include.NON_DEFAULT )
     private class CopyRequest {
         private int folderId;
@@ -580,6 +593,7 @@ public class ScansApi extends ApiWrapperBase {
          * Sets folder id.
          *
          * @param folderId the folder id
+         * @return the copy request
          */
         public CopyRequest withFolderId( int folderId ) {
             this.folderId = folderId;
@@ -591,6 +605,7 @@ public class ScansApi extends ApiWrapperBase {
          * Sets name.
          *
          * @param name the name
+         * @return the copy request
          */
         public CopyRequest withName( String name ) {
             this.name = name;
@@ -648,16 +663,19 @@ public class ScansApi extends ApiWrapperBase {
          * Sets settings.
          *
          * @param settings the settings
+         * @return the create configure request
          */
         public CreateConfigureRequest withSettings( Settings settings ) {
             this.settings = settings;
             return this;
         }
 
+
         /**
          * Sets uuid.
          *
          * @param uuid the uuid
+         * @return the create configure request
          */
         public CreateConfigureRequest withUuid( String uuid ) {
             this.uuid = uuid;
@@ -738,6 +756,7 @@ public class ScansApi extends ApiWrapperBase {
          * Sets file.
          *
          * @param file the file
+         * @return the import request
          */
         public ImportRequest withFile( String file ) {
             this.file = file;
@@ -749,6 +768,7 @@ public class ScansApi extends ApiWrapperBase {
          * Sets folder id.
          *
          * @param folderId the folder id
+         * @return the import request
          */
         public ImportRequest withFolderId( int folderId ) {
             this.folderId = folderId;
@@ -760,6 +780,7 @@ public class ScansApi extends ApiWrapperBase {
          * Sets password.
          *
          * @param password the password
+         * @return the import request
          */
         public ImportRequest withPassword( String password ) {
             this.password = password;
@@ -793,10 +814,12 @@ public class ScansApi extends ApiWrapperBase {
             this.altTargets = altTargets;
         }
 
+
         /**
          * Sets alt targets.
          *
          * @param altTargets the alt targets
+         * @return the launch request
          */
         public LaunchRequest withAltTargets ( String[] altTargets ) {
             this.altTargets = altTargets;
@@ -832,6 +855,7 @@ public class ScansApi extends ApiWrapperBase {
          * Sets read.
          *
          * @param read the read
+         * @return the read status request
          */
         public ReadStatusRequest withRead( boolean read ) {
             this.read = read;
@@ -868,6 +892,7 @@ public class ScansApi extends ApiWrapperBase {
          * Sets enabled.
          *
          * @param enabled the enabled
+         * @return the schedule request
          */
         public ScheduleRequest withEnabled( boolean enabled ) {
             this.enabled = enabled;
@@ -880,18 +905,34 @@ public class ScansApi extends ApiWrapperBase {
         private int folderId;
 
 
+        /**
+         * Gets folder id.
+         *
+         * @return the folder id
+         */
         @JsonProperty( "folder_id" )
         public int getFolderId() {
             return folderId;
         }
 
 
+        /**
+         * Sets folder id.
+         *
+         * @param folderId the folder id
+         */
         @JsonProperty( "folder_id" )
         public void setFolderId( int folderId ) {
             this.folderId = folderId;
         }
 
 
+        /**
+         * With folder id move to folder request.
+         *
+         * @param folderId the folder id
+         * @return the move to folder request
+         */
         public MoveToFolderRequest withFolderId( int folderId ) {
             this.folderId = folderId;
             return this;

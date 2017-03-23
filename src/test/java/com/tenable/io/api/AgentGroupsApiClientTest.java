@@ -24,10 +24,10 @@ public class AgentGroupsApiClientTest extends TestBase {
         List<Scanner> scanners = apiClient.getScannersApi().list();
 
         //create new agent group
-        AgentGroup createdGroup = apiClient.getAgentGroupsApi().create( scanners.get( 0 ).getId(), testName );
+        AgentGroup createdGroup = apiClient.getAgentGroupsApi().create( testName );
 
         //list and verify group is created
-        List<AgentGroup> groups = apiClient.getAgentGroupsApi().list( scanners.get( 0 ).getId() );
+        List<AgentGroup> groups = apiClient.getAgentGroupsApi().list();
         boolean created = false;
         for( AgentGroup item : groups ) {
             if( item.getName().equals( testName ) ) {
@@ -37,24 +37,24 @@ public class AgentGroupsApiClientTest extends TestBase {
         assertTrue( created );
 
         //test configure
-        apiClient.getAgentGroupsApi().configure( scanners.get( 0 ).getId(), createdGroup.getId(), testName2 );
+        apiClient.getAgentGroupsApi().configure( createdGroup.getId(), testName2 );
 
         //test details, verify name changed
-        AgentGroup detail = apiClient.getAgentGroupsApi().details( scanners.get( 0 ).getId(), createdGroup.getId() );
+        AgentGroup detail = apiClient.getAgentGroupsApi().details( createdGroup.getId() );
         assertNotNull( detail );
         assertTrue( detail.getName().equals( testName2 ) );
 
         //add agent to group
-        List<Agent> agents = apiClient.getAgentsApi().list( 1 );
+        List<Agent> agents = apiClient.getAgentsApi().list();
         assertNotNull( agents );
         assertTrue( agents.size() > 0 );
-        apiClient.getAgentGroupsApi().addAgent( 1, detail.getId(), agents.get( 1 ).getId() );
+        apiClient.getAgentGroupsApi().addAgent( detail.getId(), agents.get( 1 ).getId() );
 
         //delete agent from group
-        apiClient.getAgentGroupsApi().deleteAgent( 1, detail.getId(), agents.get( 1 ).getId() );
+        apiClient.getAgentGroupsApi().deleteAgent( detail.getId(), agents.get( 1 ).getId() );
 
         //delete agent group
-        apiClient.getAgentGroupsApi().delete( scanners.get( 0 ).getId(), createdGroup.getId() );
+        apiClient.getAgentGroupsApi().delete( createdGroup.getId() );
 
     }
 }

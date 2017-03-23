@@ -30,6 +30,7 @@ public class ScanDetailsInfo {
     private String name;
     private int userPermissions;
     private boolean control;
+    private String scheduleUuid;
 
 
     /**
@@ -325,6 +326,28 @@ public class ScanDetailsInfo {
      */
     public void setUuid( String uuid ) {
         this.uuid = uuid;
+    }
+
+
+    /**
+     * Gets uuid.
+     *
+     * @return the uuid
+     */
+    @JsonProperty( "schedule_uuid" )
+    public String getScheduleUuid() {
+        return scheduleUuid;
+    }
+
+
+    /**
+     * Sets uuid.
+     *
+     * @param scheduleUuid the uuid
+     */
+    @JsonProperty( "schedule_uuid" )
+    public void setScheduleUuid( String scheduleUuid ) {
+        this.scheduleUuid = scheduleUuid;
     }
 
 

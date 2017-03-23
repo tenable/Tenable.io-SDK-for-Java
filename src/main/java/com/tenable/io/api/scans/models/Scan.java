@@ -3,6 +3,8 @@ package com.tenable.io.api.scans.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.UUID;
+
 
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
@@ -13,6 +15,8 @@ public class Scan {
     private String name;
     private String type;
     private String owner;
+    private int ownerId;
+    private UUID ownerUuid;
     private boolean enabled;
     private int folderId;
     private boolean read;
@@ -25,6 +29,8 @@ public class Scan {
     private String startTime;
     private String timeZone;
     private String rRules;
+    private String scheduleUuid;
+    private UUID containerUuid;
 
 
     /**
@@ -128,6 +134,48 @@ public class Scan {
 
 
     /**
+     * Gets owner id.
+     *
+     * @return the owner id
+     */
+    @JsonProperty( "owner_id" )
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+
+    /**
+     * Sets owner id.
+     *
+     * @param ownerId the owner id
+     */
+    @JsonProperty( "owner_id" )
+    public void setOwnerId( int ownerId ) {
+        this.ownerId = ownerId;
+    }
+
+
+    /**
+     * Gets owner uuid  (new ID).
+     *
+     * @return the owner uuid  (new ID)
+     */
+    public UUID getOwnerUuid() {
+        return ownerUuid;
+    }
+
+
+    /**
+     * Sets owner uuid (new ID).
+     *
+     * @param ownerUuid the owner uuid  (new ID)
+     */
+    public void setOwnerUuid( UUID ownerUuid ) {
+        this.ownerUuid = ownerUuid;
+    }
+
+
+    /**
      * If true, the schedule for the scan is enabled.
      *
      * @return true if the schedule for the scan is enabled.
@@ -161,8 +209,7 @@ public class Scan {
     /**
      * Sets the unique id of the folder housing the scan (only returned when folder_id is not in the list request).
      *
-     * @param folderId the unique id of the folder housing the scan (only returned when folder_id is not in the list
-     *                 request).
+     * @param folderId the unique id of the folder housing the scan (only returned when folder_id is not in the list                 request).
      */
     @JsonProperty( "folder_id" )
     public void setFolderId( int folderId ) {
@@ -194,8 +241,7 @@ public class Scan {
      * Gets the status of the scan (completed, aborted, imported, pending, running, resuming, canceling, cancelled,
      * pausing, paused, stopping, stopped).
      *
-     * @return the status of the scan (completed, aborted, imported, pending, running, resuming, canceling, cancelled,
-     * pausing, paused, stopping, stopped).
+     * @return the status of the scan (completed, aborted, imported, pending, running, resuming, canceling, cancelled, pausing, paused, stopping, stopped).
      */
     public String getStatus() {
         return status;
@@ -206,8 +252,7 @@ public class Scan {
      * Sets the status of the scan (completed, aborted, imported, pending, running, resuming, canceling, cancelled,
      * pausing, paused, stopping, stopped).
      *
-     * @param status the status of the scan (completed, aborted, imported, pending, running, resuming, canceling,
-     *               cancelled, pausing, paused, stopping, stopped).
+     * @param status the status of the scan (completed, aborted, imported, pending, running, resuming, canceling,               cancelled, pausing, paused, stopping, stopped).
      */
     public void setStatus( String status ) {
         this.status = status;
@@ -383,5 +428,47 @@ public class Scan {
     @JsonProperty( "rrules" )
     public void setrRules( String rRules ) {
         this.rRules = rRules;
+    }
+
+
+    /**
+     * Gets schedule uuid.
+     *
+     * @return the schedule uuid
+     */
+    @JsonProperty( "schedule_uuid" )
+    public String getScheduleUuid() {
+        return scheduleUuid;
+    }
+
+
+    /**
+     * Sets schedule uuid.
+     *
+     * @param scheduleUuid the schedule uuid
+     */
+    @JsonProperty( "schedule_uuid" )
+    public void setScheduleUuid( String scheduleUuid ) {
+        this.scheduleUuid = scheduleUuid;
+    }
+
+
+    /**
+     * Gets container uuid.
+     *
+     * @return the container uuid
+     */
+    public UUID getContainerUuid() {
+        return containerUuid;
+    }
+
+
+    /**
+     * Sets container uuid.
+     *
+     * @param containerUuid the container uuid
+     */
+    public void setContainerUuid( UUID containerUuid ) {
+        this.containerUuid = containerUuid;
     }
 }

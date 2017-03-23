@@ -299,7 +299,8 @@ public class HttpFuture {
                     exceptionToThrow = new TenableIoException( TenableIoErrorCode.TooManyApiCalls, error != null ? error.getError() : "API call rate limit reached." );
                     break;
 
-                case 501: // server error
+                case 500: // server error
+                case 501:
                 case 502:
                 case 503:
                 case 504:
@@ -370,7 +371,7 @@ public class HttpFuture {
                 logInstance.setError( String.format( "%s. Attempt #: %d. IsLastAttempt: %b.", error, attempt, isFinal ) );
             }
 
-            StringBuilder sb = new StringBuilder( asyncHttpService.getJsonHelper().stringify( asyncHttpService.getJsonHelper().toJson( logInstance ) ) );
+            StringBuilder sb = new StringBuilder( asyncHttpService.getJsonHelper().serialize( asyncHttpService.getJsonHelper().toJson( logInstance ) ) );
             if( logInstance.getReqBody() != null ) {
                 sb.append( "\nREQUEST_BODY:\n" ).append( logInstance.getReqBody() );
             }

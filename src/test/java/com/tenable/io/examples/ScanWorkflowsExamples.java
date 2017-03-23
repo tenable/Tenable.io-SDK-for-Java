@@ -128,7 +128,6 @@ public class ScanWorkflowsExamples extends TestBase {
     @Test
     public void testFolderWorkflows() throws Exception {
         String scanName = "testScan";
-        String folderName = "testFolder";
 
         // Instantiate an instance of the NessusClient.
         //TenableIoClient apiClient = new TenableIoClient( "Your access key", "Your secret key" );
@@ -137,8 +136,8 @@ public class ScanWorkflowsExamples extends TestBase {
         TenableIoClient client = new TenableIoClient();
 
         //create a folder
-        FolderRef folder = client.getFolderHelper().create( folderName );
-        assertTrue( folder.name().equals( folderName ) );
+        FolderRef folder = client.getFolderHelper().create( testFolderName );
+        assertTrue( folder.name().equals( testFolderName ) );
         assertTrue( folder.type().equals( client.getFolderHelper().TYPE_CUSTOM ) );
         assertNotNull( folder.info() );
 

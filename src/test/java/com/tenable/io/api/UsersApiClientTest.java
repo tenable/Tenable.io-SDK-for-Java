@@ -72,12 +72,12 @@ public class UsersApiClientTest extends TestBase {
         assertEquals( updatedUser.getEmail(), getTestUsername( 1 ) );
         assertEquals( updatedUser.getName(), "marco polo" );
         assertEquals( updatedUser.getPermissions(), UserRole.ADMINISTRATOR );
-        assertTrue( !updatedUser.isEnabled() );
+        assertFalse( updatedUser.isEnabled() );
 
-        updatedUser = apiClient.getUsersApi().edit( userId, UserRole.ADMINISTRATOR, "marco poloso", null, null );
+        updatedUser = apiClient.getUsersApi().edit( userId, UserRole.ADMINISTRATOR, "marco poloso", getTestUsername( 1 ), true );
         assertEquals( updatedUser.getEmail(), getTestUsername( 1 ) );
         assertEquals( updatedUser.getName(), "marco poloso" );
-        assertTrue( !updatedUser.isEnabled() );
+        assertTrue( updatedUser.isEnabled() );
 
         apiClient.getUsersApi().delete( ( userId ) );
     }

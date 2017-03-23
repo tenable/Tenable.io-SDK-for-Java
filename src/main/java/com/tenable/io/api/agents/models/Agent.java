@@ -3,6 +3,8 @@ package com.tenable.io.api.agents.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.UUID;
+
 
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
@@ -15,7 +17,7 @@ public class Agent {
     private String name;
     private String platform;
     private String token;
-    private String uuid;
+    private UUID uuid;
 
 
     /**
@@ -165,7 +167,7 @@ public class Agent {
      *
      * @return The uuid of the agent.
      */
-    public String getUuid() {
+    public UUID getUuid() {
         return uuid;
     }
 
@@ -175,7 +177,7 @@ public class Agent {
      *
      * @param uuid The uuid of the agent.
      */
-    public void setUuid( String uuid ) {
+    public void setUuid( UUID uuid ) {
         this.uuid = uuid;
     }
 }

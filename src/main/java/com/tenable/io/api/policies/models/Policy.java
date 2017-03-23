@@ -272,4 +272,124 @@ public class Policy {
     public void setNoTarget( boolean noTarget ) {
         this.noTarget = noTarget;
     }
+
+
+    /**
+     * Sets the unique id of the policy.
+     *
+     * @param id the unique id of the policy.
+     */
+    public void withId( int id ) {
+        this.id = id;
+    }
+
+
+    /**
+     * Sets the uuid for the template the policy uses.
+     *
+     * @param templateUuid the uuid for the template the policy uses.
+     */
+    public void withTemplateUuid( String templateUuid ) {
+        this.templateUuid = templateUuid;
+    }
+
+
+    /**
+     * Sets the name of the policy.
+     *
+     * @param name the name of the policy.
+     */
+    public void withName( String name ) {
+        this.name = name;
+    }
+
+
+    /**
+     * Sets the description of the policy.
+     *
+     * @param description the description of the policy.
+     */
+    public void withDescription( String description ) {
+        this.description = description;
+    }
+
+
+    /**
+     * Sets the unique id of the owner of the policy.
+     *
+     * @param ownerId the unique id of the owner of the policy.
+     */
+    public void withOwnerId( String ownerId ) {
+        this.ownerId = ownerId;
+    }
+
+
+    /**
+     * Sets the username for the owner of the policy.
+     *
+     * @param owner the username for the owner of the policy.
+     */
+    public void withOwner( String owner ) {
+        this.owner = owner;
+    }
+
+
+    /**
+     * Sets the shared status of the policy.
+     *
+     * @param shared the shared status of the policy.
+     */
+    public void withShared( int shared ) {
+        this.shared = shared;
+    }
+
+
+    /**
+     * Sets the sharing permissions for the policy.
+     *
+     * @param userPermissions the sharing permissions for the policy.
+     */
+    public void withUserPermissions( int userPermissions ) {
+        this.userPermissions = userPermissions;
+    }
+
+
+    /**
+     * Sets the creation date of the policy in unixtime.
+     *
+     * @param creationDate the creation date of the policy in unixtime.
+     */
+    public void withCreationDate( int creationDate ) {
+        this.creationDate = creationDate;
+    }
+
+
+    /**
+     * Sets the last modification date for the policy in unixtime.
+     *
+     * @param lastModificationDate the last modification date for the policy in unixtime.
+     */
+    public void withLastModificationDate( int lastModificationDate ) {
+        this.lastModificationDate = lastModificationDate;
+    }
+
+
+    /**
+     * Sets the visibility of the target (private or shared).
+     *
+     * @param visibility the visibility of the target (private or shared).
+     */
+    public void withVisibility( String visibility ) {
+        this.visibility = visibility;
+    }
+
+
+    /**
+     * Sets boolean whether the policy does not use targets.
+     *
+     * @param noTarget boolean whether the policy does not use targets.
+     */
+    public void withNoTarget( boolean noTarget ) {
+        this.noTarget = noTarget;
+    }
 }

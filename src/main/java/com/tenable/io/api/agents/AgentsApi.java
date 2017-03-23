@@ -15,6 +15,9 @@ import java.util.List;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class AgentsApi extends ApiWrapperBase {
+    private static int DEFAULT_SCANNER_ID = 1;
+
+
     /**
      * Instantiates a new Agents api.
      *
@@ -28,15 +31,37 @@ public class AgentsApi extends ApiWrapperBase {
 
 
     /**
+     * Returns the agent list for the default scanner
+     *
+     * @return the agent list for the default scanner
+     * @throws TenableIoException the tenable IO exception
+     */
+    public List<Agent> list() throws TenableIoException {
+        return list( DEFAULT_SCANNER_ID );
+    }
+
+
+    /**
      * Returns the agent list for the given scanner
      *
      * @param scannerId The id of the scanner to query for agents
      * @return the agent list for the given scanner
      * @throws TenableIoException the tenable IO exception
      */
-    public List<Agent> list( int scannerId ) throws TenableIoException {
+    protected List<Agent> list( int scannerId ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scanners/" + scannerId + "/agents" ).build() );
         return httpFuture.getAsType( new TypeReference<List<Agent>>() {}, "agents" );
+    }
+
+
+    /**
+     * Deletes an agent
+     *
+     * @param agentId   The id of the agent to delete
+     * @throws TenableIoException the tenable IO exception
+     */
+    public void delete( int agentId ) throws TenableIoException {
+        delete( DEFAULT_SCANNER_ID, agentId );
     }
 
 
@@ -47,7 +72,7 @@ public class AgentsApi extends ApiWrapperBase {
      * @param agentId   The id of the agent to delete
      * @throws TenableIoException the tenable IO exception
      */
-    public void delete( int scannerId, int agentId ) throws TenableIoException {
+    protected void delete( int scannerId, int agentId ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doDelete( createBaseUriBuilder( "/scanners/" + scannerId + "/agents/" + agentId ).build() );
         httpFuture.get();
     }

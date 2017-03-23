@@ -19,8 +19,11 @@ import java.util.*;
  * Scan Reference Object containing id of a scan and helper operations on a scan.
  */
 public class ScanRef implements RunnableScan, RunningScan {
+    private Map<Integer, String> historyIdToUuidLookup;
     private TenableIoClient client;
     private int id;
+    private String scanUuid;
+    private String scheduleUuid;
 
 
     /**
@@ -32,6 +35,9 @@ public class ScanRef implements RunnableScan, RunningScan {
     public ScanRef( TenableIoClient client, int id ) {
         this.client = client;
         this.id = id;
+        this.scheduleUuid = null;
+        this.scanUuid = null;
+        this.historyIdToUuidLookup = null;
     }
 
 
@@ -96,7 +102,7 @@ public class ScanRef implements RunnableScan, RunningScan {
      * @param destinationFile The file to save the report to.
      * @param format          The report format.
      * @return the scan ref
-     * @throws TenableIoException   the Tenable IO exception
+     * @throws TenableIoException the Tenable IO exception
      */
     public RunnableScan download( File destinationFile, FileFormat format ) throws TenableIoException {
         waitUntilStopped();
@@ -108,7 +114,8 @@ public class ScanRef implements RunnableScan, RunningScan {
         while( !status.equals( this.client.getScanHelper().STATUS_EXPORT_READY ) ) {
             try {
                 Thread.sleep( this.client.getScanHelper().getSleepInterval() );
-            } catch( InterruptedException e ) {}
+            } catch( InterruptedException e ) {
+            }
             status = this.client.getScansApi().exportStatus( this.id, fileId );
         }
         this.client.getScansApi().exportDownload( this.id, fileId, destinationFile );
@@ -124,7 +131,7 @@ public class ScanRef implements RunnableScan, RunningScan {
      * @param historyId       The history id to download the report for.
      * @param format          The report format.
      * @return The same ScanRef instance
-     * @throws TenableIoException   the Tenable IO exception
+     * @throws TenableIoException the Tenable IO exception
      */
     public RunnableScan download( File destinationFile, int historyId, FileFormat format ) throws TenableIoException {
         waitUntilStopped( historyId );
@@ -136,7 +143,8 @@ public class ScanRef implements RunnableScan, RunningScan {
         while( !status.equals( this.client.getScanHelper().STATUS_EXPORT_READY ) ) {
             try {
                 Thread.sleep( this.client.getScanHelper().getSleepInterval() );
-            } catch( InterruptedException e ) {}
+            } catch( InterruptedException e ) {
+            }
             status = this.client.getScansApi().exportStatus( this.id, fileId );
         }
         this.client.getScansApi().exportDownload( this.id, fileId, destinationFile );
@@ -155,7 +163,7 @@ public class ScanRef implements RunnableScan, RunningScan {
         List<History> result = new ArrayList<>();
         ScanDetails details = this.getDetails();
         if( details != null )
-            result = details.getHistory();
+            result = details.getHistories();
         return result;
     }
 
@@ -171,8 +179,8 @@ public class ScanRef implements RunnableScan, RunningScan {
         List<History> result = new ArrayList<>();
         ScanDetails details = this.getDetails();
         if( details != null ) {
-            for( History history : details.getHistory() ) {
-                if( ( new Date( (long) history.getCreationDate() * 1000 ) ).after( since ) ) {
+            for( History history : details.getHistories() ) {
+                if( ( new Date( (long)history.getCreationDate() * 1000 ) ).after( since ) ) {
                     result.add( history );
                 }
             }
@@ -185,17 +193,18 @@ public class ScanRef implements RunnableScan, RunningScan {
      * Launch the scan.
      *
      * @return The same ScanRef instance
-     * @throws TenableIoException   the Tenable IO exception
+     * @throws TenableIoException the Tenable IO exception
      */
     public RunningScan launch() throws TenableIoException {
         if( !this.isStopped() ) {
-            throw new TenableIoException( TenableIoErrorCode.Generic, "Scan is currently running or cannot be launched.");
+            throw new TenableIoException( TenableIoErrorCode.Generic, "Scan is currently running or cannot be launched." );
         }
         this.client.getScansApi().launch( this.id, null );
         while( getStatus() == ScanStatus.PENDING ) {
             try {
                 Thread.sleep( this.client.getScanHelper().getSleepInterval() );
-            } catch( InterruptedException e ) {}
+            } catch( InterruptedException e ) {
+            }
         }
         return this;
     }
@@ -206,60 +215,64 @@ public class ScanRef implements RunnableScan, RunningScan {
      *
      * @param wait If True, the method blocks until the scan's status is not pending
      * @return the same ScanRef instance
-     * @throws TenableIoException   the Tenable IO exception
+     * @throws TenableIoException the Tenable IO exception
      */
     public RunningScan launch( boolean wait ) throws TenableIoException {
         if( !this.isStopped() ) {
-            throw new TenableIoException( TenableIoErrorCode.Generic, "Scan is currently running or cannot be launched.");
+            throw new TenableIoException( TenableIoErrorCode.Generic, "Scan is currently running or cannot be launched." );
         }
         this.client.getScansApi().launch( this.id, null );
         if( wait ) {
             while( getStatus() == ScanStatus.PENDING ) {
                 try {
                     Thread.sleep( this.client.getScanHelper().getSleepInterval() );
-                } catch( InterruptedException e ) {}
+                } catch( InterruptedException e ) {
+                }
             }
         }
         return this;
     }
 
+
     /**
      * Launch the scan on a given date and time
      *
      * @param startTime date and time for the scan to start.
-     * @param timeZone timezone for the startTime
-     * @param targets scanTargets
+     * @param timeZone  timezone for the startTime
+     * @param targets   scanTargets
      * @return The same ScanRef instance
-     * @throws TenableIoException   the Tenable IO exception
+     * @throws TenableIoException the Tenable IO exception
      */
-    public RunningScan launch(Date startTime, String timeZone, String targets) throws TenableIoException {
+    public RunningScan launch( Date startTime, String timeZone, String targets ) throws TenableIoException {
         Settings scanSettings = new Settings();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
-        String start = sdf1.format(startTime);
-        scanSettings.setStartTime(start);
-        scanSettings.setLaunch( LaunchFrequency.ONE_TIME);
+        SimpleDateFormat sdf1 = new SimpleDateFormat( "yyyyMMdd'T'HHmmss" );
+        String start = sdf1.format( startTime );
+        scanSettings.setStartTime( start );
+        scanSettings.setLaunch( LaunchFrequency.ONE_TIME );
         scanSettings.setTextTargets( targets );
-        scanSettings.setTimezone(timeZone);
+        scanSettings.setTimezone( timeZone );
         RRules rules = new RRules();
-        rules.setFreq("ONETIME");
+        rules.setFreq( "ONETIME" );
         scanSettings.setrRules( rules );
 
-        this.client.getScansApi().configure(this.id, null, scanSettings);
+        this.client.getScansApi().configure( this.id, null, scanSettings );
         return this;
     }
+
 
     /**
      * Pause the scan. This method will block until the status of the scan is not pausing.
      *
      * @return The same ScanRef instance
-     * @throws TenableIoException   the Tenable IO exception
+     * @throws TenableIoException the Tenable IO exception
      */
     public RunnableScan pause() throws TenableIoException {
         this.client.getScansApi().pause( this.id );
         while( getStatus() == ScanStatus.PAUSING ) {
             try {
                 Thread.sleep( this.client.getScanHelper().getSleepInterval() );
-            } catch( InterruptedException e ) {}
+            } catch( InterruptedException e ) {
+            }
         }
         return this;
     }
@@ -270,7 +283,7 @@ public class ScanRef implements RunnableScan, RunningScan {
      *
      * @param wait If true this method will block until the status of the scan is not pausing.
      * @return The same ScanRef instance
-     * @throws TenableIoException   the Tenable IO exception
+     * @throws TenableIoException the Tenable IO exception
      */
     public RunnableScan pause( boolean wait ) throws TenableIoException {
         this.client.getScansApi().pause( this.id );
@@ -278,7 +291,8 @@ public class ScanRef implements RunnableScan, RunningScan {
             while( getStatus() == ScanStatus.PAUSING ) {
                 try {
                     Thread.sleep( this.client.getScanHelper().getSleepInterval() );
-                } catch( InterruptedException e ) {}
+                } catch( InterruptedException e ) {
+                }
             }
         }
         return this;
@@ -289,14 +303,15 @@ public class ScanRef implements RunnableScan, RunningScan {
      * Resume the scan. This method will block until the status of the scan is not resuming.
      *
      * @return The same ScanRef instance
-     * @throws TenableIoException   the Tenable IO exception
+     * @throws TenableIoException the Tenable IO exception
      */
     public RunningScan resume() throws TenableIoException {
         this.client.getScansApi().resume( this.id );
         while( getStatus() == ScanStatus.RESUMING ) {
             try {
                 Thread.sleep( this.client.getScanHelper().getSleepInterval() );
-            } catch( InterruptedException e ) {}
+            } catch( InterruptedException e ) {
+            }
         }
         return this;
     }
@@ -307,7 +322,7 @@ public class ScanRef implements RunnableScan, RunningScan {
      *
      * @param wait If true this method will block until the status of the scan is not resuming.
      * @return The same ScanRef instance
-     * @throws TenableIoException   the Tenable IO exception
+     * @throws TenableIoException the Tenable IO exception
      */
     public RunningScan resume( boolean wait ) throws TenableIoException {
         this.client.getScansApi().resume( this.id );
@@ -315,7 +330,8 @@ public class ScanRef implements RunnableScan, RunningScan {
             while( getStatus() == ScanStatus.RESUMING ) {
                 try {
                     Thread.sleep( this.client.getScanHelper().getSleepInterval() );
-                } catch( InterruptedException e ) {}
+                } catch( InterruptedException e ) {
+                }
             }
         }
         return this;
@@ -326,7 +342,7 @@ public class ScanRef implements RunnableScan, RunningScan {
      * Stop the scan. This method will block until the scan's status is stopped.
      *
      * @return The same ScanRef instance
-     * @throws TenableIoException   the Tenable IO exception
+     * @throws TenableIoException the Tenable IO exception
      */
     public RunnableScan stop() throws TenableIoException {
         this.client.getScansApi().stop( this.id );
@@ -341,7 +357,7 @@ public class ScanRef implements RunnableScan, RunningScan {
      *
      * @param wait If True, the method blocks until the scan's status is stopped.
      * @return The same ScanRef instance
-     * @throws TenableIoException   the Tenable IO exception
+     * @throws TenableIoException the Tenable IO exception
      */
     public RunnableScan stop( boolean wait ) throws TenableIoException {
         this.client.getScansApi().stop( this.id );
@@ -356,13 +372,14 @@ public class ScanRef implements RunnableScan, RunningScan {
      * Blocks until the scan is stopped.
      *
      * @return The same ScanRef instance
-     * @throws TenableIoException   the Tenable IO exception
+     * @throws TenableIoException the Tenable IO exception
      */
     public RunnableScan waitUntilStopped() throws TenableIoException {
         while( !this.isStopped() ) {
             try {
                 Thread.sleep( this.client.getScanHelper().getSleepInterval() );
-            } catch( InterruptedException e ) {}
+            } catch( InterruptedException e ) {
+            }
         }
         return this;
     }
@@ -373,13 +390,14 @@ public class ScanRef implements RunnableScan, RunningScan {
      *
      * @param historyId The scan history id to wait for.
      * @return The same ScanRef instance
-     * @throws TenableIoException   the Tenable IO exception
+     * @throws TenableIoException the Tenable IO exception
      */
     public RunnableScan waitUntilStopped( int historyId ) throws TenableIoException {
         while( !this.isStopped( historyId ) ) {
             try {
                 Thread.sleep( this.client.getScanHelper().getSleepInterval() );
-            } catch( InterruptedException e ) {}
+            } catch( InterruptedException e ) {
+            }
         }
         return this;
     }
@@ -390,7 +408,7 @@ public class ScanRef implements RunnableScan, RunningScan {
      *
      * @param seconds the seconds to wait
      * @return The same ScanRef instance
-     * @throws TenableIoException   the Tenable IO exception
+     * @throws TenableIoException the Tenable IO exception
      */
     public RunnableScan waitOrCancelAfter( int seconds ) throws TenableIoException {
         long startTime = System.currentTimeMillis();
@@ -398,7 +416,8 @@ public class ScanRef implements RunnableScan, RunningScan {
         while( !this.isStopped() && ( System.currentTimeMillis() - startTime ) < waitTime ) {
             try {
                 Thread.sleep( this.client.getScanHelper().getSleepInterval() );
-            } catch( InterruptedException e ) {}
+            } catch( InterruptedException e ) {
+            }
         }
         if( !Arrays.asList( client.getScanHelper().STATUSES_STOPPED ).contains( getStatus() ) ) {
             stop( false );
@@ -437,7 +456,7 @@ public class ScanRef implements RunnableScan, RunningScan {
      * @throws TenableIoException the Tenable IO exception
      */
     public ScanStatus getStatus() throws TenableIoException {
-        return this.getDetails().getInfo().getStatus();
+        return getStatus( null );
     }
 
 
@@ -448,8 +467,26 @@ public class ScanRef implements RunnableScan, RunningScan {
      * @return the scan status
      * @throws TenableIoException the Tenable IO exception
      */
-    public ScanStatus getStatus( int historyId ) throws TenableIoException {
-        return this.getDetails( historyId ).getInfo().getStatus();
+    public ScanStatus getStatus( Integer historyId ) throws TenableIoException {
+        if( scanUuid == null || scheduleUuid == null || ( historyId != null && !historyIdToUuidLookup.containsKey( historyId ) ) ) {
+            ScanDetails details = getDetails();
+            scanUuid = details.getInfo().getUuid();
+            scheduleUuid = details.getInfo().getScheduleUuid();
+
+            if( details.getHistories() != null ) {
+                historyIdToUuidLookup = new HashMap<>( details.getHistories().size() );
+                for( History history : details.getHistories() ) {
+                    historyIdToUuidLookup.put( history.getHistoryId(), history.getUuid() );
+                }
+            }
+
+            return details.getInfo().getStatus();
+        }
+
+        if(  historyId != null && !historyIdToUuidLookup.containsKey( historyId ) )
+            throw new TenableIoException( TenableIoErrorCode.InvalidParameter, String.format( "History ID %d in Scan %s does not exist.", historyId, scanUuid ) );
+
+        return this.client.getScansApi().getScanHistoryStatus( scheduleUuid, historyId == null ? scanUuid : historyIdToUuidLookup.get( historyId ) ).getStatus();
     }
 
 
@@ -511,7 +548,7 @@ public class ScanRef implements RunnableScan, RunningScan {
      * @throws TenableIoException the Tenable IO exception
      */
     public boolean isStopped() throws TenableIoException {
-        return Arrays.asList( client.getScanHelper().STATUSES_STOPPED ).contains( getStatus() );
+        return client.getScanHelper().STATUSES_STOPPED.contains( getStatus() );
     }
 
 
@@ -523,6 +560,6 @@ public class ScanRef implements RunnableScan, RunningScan {
      * @throws TenableIoException the Tenable IO exception
      */
     public boolean isStopped( int historyId ) throws TenableIoException {
-        return Arrays.asList( client.getScanHelper().STATUSES_STOPPED ).contains( getStatus( historyId ) );
+        return client.getScanHelper().STATUSES_STOPPED.contains( getStatus( historyId ) );
     }
 }

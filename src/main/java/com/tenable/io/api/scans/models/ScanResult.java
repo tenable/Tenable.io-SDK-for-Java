@@ -3,6 +3,8 @@ package com.tenable.io.api.scans.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.UUID;
+
 
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
@@ -20,6 +22,7 @@ public class ScanResult {
     private String notificationFilters;
     private String owner;
     private int ownerId;
+    private UUID ownerUuid;
     private int policyId;
     private String rRules;
     private int scannerId;
@@ -284,6 +287,26 @@ public class ScanResult {
     @JsonProperty( "owner_id" )
     public void setOwnerId( int ownerId ) {
         this.ownerId = ownerId;
+    }
+
+
+    /**
+     * Gets owner uuid  (new ID).
+     *
+     * @return the owner uuid  (new ID)
+     */
+    public UUID getOwnerUuid() {
+        return ownerUuid;
+    }
+
+
+    /**
+     * Sets owner uuid (new ID).
+     *
+     * @param ownerUuid the owner uuid  (new ID)
+     */
+    public void setOwnerUuid( UUID ownerUuid ) {
+        this.ownerUuid = ownerUuid;
     }
 
 
