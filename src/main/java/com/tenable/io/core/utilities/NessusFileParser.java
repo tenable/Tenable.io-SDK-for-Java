@@ -4,7 +4,6 @@ package com.tenable.io.core.utilities;
 import com.tenable.io.core.exceptions.TenableIoErrorCode;
 import com.tenable.io.core.exceptions.TenableIoException;
 import com.tenable.io.core.utilities.models.DefaultXmlObject;
-import sun.org.mozilla.javascript.internal.NativeArray;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
