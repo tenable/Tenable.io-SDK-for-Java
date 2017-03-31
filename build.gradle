@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 group = 'com.tenable'
 version = '1.0-SNAPSHOT'
@@ -12,8 +13,17 @@ targetCompatibility = 1.7
 
 
 repositories {
-        
-     maven { url "http://repo.maven.apache.org/maven2" }
+    mavenCentral()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            artifactId 'tenable-io'
+        }
+    }
 }
 
 dependencies {
