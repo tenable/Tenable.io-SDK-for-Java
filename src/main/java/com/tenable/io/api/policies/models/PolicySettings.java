@@ -5,13 +5,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tenable.io.api.permissions.models.Permission;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 @JsonInclude( JsonInclude.Include.NON_DEFAULT )
 public class PolicySettings {
-    private Permission acls;
+    private List<Permission> acls;
     private String additionalSnmpPort1;
     private String additionalSnmpPort2;
     private String additionalSnmpPort3;
@@ -135,7 +138,7 @@ public class PolicySettings {
      *
      * @return the acls
      */
-    public Permission getAcls() {
+    public List<Permission> getAcls() {
         return acls;
     }
 
@@ -145,8 +148,21 @@ public class PolicySettings {
      *
      * @param acls the acls
      */
-    public void setAcls( Permission acls ) {
+    public void setAcls( List<Permission> acls ) {
         this.acls = acls;
+    }
+
+
+    /**
+     * Adds an acl to the list.
+     *
+     * @param acl the acl to add
+     */
+    public void addAcl( Permission acl ) {
+        if( acls == null )
+            acls = new ArrayList<>();
+
+        acls.add( acl );
     }
 
 
@@ -2707,7 +2723,7 @@ public class PolicySettings {
      *
      * @param acls the acls
      */
-    public void withAcls(Permission acls) {
+    public void withAcls(List<Permission> acls) {
         this.acls = acls;
     }
 

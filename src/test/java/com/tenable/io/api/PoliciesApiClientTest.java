@@ -7,6 +7,7 @@ import com.tenable.io.api.policies.models.*;
 import org.junit.Test;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.*;
 
 
@@ -192,7 +193,7 @@ public class PoliciesApiClientTest extends TestBase {
         PolicySettings settings = new PolicySettings();
         settings.setName( "testPolicy_" + java.util.UUID.randomUUID().toString().substring( 0, 6 ) );
         settings.setDescription( "test" );
-        settings.setAcls( permission );
+        settings.setAcls( Arrays.asList( new Permission[] { permission } ) );
 
         PolicyDetail create = new PolicyDetail();
         create.setCredentials( policyCredential );
