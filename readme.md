@@ -79,6 +79,8 @@ test {
             ...
             ...
 }
+```
+
 To run the tests, execute the following command from the project root
 ```sh
 $ gradle test
