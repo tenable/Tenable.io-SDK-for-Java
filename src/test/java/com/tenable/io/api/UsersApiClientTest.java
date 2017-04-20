@@ -171,12 +171,4 @@ public class UsersApiClientTest extends TestBase {
     }
 
     //TODO: add tests for twofactor
-
-
-    private User createTestUser( TenableIoClient apiClient ) throws Exception {
-        User user = apiClient.getUsersApi().create( getTestUsername( 0 ), "password#1",
-                UserRole.BASIC, "test tenable", getTestUsername( 0 ), "local" );
-
-        return user;
-    }
 }

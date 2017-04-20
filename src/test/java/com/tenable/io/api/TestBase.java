@@ -3,7 +3,9 @@ package com.tenable.io.api;
 
 import com.tenable.io.api.folders.models.Folder;
 import com.tenable.io.api.users.models.User;
+import com.tenable.io.api.users.models.UserRole;
 import com.tenable.io.core.exceptions.TenableIoException;
+import org.junit.After;
 import org.junit.Before;
 
 import java.util.HashSet;
@@ -36,6 +38,11 @@ public class TestBase {
         deleteTestData();
     }
 
+    @After
+    public void cleanupBase() throws TenableIoException {
+        deleteTestData();
+    }
+
 
     protected String getTestUsername( int number ) {
         if( getTestDomain() == null )
@@ -44,6 +51,19 @@ public class TestBase {
         String username = String.format( "%s%d@%s", testUsernameBase, number, getTestDomain() );
         testUsernames.add( username );
         return username;
+    }
+
+
+    protected User createTestUser( TenableIoClient apiClient ) throws Exception {
+        return createTestUser( apiClient, 0 );
+    }
+
+
+    protected User createTestUser( TenableIoClient apiClient, int userNumber ) throws Exception {
+        User user = apiClient.getUsersApi().create( getTestUsername( userNumber ), "password#1",
+                UserRole.BASIC, "test tenable", getTestUsername( userNumber ), "local" );
+
+        return user;
     }
 
 
