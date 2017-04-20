@@ -208,17 +208,22 @@ public class Settings {
     @JsonProperty( "rrules" )
     public String getrRules() {
         if( rRules != null ) {
-            StringBuilder result = new StringBuilder();
-            if(rRules.getFreq() != null && !rRules.getFreq().isEmpty()) {
-                result.append("FREQ=" + rRules.getFreq());
-                if(rRules.getInterval() != 0) {
-                    result.append(";INTERVAL=" + rRules.getInterval());
-                }
-                if(rRules.getByWeekDay() != null && !rRules.getByWeekDay().isEmpty()) {
-                    result.append(";BYDAY=" + rRules.getByWeekDay());
-                }
+            if(rRules.getStringValue() != null && !rRules.getStringValue().isEmpty()) {
+                return rRules.getStringValue();
             }
-            return result.toString();
+            else {
+                StringBuilder result = new StringBuilder();
+                if(rRules.getFreq() != null && !rRules.getFreq().isEmpty()) {
+                    result.append("FREQ=" + rRules.getFreq());
+                    if(rRules.getInterval() != 0) {
+                        result.append(";INTERVAL=" + rRules.getInterval());
+                    }
+                    if(rRules.getByWeekDay() != null && !rRules.getByWeekDay().isEmpty()) {
+                        result.append(";BYDAY=" + rRules.getByWeekDay());
+                    }
+                }
+                return result.toString();
+            }
         } else {
             return null;
         }
