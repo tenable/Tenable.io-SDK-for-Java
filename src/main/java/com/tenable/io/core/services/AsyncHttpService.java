@@ -191,6 +191,16 @@ public class AsyncHttpService implements AutoCloseable {
     public HttpFuture doGetDownload( URI uri, File destinationFile ) throws TenableIoException {
         HttpGet httpGet = new HttpGet( uri );
 
+        // first delete the file if it exists:
+        if( destinationFile.exists() ) {
+            try {
+                if( !destinationFile.delete() )
+                    throw new TenableIoException( TenableIoErrorCode.FileError, String.format( "Couldn't delete file %s prior to download.", destinationFile.getAbsolutePath() ) );
+            } catch( Exception e ) {
+                throw new TenableIoException( TenableIoErrorCode.FileError, String.format( "Couldn't delete file %s prior to download.", destinationFile.getAbsolutePath() ) );
+            }
+        }
+
         ZeroCopyConsumer<HttpResponse> consumer;
         try {
             consumer = new ZeroCopyConsumer<HttpResponse>( destinationFile ) {
