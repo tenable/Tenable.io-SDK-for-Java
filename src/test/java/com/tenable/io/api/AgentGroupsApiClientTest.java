@@ -48,10 +48,10 @@ public class AgentGroupsApiClientTest extends TestBase {
         List<Agent> agents = apiClient.getAgentsApi().list();
         assertNotNull( agents );
         assertTrue( agents.size() > 0 );
-        apiClient.getAgentGroupsApi().addAgent( detail.getId(), agents.get( 1 ).getId() );
+        apiClient.getAgentGroupsApi().addAgent( detail.getId(), agents.get( 0 ).getId() );
 
         //delete agent from group
-        apiClient.getAgentGroupsApi().deleteAgent( detail.getId(), agents.get( 1 ).getId() );
+        apiClient.getAgentGroupsApi().deleteAgent( detail.getId(), agents.get( 0 ).getId() );
 
         //delete agent group
         apiClient.getAgentGroupsApi().delete( createdGroup.getId() );
