@@ -29,12 +29,14 @@ import com.tenable.io.core.services.AsyncHttpService;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class TenableIoClient implements AutoCloseable {
-    private static String TENABLE_IO_SCHEME = "https";
-    private static String TENABLE_IO_HOST = "cloud.tenable.com";
+    private static String DEFAULT_TENABLE_IO_SCHEME = "https";
+    private static String DEFAULT_TENABLE_IO_HOST = "cloud.tenable.com";
     private String impersonateUsername = null;
 
     private String accessKey;
     private String secretKey;
+    private String tenableIoHost;
+    private String tenableIoScheme;
 
     private AsyncHttpService asyncHttpService;
     private UsersApi usersApi = null;
@@ -68,11 +70,25 @@ public class TenableIoClient implements AutoCloseable {
         // first check the JVM param
         accessKey = System.getProperty( "tenableIoAccessKey" );
         secretKey = System.getProperty( "tenableIoSecretKey" );
+        tenableIoScheme = System.getProperty( "tenableIoScheme" );
+        tenableIoHost = System.getProperty( "tenableIoHost" );
 
         // if not there, default to environment variables
         if( accessKey == null || secretKey == null ) {
             accessKey = System.getenv( "TENABLEIO_ACCESS_KEY" );
             secretKey = System.getenv( "TENABLEIO_SECRET_KEY" );
+        }
+
+        if( tenableIoScheme == null ) {
+            tenableIoScheme = System.getProperty( "TENABLE_IO_SCHEME" );
+            if( tenableIoScheme == null )
+                tenableIoScheme = DEFAULT_TENABLE_IO_SCHEME;
+        }
+
+        if( tenableIoHost == null ) {
+            tenableIoHost = System.getProperty( "TENABLE_IO_HOST" );
+            if( tenableIoHost == null )
+                tenableIoHost = DEFAULT_TENABLE_IO_HOST;
         }
 
         asyncHttpService = new AsyncHttpService( accessKey, secretKey );
@@ -153,7 +169,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public UsersApi getUsersApi() {
         if( usersApi == null )
-            usersApi = new UsersApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            usersApi = new UsersApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return usersApi;
     }
@@ -166,7 +182,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public ScansApi getScansApi() {
         if( scansApi == null )
-            scansApi = new ScansApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            scansApi = new ScansApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return scansApi;
     }
@@ -179,7 +195,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public FoldersApi getFoldersApi() {
         if( foldersApi == null )
-            foldersApi = new FoldersApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            foldersApi = new FoldersApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return foldersApi;
     }
@@ -192,7 +208,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public PoliciesApi getPoliciesApi() {
         if( policiesApi == null )
-            policiesApi = new PoliciesApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            policiesApi = new PoliciesApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return policiesApi;
     }
@@ -205,7 +221,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public EditorApi getEditorApi() {
         if( editorApi == null )
-            editorApi = new EditorApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            editorApi = new EditorApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return editorApi;
     }
@@ -218,7 +234,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public FileApi getFileApi() {
         if( fileApi == null )
-            fileApi = new FileApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            fileApi = new FileApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return fileApi;
     }
@@ -231,7 +247,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public FiltersApi getFiltersApi() {
         if( filtersApi == null )
-            filtersApi = new FiltersApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            filtersApi = new FiltersApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return filtersApi;
     }
@@ -244,7 +260,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public PluginsApi getPluginsApi() {
         if( pluginsApi == null )
-            pluginsApi = new PluginsApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            pluginsApi = new PluginsApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return pluginsApi;
     }
@@ -257,7 +273,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public GroupsApi getUserGroupsApi() {
         if( userGroupsApi == null )
-            userGroupsApi = new GroupsApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            userGroupsApi = new GroupsApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return userGroupsApi;
     }
@@ -270,7 +286,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public ScannerGroupsApi getScannerGroupsApi() {
         if( scannerGroupsApi == null )
-            scannerGroupsApi = new ScannerGroupsApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            scannerGroupsApi = new ScannerGroupsApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return scannerGroupsApi;
     }
@@ -283,7 +299,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public ScannersApi getScannersApi() {
         if( scannersApi == null )
-            scannersApi = new ScannersApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            scannersApi = new ScannersApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return scannersApi;
     }
@@ -296,7 +312,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public ExclusionsApi getExclusionsApi() {
         if( exclusionsApi == null )
-            exclusionsApi = new ExclusionsApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            exclusionsApi = new ExclusionsApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return exclusionsApi;
     }
@@ -309,7 +325,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public AgentsApi getAgentsApi() {
         if( agentsApi == null )
-            agentsApi = new AgentsApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            agentsApi = new AgentsApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return agentsApi;
     }
@@ -322,7 +338,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public AgentGroupsApi getAgentGroupsApi() {
         if( agentGroupsApi == null )
-            agentGroupsApi = new AgentGroupsApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            agentGroupsApi = new AgentGroupsApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return agentGroupsApi;
     }
@@ -335,7 +351,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public AssetListsApi getAssetListsApi() {
         if( assetListsApi == null )
-            assetListsApi = new AssetListsApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            assetListsApi = new AssetListsApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return assetListsApi;
     }
@@ -348,7 +364,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public PermissionsApi getPermissionsApi() {
         if( permissionsApi == null )
-            permissionsApi = new PermissionsApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            permissionsApi = new PermissionsApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return permissionsApi;
     }
@@ -361,7 +377,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public ServerApi getServerApi() {
         if( serverApi == null )
-            serverApi = new ServerApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            serverApi = new ServerApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return serverApi;
     }
@@ -374,7 +390,7 @@ public class TenableIoClient implements AutoCloseable {
      */
     synchronized public WorkbenchesApi getWorkbenchesApi() {
         if( workbenchesApi == null )
-            workbenchesApi = new WorkbenchesApi( asyncHttpService, TENABLE_IO_SCHEME, TENABLE_IO_HOST );
+            workbenchesApi = new WorkbenchesApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return workbenchesApi;
     }
@@ -416,5 +432,14 @@ public class TenableIoClient implements AutoCloseable {
             folderHelper = new FolderHelper( this );
 
         return folderHelper;
+    }
+
+
+    private String getTenableIoHost() {
+        return tenableIoHost;
+    }
+
+    private String getTenableIoScheme() {
+        return tenableIoScheme;
     }
 }

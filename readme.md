@@ -16,6 +16,8 @@ TenableIoClient client = new TenableIoClient();
 ```
 Other environment variables:
 * `TENABLEIO_EXPORT_DIRECTORY`: path to a folder that will be used to export temporary files. If not specified, the default OS "temp" folder will be used. See also JVM property `tenableIoExportDirectory`.
+* `TENABLE_IO_SCHEME`: Optional. Tenable IO base API URL scheme, either `http` or `https`. Defaults to `https`.
+* `TENABLE_IO_HOST`: Optional. Tenable IO base API URL hostname. Defaults to `cloud.tenable.com`.
 
 #### JVM system properties
 TenableIoClient looks for the JVM system properties `tenableIoAccessKey` and `tenableIoSecretKey`. They are set like any other JVM system properties, with the `-D` command line option, for isntance:
@@ -29,6 +31,8 @@ TenableIoClient client = new TenableIoClient();
 
 Other JVM system properties:
 * `tenableIoExportDirectory`: path to a folder that will be used to export temporary files. If not specified, the default OS "temp" folder will be used. See also environment variable `TENABLEIO_EXPORT_DIRECTORY`.
+* `tenableIoScheme`: Optional. Tenable IO base API URL scheme, either `http` or `https`. Defaults to `https`.
+* `tenableIoHost`: Optional. Tenable IO base API URL hostname. Defaults to `cloud.tenable.com`.
 
 NOTE: The JVM system properties have priority over the environment variables.
 
@@ -66,6 +70,9 @@ test {
     jvmArgs "-DscanTemplateName=discovery"
     // Name of template to create a policy with.
     jvmArgs "-DpolicyTemplateName=discovery"
+    // Optional, Tenable IO base API URL scheme and hostname
+    jvmArgs "-DtenableIoScheme=https"
+    jvmArgs "-DtenableIoHost=cloud.tenable.com"
 }
 ```
 
