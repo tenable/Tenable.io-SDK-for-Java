@@ -4,6 +4,7 @@ package com.tenable.io.api;
 import com.tenable.io.api.permissions.models.Permission;
 
 import com.tenable.io.api.policies.models.*;
+import com.tenable.io.api.users.models.User;
 import org.junit.Test;
 
 import java.io.File;
@@ -31,6 +32,8 @@ public class PoliciesApiClientTest extends TestBase {
     @Test
     public void testCreateAndDelete() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
+        // makes sure user exists
+        User user = createTestUser( apiClient, 0 );
         PolicyCreateResponse response = apiClient.getPoliciesApi().create( CreateTestPolicy() );
         assertNotNull( response );
         assertTrue( response.getPolicyId() > 0 );
@@ -42,6 +45,8 @@ public class PoliciesApiClientTest extends TestBase {
     @Test
     public void testCreateAndCopyAndDelete() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
+        // makes sure user exists
+        User user = createTestUser( apiClient, 0 );
         PolicyCreateResponse response = apiClient.getPoliciesApi().create( CreateTestPolicy() );
         assertNotNull( response );
         assertTrue( response.getPolicyId() > 0 );
@@ -59,6 +64,8 @@ public class PoliciesApiClientTest extends TestBase {
     public void testDetails() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
 
+        // makes sure user exists
+        User user = createTestUser( apiClient, 0 );
         PolicyCreateResponse response = apiClient.getPoliciesApi().create( CreateTestPolicy() );
         assertNotNull( response );
         assertTrue( response.getPolicyId() > 0 );
@@ -76,6 +83,8 @@ public class PoliciesApiClientTest extends TestBase {
     public void testConfigure() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
 
+        // makes sure user exists
+        User user = createTestUser( apiClient, 0 );
         //create
         PolicyCreateResponse response = apiClient.getPoliciesApi().create( CreateTestPolicy() );
         assertNotNull( response );
@@ -102,12 +111,22 @@ public class PoliciesApiClientTest extends TestBase {
     @Test
     public void testExportPolicy() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
-        List<Policy> result = apiClient.getPoliciesApi().list();
-        assertNotNull( result );
-        assertTrue( result.size() > 0 );
+
+        // makes sure user exists
+        User user = createTestUser( apiClient, 0 );
+        //makes sure we have at least one policy
+        PolicyCreateResponse response = apiClient.getPoliciesApi().create( CreateTestPolicy() );
+        assertNotNull( response );
+        assertTrue( response.getPolicyId() > 0 );
+
+//        List<Policy> result = apiClient.getPoliciesApi().list();
+//        assertNotNull( result );
+//        assertTrue( result.size() > 0 );
 
         File export = new File( "src/test/resources/test.txt" );
-        apiClient.getPoliciesApi().export( result.get( 0 ).getId(), export );
+        apiClient.getPoliciesApi().export( response.getPolicyId(), export );
+
+        apiClient.getPoliciesApi().delete( response.getPolicyId() );
 
         //verify file downloaded
         assertTrue( export.exists() );
