@@ -35,9 +35,7 @@ public class ScanRef implements RunnableScan, RunningScan {
     public ScanRef( TenableIoClient client, int id ) {
         this.client = client;
         this.id = id;
-        this.scheduleUuid = null;
-        this.scanUuid = null;
-        this.historyIdToUuidLookup = null;
+        clearScanUuids();
     }
 
 
@@ -199,6 +197,7 @@ public class ScanRef implements RunnableScan, RunningScan {
         if( !this.isStopped() ) {
             throw new TenableIoException( TenableIoErrorCode.Generic, "Scan is currently running or cannot be launched." );
         }
+        clearScanUuids();
         this.client.getScansApi().launch( this.id, null );
         while( getStatus() == ScanStatus.PENDING ) {
             try {
@@ -221,6 +220,7 @@ public class ScanRef implements RunnableScan, RunningScan {
         if( !this.isStopped() ) {
             throw new TenableIoException( TenableIoErrorCode.Generic, "Scan is currently running or cannot be launched." );
         }
+        clearScanUuids();
         this.client.getScansApi().launch( this.id, null );
         if( wait ) {
             while( getStatus() == ScanStatus.PENDING ) {
@@ -244,6 +244,8 @@ public class ScanRef implements RunnableScan, RunningScan {
      * @throws TenableIoException the Tenable IO exception
      */
     public RunningScan launch( Date startTime, String timeZone, String targets ) throws TenableIoException {
+        clearScanUuids();
+
         Settings scanSettings = new Settings();
         SimpleDateFormat sdf1 = new SimpleDateFormat( "yyyyMMdd'T'HHmmss" );
         String start = sdf1.format( startTime );
@@ -561,5 +563,12 @@ public class ScanRef implements RunnableScan, RunningScan {
      */
     public boolean isStopped( int historyId ) throws TenableIoException {
         return client.getScanHelper().STATUSES_STOPPED.contains( getStatus( historyId ) );
+    }
+
+
+    private void clearScanUuids() {
+        this.scheduleUuid = null;
+        this.scanUuid = null;
+        this.historyIdToUuidLookup = null;
     }
 }
