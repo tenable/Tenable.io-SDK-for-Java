@@ -27,15 +27,14 @@ public class WorkbenchesApiClientTest extends TestBase {
         TenableIoClient apiClient = new TenableIoClient();
 
         List<ScanVulnerability> result = apiClient.getWorkbenchesApi().vulnerabilities( new ExtendedFilteringOptions() );
-        if(result != null) {
-            assertTrue(result.size() > 0);
+        if(result != null && result.size() > 0) {
             assertNotNull(result.get(0));
             assertTrue(result.get(0).getPluginId() > 0);
             assertTrue(result.get(0).getSeverity() > 0);
         }
 
         result = apiClient.getWorkbenchesApi().vulnerabilities( new ExtendedFilteringOptions().withSeverity( SeverityLevel.CRITICAL ) );
-        if(result != null) {
+        if(result != null && result.size() > 0) {
             assertTrue(result.size() > 0);
             assertNotNull(result.get(0));
             assertTrue(result.get(0).getPluginId() > 0);
