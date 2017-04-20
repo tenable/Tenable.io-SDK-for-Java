@@ -29,9 +29,7 @@ public class ServerApiClientTest extends TestBase {
         assertTrue( properties.getCapabilities().isMultiScanner() );
         assertTrue( properties.getCapabilities().isReportEmailConfig() );
         assertNotNull( properties.getLicense() );
-        assertTrue( properties.getLicense().getUsers() == 20 );
-        assertTrue( properties.getIdleTimeout() == 30 );
-
-
+        assertTrue( properties.getLicense().getUsers() > 0 );
+        assertTrue( properties.getIdleTimeout() > 0 );
     }
 }
