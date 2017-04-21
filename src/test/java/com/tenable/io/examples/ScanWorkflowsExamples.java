@@ -5,11 +5,13 @@ import com.tenable.io.api.TenableIoClient;
 
 import com.tenable.io.api.TestBase;
 import com.tenable.io.api.folders.FolderRef;
+import com.tenable.io.api.scanners.models.ScanDetail;
 import com.tenable.io.api.scans.ScanRef;
 import com.tenable.io.api.scans.interfaces.RunnableScan;
 import com.tenable.io.api.scans.interfaces.ScanBaseOp;
 import com.tenable.io.api.scans.models.FileFormat;
 import com.tenable.io.api.scans.models.History;
+import com.tenable.io.api.scans.models.ScanDetails;
 import com.tenable.io.api.scans.models.ScanStatus;
 import com.tenable.io.core.exceptions.TenableIoErrorCode;
 import com.tenable.io.core.exceptions.TenableIoException;
@@ -17,6 +19,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -122,6 +125,19 @@ public class ScanWorkflowsExamples extends TestBase {
         //Note: Use with caution as this will stop all ongoing scans (including any automated test).
         //client.getScanHelper().stopAll();
 
+    }
+
+
+    @Test
+    public void testRecentlyRunScans() throws Exception {
+        TenableIoClient client = new TenableIoClient();
+        List<ScanDetails> scans = client.getScanHelper().getRecentlyRunScans( Arrays.asList( new String[] { "localhost", "127.0.0.1" } ), 30 );
+        if( scans != null && scans.size() > 0 ) {
+            for( ScanDetails scanDetails : scans ) {
+                String targets = scanDetails.getInfo().getTargets().toLowerCase();
+                assert( targets.indexOf( "localhost" ) != -1 || targets.indexOf( "127.0.0.1" ) != -1 );
+            }
+        }
     }
 
 

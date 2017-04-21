@@ -6,20 +6,27 @@ import com.tenable.io.api.editors.EditorApi;
 import com.tenable.io.api.editors.models.Template;
 import com.tenable.io.api.editors.models.TemplateType;
 import com.tenable.io.api.folders.FolderRef;
+import com.tenable.io.api.scanners.models.ScanDetail;
 import com.tenable.io.api.scans.interfaces.RunnableScan;
 import com.tenable.io.core.exceptions.TenableIoException;
 import com.tenable.io.core.exceptions.TenableIoErrorCode;
 import com.tenable.io.api.scans.models.*;
+import com.tenable.io.core.utilities.IpAddressHelper;
+import com.tenable.io.core.utilities.IpRangeHelper;
+import com.tenable.io.core.utilities.TargetsHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class ScanHelper {
+    private static final long MILLISEC_IN_A_DAY = 3600L * 24L * 1000L;
     private static Logger logger = LoggerFactory.getLogger( ScanHelper.class );
 
     /**
@@ -291,6 +298,44 @@ public class ScanHelper {
                 }
             }
         }
+    }
+
+
+    /**
+     * Gets recently run scans details for the given asset(s).
+     *
+     * @param targetList       asset(s) hostname(s) or IP(s) or both
+     * @param startingFromDays the number of days to gather the assets from (to today)
+     * @return the recently run scans
+     * @throws TenableIoException the tenable io exception
+     */
+    public List<ScanDetails> getRecentlyRunScans( List<String> targetList, int startingFromDays ) throws TenableIoException {
+        ScansApi scanApi = client.getScansApi();
+
+        ScanListResult scans = scanApi.listSince( (int)( ( System.currentTimeMillis() - (long)startingFromDays * MILLISEC_IN_A_DAY ) / 1000L ) );
+        logger.debug( String.format( "Found %d scans.", scans.getScans() != null ? scans.getScans().size() : 0 ) );
+
+        List<ScanDetails> result = new ArrayList<>();
+        if( scans.getScans() != null ) {
+            //targets=54.85.57.36/31,54.85.57.38-54.85.57.40,dev.beautystreams.com
+            for( Scan scan : scans.getScans() ) {
+                ScanDetails details = scanApi.details( scan.getId() );
+                for( History history : details.getHistories() ) {
+                    ScanDetails historyDetails = scanApi.details( scan.getId(), history.getHistoryId() );
+
+                    if( historyDetails.getInfo().getTargets() != null ) {
+                        TargetsHelper targetsHelper = new TargetsHelper( historyDetails.getInfo().getTargets() );
+                        for( String target : targetList ) {
+                            if( targetsHelper.isTarget( target ) ) {
+                                result.add( historyDetails );
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result;
     }
 
 
