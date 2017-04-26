@@ -10,7 +10,7 @@ TenableIoClient client = new TenableIoClient( 'YOUR_ACCESS_KEY', 'YOUR_SECRET_KE
 ```
 
 #### Environment Variables
-TenableIoClient looks for the environment variables `TENABLEIO_ACCESS_KEY` and `TENABLEIO_SECRET_KEY`. When defined, the TenableIoClient` can be created without parameters:
+TenableIoClient looks for the environment variables `TENABLEIO_ACCESS_KEY` and `TENABLEIO_SECRET_KEY`. When defined, the `TenableIoClient` can be created without parameters:
 ```java
 TenableIoClient client = new TenableIoClient();
 ```
@@ -24,7 +24,7 @@ TenableIoClient looks for the JVM system properties `tenableIoAccessKey` and `te
 ```aidl
 java -DtenableIoAccessKey=<YOUR ACCESS KEY> -DtenableIoSecretKey=<YOUR SECRET KEY>
 ```
-When defined, the TenableIoClient` can be created without parameters:
+When defined, the `TenableIoClient` can be created without parameters:
 ```java
 TenableIoClient client = new TenableIoClient();
 ```
