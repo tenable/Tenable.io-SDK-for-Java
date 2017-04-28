@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tenable.io.api.ApiWrapperBase;
 import com.tenable.io.api.scannerGroups.models.ScannerGroup;
+import com.tenable.io.api.scannerGroups.models.ScannerGroupType;
 import com.tenable.io.api.scanners.models.Scanner;
 import com.tenable.io.core.exceptions.TenableIoException;
 import com.tenable.io.core.services.AsyncHttpService;
@@ -47,13 +48,13 @@ public class ScannerGroupsApi extends ApiWrapperBase {
      *
      * @param name The name for the new scanner group.
      * @param type The type of scanner group.
+     * @return the newly created scanner group
      * @throws TenableIoException the tenable IO exception
      */
-    public void create( String name, String type ) throws TenableIoException {
+    public ScannerGroup create( String name, ScannerGroupType type ) throws TenableIoException {
         ScannerCreateRequest request = new ScannerCreateRequest().withName( name ).withType( type );
-        HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scanner-groups" ).build(),
-                request );
-        httpFuture.get();
+        HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scanner-groups" ).build(), request );
+        return httpFuture.getAsType( ScannerGroup.class );
     }
 
 
@@ -64,8 +65,7 @@ public class ScannerGroupsApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void delete( int groupId ) throws TenableIoException {
-        HttpFuture httpFuture = asyncHttpService.doDelete( createBaseUriBuilder( "/scanner-groups/" +
-                groupId ).build() );
+        HttpFuture httpFuture = asyncHttpService.doDelete( createBaseUriBuilder( "/scanner-groups/" + groupId ).build() );
         httpFuture.get();
     }
 
@@ -78,8 +78,7 @@ public class ScannerGroupsApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public ScannerGroup details( int groupId ) throws TenableIoException {
-        HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scanner-groups/" +
-                groupId ).build() );
+        HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scanner-groups/" + groupId ).build() );
         return httpFuture.getAsType( ScannerGroup.class );
     }
 
@@ -93,8 +92,7 @@ public class ScannerGroupsApi extends ApiWrapperBase {
      */
     public void edit( int groupId, String name ) throws TenableIoException {
         ScannerEditRequest request = new ScannerEditRequest().withName( name );
-        HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/scanner-groups/" + groupId ).build(),
-                request );
+        HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/scanner-groups/" + groupId ).build(), request );
         httpFuture.get();
     }
 
@@ -107,8 +105,7 @@ public class ScannerGroupsApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void addScanner( int groupId, int scannerId ) throws TenableIoException {
-        HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scanner-groups/" + groupId +
-                "/scanners/" + scannerId ).build(), new ScannerGroupRequest() );
+        HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scanner-groups/" + groupId + "/scanners/" + scannerId ).build(), new ScannerGroupRequest() );
         httpFuture.get();
     }
 
@@ -121,8 +118,7 @@ public class ScannerGroupsApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void deleteScanner( int groupId, int scannerId ) throws TenableIoException {
-        HttpFuture httpFuture = asyncHttpService.doDelete( createBaseUriBuilder( "/scanner-groups/" + groupId +
-                "/scanners/" + scannerId ).build() );
+        HttpFuture httpFuture = asyncHttpService.doDelete( createBaseUriBuilder( "/scanner-groups/" + groupId + "/scanners/" + scannerId ).build() );
         httpFuture.get();
     }
 
@@ -142,7 +138,7 @@ public class ScannerGroupsApi extends ApiWrapperBase {
 
     private class ScannerCreateRequest {
         private String name;
-        private String type;
+        private ScannerGroupType type;
 
 
         /**
@@ -181,7 +177,7 @@ public class ScannerGroupsApi extends ApiWrapperBase {
          *
          * @return the type
          */
-        public String getType() {
+        public ScannerGroupType getType() {
             return type;
         }
 
@@ -191,7 +187,7 @@ public class ScannerGroupsApi extends ApiWrapperBase {
          *
          * @param type the type
          */
-        public void setType( String type ) {
+        public void setType( ScannerGroupType type ) {
             this.type = type;
         }
 
@@ -201,7 +197,7 @@ public class ScannerGroupsApi extends ApiWrapperBase {
          *
          * @param type the type
          */
-        public ScannerCreateRequest withType( String type ) {
+        public ScannerCreateRequest withType( ScannerGroupType type ) {
             this.type = type;
             return this;
         }

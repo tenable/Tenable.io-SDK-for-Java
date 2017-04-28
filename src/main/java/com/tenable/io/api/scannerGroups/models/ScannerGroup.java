@@ -16,7 +16,7 @@ public class ScannerGroup {
     private int ownerId;
     private String scannerCount;
     private int shared;
-    private String type;
+    private ScannerGroupType type;
     private int userPermissions;
     private String uuid;
     private String token;
@@ -199,7 +199,7 @@ public class ScannerGroup {
      *
      * @return the type of scanner group. This is set to "load_balancing" by default.
      */
-    public String getType() {
+    public ScannerGroupType getType() {
         return type;
     }
 
@@ -209,7 +209,7 @@ public class ScannerGroup {
      *
      * @param type the type of scanner group. This is set to "load_balancing" by default.
      */
-    public void setType( String type ) {
+    public void setType( ScannerGroupType type ) {
         this.type = type;
     }
 
