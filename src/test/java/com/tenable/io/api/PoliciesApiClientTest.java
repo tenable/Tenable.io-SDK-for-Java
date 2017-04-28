@@ -5,6 +5,9 @@ import com.tenable.io.api.permissions.models.Permission;
 
 import com.tenable.io.api.policies.models.*;
 import com.tenable.io.api.users.models.User;
+import com.tenable.io.core.exceptions.TenableIoException;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -19,7 +22,6 @@ import static org.junit.Assert.*;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class PoliciesApiClientTest extends TestBase {
-
     @Test
     public void testList() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
@@ -34,7 +36,7 @@ public class PoliciesApiClientTest extends TestBase {
         TenableIoClient apiClient = new TenableIoClient();
         // makes sure user exists
         User user = createTestUser( apiClient, 0 );
-        PolicyCreateResponse response = apiClient.getPoliciesApi().create( CreateTestPolicy() );
+        PolicyCreateResponse response = createPolicy( apiClient, user );
         assertNotNull( response );
         assertTrue( response.getPolicyId() > 0 );
 
@@ -47,7 +49,7 @@ public class PoliciesApiClientTest extends TestBase {
         TenableIoClient apiClient = new TenableIoClient();
         // makes sure user exists
         User user = createTestUser( apiClient, 0 );
-        PolicyCreateResponse response = apiClient.getPoliciesApi().create( CreateTestPolicy() );
+        PolicyCreateResponse response = createPolicy( apiClient, user );
         assertNotNull( response );
         assertTrue( response.getPolicyId() > 0 );
 
@@ -66,7 +68,7 @@ public class PoliciesApiClientTest extends TestBase {
 
         // makes sure user exists
         User user = createTestUser( apiClient, 0 );
-        PolicyCreateResponse response = apiClient.getPoliciesApi().create( CreateTestPolicy() );
+        PolicyCreateResponse response = createPolicy( apiClient, user );
         assertNotNull( response );
         assertTrue( response.getPolicyId() > 0 );
 
@@ -86,7 +88,7 @@ public class PoliciesApiClientTest extends TestBase {
         // makes sure user exists
         User user = createTestUser( apiClient, 0 );
         //create
-        PolicyCreateResponse response = apiClient.getPoliciesApi().create( CreateTestPolicy() );
+        PolicyCreateResponse response = createPolicy( apiClient, user );
         assertNotNull( response );
         assertTrue( response.getPolicyId() > 0 );
 
@@ -115,7 +117,7 @@ public class PoliciesApiClientTest extends TestBase {
         // makes sure user exists
         User user = createTestUser( apiClient, 0 );
         //makes sure we have at least one policy
-        PolicyCreateResponse response = apiClient.getPoliciesApi().create( CreateTestPolicy() );
+        PolicyCreateResponse response = createPolicy( apiClient, user );
         assertNotNull( response );
         assertTrue( response.getPolicyId() > 0 );
 
@@ -146,7 +148,14 @@ public class PoliciesApiClientTest extends TestBase {
     }
 
 
-    private PolicyDetail CreateTestPolicy() {
+    PolicyCreateResponse createPolicy( TenableIoClient apiClient, User user ) throws TenableIoException {
+        PolicyCreateResponse response = apiClient.getPoliciesApi().create( CreateTestPolicy( user ) );
+        assertNotNull( response );
+        return response;
+    }
+
+
+    private PolicyDetail CreateTestPolicy( User user ) {
         //credentials
         PolicyCredentials policyCredential = new PolicyCredentials();
         Map<String, Map<String, List<Map<String, String>>>> addCredential = new HashMap<>();
@@ -202,15 +211,15 @@ public class PoliciesApiClientTest extends TestBase {
 
         //permissions
         Permission permission = new Permission()
-        .withId( 7 )
-        .withName( getTestUsername( 0 ) )
-        .withOwner( 1 )
+        .withId( user.getId() )
+        .withName( user.getName() )
+        .withOwner( user.getId() )
         .withType( "user" )
         .withPermissions( 128 );
 
         //settings
         PolicySettings settings = new PolicySettings();
-        settings.setName( "testPolicy_" + java.util.UUID.randomUUID().toString().substring( 0, 6 ) );
+        settings.setName( getNewTestPolicyName() );
         settings.setDescription( "test" );
         settings.setAcls( Arrays.asList( new Permission[] { permission } ) );
 
@@ -226,5 +235,11 @@ public class PoliciesApiClientTest extends TestBase {
         return create;
     }
 
+    @Before
+    @After
+    public void cleanup() throws TenableIoException {
+        TenableIoClient apiClient = new TenableIoClient();
 
+        deleteTestPolicies( apiClient );
+    }
 }

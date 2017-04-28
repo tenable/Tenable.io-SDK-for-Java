@@ -4,10 +4,16 @@ package com.tenable.io.api;
 import com.tenable.io.api.agentGroups.models.AgentGroup;
 import com.tenable.io.api.agents.models.Agent;
 import com.tenable.io.api.scanners.models.Scanner;
+import com.tenable.io.core.exceptions.TenableIoException;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import static com.tenable.io.api.TestBase.TEST_AGENT_GROUP_NAME_PREFIX;
 import static org.junit.Assert.*;
 
 
@@ -18,13 +24,14 @@ public class AgentGroupsApiClientTest extends TestBase {
     @Test
     public void testAgentGroups() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
-        String testName = "MyGroup_" + java.util.UUID.randomUUID().toString().substring( 0, 6 );
-        String testName2 = "MyGroup_" + java.util.UUID.randomUUID().toString().substring( 0, 6 );
+        String testName =  getNewTestAgentGroupName();
+        String testName2 = getNewTestAgentGroupName();
 
         List<Scanner> scanners = apiClient.getScannersApi().list();
 
         //create new agent group
         AgentGroup createdGroup = apiClient.getAgentGroupsApi().create( testName );
+        assertNotNull( createdGroup );
 
         //list and verify group is created
         List<AgentGroup> groups = apiClient.getAgentGroupsApi().list();
@@ -55,6 +62,14 @@ public class AgentGroupsApiClientTest extends TestBase {
 
         //delete agent group
         apiClient.getAgentGroupsApi().delete( createdGroup.getId() );
+    }
 
+
+    @Before
+    @After
+    public void cleanup() throws TenableIoException {
+        TenableIoClient apiClient = new TenableIoClient();
+
+        deleteTestAgentGroups( apiClient );
     }
 }

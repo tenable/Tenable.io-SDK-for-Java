@@ -5,16 +5,16 @@ import com.tenable.io.api.TenableIoClient;
 
 import com.tenable.io.api.TestBase;
 import com.tenable.io.api.folders.FolderRef;
+import com.tenable.io.api.folders.models.Folder;
 import com.tenable.io.api.scanners.models.ScanDetail;
 import com.tenable.io.api.scans.ScanRef;
 import com.tenable.io.api.scans.interfaces.RunnableScan;
 import com.tenable.io.api.scans.interfaces.ScanBaseOp;
-import com.tenable.io.api.scans.models.FileFormat;
-import com.tenable.io.api.scans.models.History;
-import com.tenable.io.api.scans.models.ScanDetails;
-import com.tenable.io.api.scans.models.ScanStatus;
+import com.tenable.io.api.scans.models.*;
 import com.tenable.io.core.exceptions.TenableIoErrorCode;
 import com.tenable.io.core.exceptions.TenableIoException;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -30,15 +30,14 @@ import static org.junit.Assert.*;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class ScanWorkflowsExamples extends TestBase {
-
     @Test
     public void testScanWorkflows() throws Exception {
-        String scanName = "testScan";
+        String scanName = getNewTestScanName();
 
         TenableIoClient client = new TenableIoClient();
 
         //Create a scan.
-        RunnableScan scan = client.getScanHelper().createScan( scanName, getTestDomain(), getScanTemplateName() );
+        RunnableScan scan = client.getScanHelper().createScan( scanName, getScanTextTargets(), getScanTemplateName() );
         assertNotNull( scan );
         assertTrue( scanName.equals( scan.getName() ) );
 
@@ -143,7 +142,7 @@ public class ScanWorkflowsExamples extends TestBase {
 
     @Test
     public void testFolderWorkflows() throws Exception {
-        String scanName = "testScan";
+        String scanName = getNewTestScanName();
 
         // Instantiate an instance of the NessusClient.
         //TenableIoClient apiClient = new TenableIoClient( "Your access key", "Your secret key" );
@@ -152,13 +151,14 @@ public class ScanWorkflowsExamples extends TestBase {
         TenableIoClient client = new TenableIoClient();
 
         //create a folder
+        String testFolderName = getNewTestFolderName();
         FolderRef folder = client.getFolderHelper().create( testFolderName );
         assertTrue( folder.name().equals( testFolderName ) );
         assertTrue( folder.type().equals( client.getFolderHelper().TYPE_CUSTOM ) );
         assertNotNull( folder.info() );
 
         //create a scan
-        RunnableScan scan = client.getScanHelper().createScan( scanName, getTestDomain(), getScanTemplateName() );
+        RunnableScan scan = client.getScanHelper().createScan( scanName, getScanTextTargets(), getScanTemplateName() );
 
         //move scan to new folder
         assertTrue( folder.getId() != scan.getFolder().getId() );
@@ -201,5 +201,15 @@ public class ScanWorkflowsExamples extends TestBase {
 
         folder.delete();
         assertNull( client.getFolderHelper().id( folder.getId() ) );
+    }
+
+
+    @Before
+    @After
+    public void cleanup() throws TenableIoException {
+        TenableIoClient apiClient = new TenableIoClient();
+
+        deleteTestScans( apiClient );
+        deleteTestFolders( apiClient );
     }
 }

@@ -1,12 +1,15 @@
 package com.tenable.io.api;
 
 
+import com.tenable.io.api.folders.models.Folder;
 import com.tenable.io.api.permissions.models.Permission;
 import com.tenable.io.api.policies.models.Policy;
 import com.tenable.io.api.scanners.models.Scanner;
 import com.tenable.io.api.scans.models.*;
 import com.tenable.io.core.exceptions.TenableIoException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -45,7 +48,7 @@ public class ScansApiClientTest extends TestBase {
     @Test
     public void testCreateAndLaunch() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
-        int folderId = apiClient.getFoldersApi().create( "Folder_" + java.util.UUID.randomUUID().toString().substring( 0, 6 ) );
+        int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
         ScanResult result = createScan( apiClient, folderId );
 
         //launch the scan
@@ -64,7 +67,7 @@ public class ScansApiClientTest extends TestBase {
     @Test
     public void testPauseAndResume() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
-        int folderId = apiClient.getFoldersApi().create( "Folder_" + java.util.UUID.randomUUID().toString().substring( 0, 6 ) );
+        int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
         ScanResult result = createScan( apiClient, folderId );
 
         //launch the scan
@@ -93,7 +96,7 @@ public class ScansApiClientTest extends TestBase {
     @Test
     public void testStopAndCancel() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
-        int folderId = apiClient.getFoldersApi().create( "Folder_" + java.util.UUID.randomUUID().toString().substring( 0, 6 ) );
+        int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
         ScanResult result = createScan( apiClient, folderId );
 
         //launch the scan
@@ -115,11 +118,11 @@ public class ScansApiClientTest extends TestBase {
     @Test
     public void testSchedule() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
-        int folderId = apiClient.getFoldersApi().create( "Folder_" + java.util.UUID.randomUUID().toString().substring( 0, 6 ) );
+        int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
         ScanResult result = createScan( apiClient, folderId );
 
         Settings scanSettings = new Settings();
-        scanSettings.setName( "newName" );
+        scanSettings.setName( getNewTestScanName() );
         scanSettings.setDescription( "new description" );
         scanSettings.setFolderId( folderId );
         scanSettings.setEnabled( false );
@@ -176,11 +179,11 @@ public class ScansApiClientTest extends TestBase {
     @Test
     public void testCopyScan() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
-        int folderId = apiClient.getFoldersApi().create( "Folder_" + java.util.UUID.randomUUID().toString().substring( 0, 6 ) );
+        int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
         ScanResult newScan = createScan( apiClient, folderId );
         assertNotNull( newScan );
         //copy scan
-        String copyName = "test_copy" + java.util.UUID.randomUUID().toString().substring( 0, 6 );
+        String copyName = getNewTestScanName();
         Scan copiedScan = apiClient.getScansApi().copy( newScan.getId(), folderId, copyName );
         assertNotNull( copiedScan );
         assertTrue( copiedScan.getName().equals( copyName ) );
@@ -206,7 +209,7 @@ public class ScansApiClientTest extends TestBase {
     @Test
     public void testConfigure() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
-        int folderId = apiClient.getFoldersApi().create( "Folder_" + java.util.UUID.randomUUID().toString().substring( 0, 6 ) );
+        int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
         ScanResult newScan = createScan( apiClient, folderId );
         assertNotNull( newScan );
         //configure
@@ -268,7 +271,7 @@ public class ScansApiClientTest extends TestBase {
     @Test
     public void testDeleteHistory() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
-        int folderId = apiClient.getFoldersApi().create( "Folder_" + java.util.UUID.randomUUID().toString().substring( 0, 6 ) );
+        int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
         ScanResult newScan = createScan( apiClient, folderId );
         assertNotNull( newScan );
 
@@ -310,7 +313,7 @@ public class ScansApiClientTest extends TestBase {
         Settings settings = new Settings();
         settings.setEnabled( true );
         settings.setTextTargets(  getScanTextTargets() );
-        String scanName = "Test_" + java.util.UUID.randomUUID().toString().substring( 0, 6 );
+        String scanName = getNewTestScanName();
         settings.setName( scanName );
         settings.setDescription( "scan description" );
         settings.setFolderId( folderId );
@@ -346,4 +349,13 @@ public class ScansApiClientTest extends TestBase {
         return policies.get( index ).getId();
     }
 
+
+    @Before
+    @After
+    public void cleanup() throws TenableIoException {
+        TenableIoClient apiClient = new TenableIoClient();
+
+        deleteTestScans( apiClient );
+        deleteTestFolders( apiClient );
+    }
 }

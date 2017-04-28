@@ -18,10 +18,6 @@ import static org.junit.Assert.*;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class GroupsApiClientTest extends TestBase {
-
-    private static final String[] testGroupsNames = { "MyGroupUnitTest", "MyGroupUnitTestNew" } ;
-
-
     @Before
     public void preChecks() throws TenableIoException {
         deleteTestData();
@@ -32,7 +28,8 @@ public class GroupsApiClientTest extends TestBase {
     public void testGroup() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
         //create new group
-        apiClient.getUserGroupsApi().create( testGroupsNames[0] );
+        String testGroupsName = getNewTestGroupName();
+        apiClient.getUserGroupsApi().create( testGroupsName );
 
         //get list of groups
         List<Group> result = apiClient.getUserGroupsApi().list();
@@ -43,7 +40,7 @@ public class GroupsApiClientTest extends TestBase {
         //get my created group
         Group myGroup = null;
         for( Group group : result ) {
-            if( group.getName().equals( testGroupsNames[0] ) ) {
+            if( group.getName().equals( testGroupsName ) ) {
                 myGroup = group;
                 break;
             }
@@ -100,7 +97,8 @@ public class GroupsApiClientTest extends TestBase {
     public void testGroupEdit() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
         //create new group
-        apiClient.getUserGroupsApi().create( testGroupsNames[0] );
+        String testGroupsName = getNewTestGroupName();
+        apiClient.getUserGroupsApi().create( testGroupsName );
 
         //get list of groups
         List<Group> result = apiClient.getUserGroupsApi().list();
@@ -111,7 +109,7 @@ public class GroupsApiClientTest extends TestBase {
         //get my created group
         Group myGroup = null;
         for( Group group : result ) {
-            if( group.getName().equals( testGroupsNames[0] ) ) {
+            if( group.getName().equals( testGroupsName ) ) {
                 myGroup = group;
                 break;
             }
@@ -119,7 +117,8 @@ public class GroupsApiClientTest extends TestBase {
         assertNotNull( myGroup );
 
         //edit Group name
-        apiClient.getUserGroupsApi().edit( myGroup.getId(), testGroupsNames[1] );
+        String newTestGroupsName = getNewTestGroupName();
+        apiClient.getUserGroupsApi().edit( myGroup.getId(), newTestGroupsName );
 
         //get list of groups
         result = apiClient.getUserGroupsApi().list();
@@ -127,7 +126,7 @@ public class GroupsApiClientTest extends TestBase {
         //get my created group
         myGroup = null;
         for( Group group : result ) {
-            if( group.getName().equals( testGroupsNames[1] ) ) {
+            if( group.getName().equals( newTestGroupsName ) ) {
                 myGroup = group;
                 break;
             }
@@ -156,17 +155,6 @@ public class GroupsApiClientTest extends TestBase {
     private void deleteTestData() throws TenableIoException {
         TenableIoClient apiClient = new TenableIoClient();
 
-        //get list of groups
-        List<Group> result = apiClient.getUserGroupsApi().list();
-
-        if( result != null ) {
-            for( Group group : result ) {
-                for( String groupName: testGroupsNames ) {
-                    if( group.getName().equals( groupName ) ) {
-                        apiClient.getUserGroupsApi().delete( group.getId() );
-                    }
-                }
-            }
-        }
+        deleteTestGroups( apiClient );
     }
 }

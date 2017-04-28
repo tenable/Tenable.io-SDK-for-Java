@@ -3,9 +3,14 @@ package com.tenable.io.api;
 
 import com.tenable.io.api.folders.models.Folder;
 
+import com.tenable.io.core.exceptions.TenableIoException;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -17,21 +22,16 @@ public class FoldersApiClientTest extends TestBase {
     @Test
     public void testCreateAndDelete() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
-        int folderId = apiClient.getFoldersApi().create( "unitTest" );
-
-        assertTrue( folderId > 0 );
+        int folderId = createFolder( apiClient );
 
         apiClient.getFoldersApi().delete( folderId );
-
     }
 
 
     @Test
     public void testListFolders() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
-        int folderId = apiClient.getFoldersApi().create( "unitTest" );
-
-        assertTrue( folderId > 0 );
+        int folderId = createFolder( apiClient );
 
         List<Folder> folders = apiClient.getFoldersApi().list();
 
@@ -45,9 +45,7 @@ public class FoldersApiClientTest extends TestBase {
     @Test
     public void testEditFolder() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
-        int folderId = apiClient.getFoldersApi().create( "unitTest" );
-
-        assertTrue( folderId > 0 );
+        int folderId = createFolder( apiClient );
 
         apiClient.getFoldersApi().edit( folderId, "newName" );
 
@@ -71,4 +69,19 @@ public class FoldersApiClientTest extends TestBase {
         apiClient.getFoldersApi().delete( folderId );
     }
 
+
+    private int createFolder( TenableIoClient apiClient ) throws TenableIoException {
+        int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
+        assertTrue( folderId > 0 );
+        return folderId;
+    }
+
+
+    @Before
+    @After
+    public void cleanup() throws TenableIoException {
+        TenableIoClient apiClient = new TenableIoClient();
+
+        deleteTestFolders( apiClient );
+    }
 }

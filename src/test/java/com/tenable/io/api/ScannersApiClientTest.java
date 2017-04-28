@@ -5,6 +5,9 @@ import com.tenable.io.api.scanners.models.ScanDetail;
 import com.tenable.io.api.scanners.models.Scanner;
 
 import com.tenable.io.api.scans.models.*;
+import com.tenable.io.core.exceptions.TenableIoException;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -16,7 +19,6 @@ import static org.junit.Assert.*;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class ScannersApiClientTest extends TestBase {
-
     @Test
     public void testScanners() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
@@ -93,7 +95,7 @@ public class ScannersApiClientTest extends TestBase {
         Settings settings = new Settings()
         .withEnabled( true )
         .withTextTargets(  getScanTextTargets() );
-        String scanName = "Test_" + java.util.UUID.randomUUID().toString().substring( 0, 6 );
+        String scanName = getNewTestScanName();
         settings.withName( scanName )
         .withDescription( "scan description" )
         .withScannerId( scannerId )
@@ -112,4 +114,12 @@ public class ScannersApiClientTest extends TestBase {
         return result;
     }
 
+
+    @Before
+    @After
+    public void cleanup() throws TenableIoException {
+        TenableIoClient apiClient = new TenableIoClient();
+
+        deleteTestScans( apiClient );
+    }
 }

@@ -4,9 +4,14 @@ package com.tenable.io.api;
 import com.tenable.io.api.exlusions.models.Exclusion;
 import com.tenable.io.api.exlusions.models.ExclusionRequest;
 
+import com.tenable.io.core.exceptions.TenableIoException;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -15,7 +20,6 @@ import static org.junit.Assert.*;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class ExclusionsApiClientTest extends TestBase {
-
     @Test
     public void testExclusions() throws Exception {
 
@@ -25,11 +29,12 @@ public class ExclusionsApiClientTest extends TestBase {
         assertNotNull( result );
 
         ExclusionRequest request = new ExclusionRequest();
-        String name = "exclusion_" + java.util.UUID.randomUUID().toString().substring( 0, 6 );
+        String name = getNewTestExclusionName();
         request.withName( name ).withDescription( "test Description" ).withMembers( getTestUsername( 0 ) );
         //create
         Exclusion exclusion = apiClient.getExclusionsApi().create( request );
         assertNotNull( exclusion );
+
         assertTrue( exclusion.getName().equals( name ) );
 
         //details.
@@ -38,13 +43,14 @@ public class ExclusionsApiClientTest extends TestBase {
         assertTrue( detail.getName().equals( name ) );
 
         //update.
-        request.setName( "UpdatedName" );
+        String updatedName = getNewTestExclusionName();
+        request.setName( updatedName );
         apiClient.getExclusionsApi().edit( exclusion.getId(), request );
 
         //verify updated
         detail = apiClient.getExclusionsApi().details( exclusion.getId() );
         assertNotNull( detail );
-        assertTrue( detail.getName().equals( "UpdatedName" ) );
+        assertTrue( detail.getName().equals( updatedName ) );
 
         //delete.
         apiClient.getExclusionsApi().delete( exclusion.getId() );
@@ -62,5 +68,14 @@ public class ExclusionsApiClientTest extends TestBase {
         }
         assertTrue( deleted );
 
+    }
+
+
+    @Before
+    @After
+    public void cleanup() throws TenableIoException {
+        TenableIoClient apiClient = new TenableIoClient();
+
+        deleteTestExclusions( apiClient );
     }
 }
