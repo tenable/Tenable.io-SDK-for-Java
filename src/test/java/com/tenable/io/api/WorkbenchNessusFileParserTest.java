@@ -6,11 +6,14 @@ import com.tenable.io.api.models.*;
 import com.tenable.io.api.workbenches.WorkbenchNessusFileParser;
 import com.tenable.io.api.workbenches.models.nessus.Report;
 import com.tenable.io.core.exceptions.TenableIoException;
+import com.tenable.io.core.utilities.DateHelper;
 import com.tenable.io.core.utilities.MacAddressHelper;
 import org.junit.Test;
 
+import javax.print.attribute.standard.DateTimeAtCompleted;
 import java.io.File;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,6 +25,7 @@ import static org.junit.Assert.*;
  */
 public class WorkbenchNessusFileParserTest extends TestBase {
     private static final String testEcportFile = "";
+
 
     @Test
     public void testParseAll() throws Exception {
@@ -125,17 +129,17 @@ public class WorkbenchNessusFileParserTest extends TestBase {
         assertEquals( asset.getHostName(), "127.0.0.1" );
         assertEquals( asset.getSystemType(), "general-purpose" );
         assertEquals( asset.getHostFqdn(), "localhost" );
-        assertEquals( asset.getLastHostScanStart(), new ISO8601DateFormat().parse( "2016-12-28T20:49:22Z" ) );
+        assertEquals( asset.getLastHostScanStart(), DateHelper.parseIso8601Date( "2016-12-28T20:49:22Z" ) );
         assertEquals( asset.getLastAuthenticatedScanProto(), "local" );
         assertEquals( asset.getOperatingSystem(), "Mac OS X 10.12.1" );
-        assertEquals( asset.getLastHostScanEnd(), new ISO8601DateFormat().parse("2016-12-28T20:49:22Z" ) );
-        assertEquals( asset.getLastAuthenticatedResult(), new ISO8601DateFormat().parse("2016-12-28T18:55:55Z" ) );
+        assertEquals( asset.getLastHostScanEnd(), DateHelper.parseIso8601Date("2016-12-28T20:49:22Z" ) );
+        assertEquals( asset.getLastAuthenticatedResult(), DateHelper.parseIso8601Date("2016-12-28T18:55:55Z" ) );
         assertEquals( asset.getHostIpV4().getHostAddress(), "127.0.0.1" );
         assertEquals( asset.getId(), UUID.fromString( "3ac4028d-c7e4-4545-8fa4-1669f09a89c8" ) );
     }
 
 
-    private void checkFithVulnerability( Vulnerability vuln ) throws ParseException {
+    private void checkFithVulnerability( Vulnerability vuln ) throws TenableIoException {
         assertEquals( vuln.getSeverity(), SeverityLevel.HIGH );
         assertEquals( vuln.getProtocol(), "tcp" );
         assertEquals( vuln.getPluginFamily(), "MacOS X Local Security Checks" );
@@ -164,8 +168,8 @@ public class WorkbenchNessusFileParserTest extends TestBase {
         assertEquals( vuln.getXrefs().get( 0 ), "OSVDB:88390" );
         assertEquals( vuln.getXrefs().get( 1 ), "OSVDB:88389" );
         assertEquals( vuln.getCvssTemporalScore(), 6.9F, 0 );
-        assertEquals( vuln.getVulnPublicationDate(), new ISO8601DateFormat().parse("2012-12-12T00:00:00Z" ) );
-        assertEquals( vuln.getPatchPublicationDate(), new ISO8601DateFormat().parse("2012-12-12T00:00:00Z" ) );
+        assertEquals( vuln.getVulnPublicationDate(), DateHelper.parseIso8601Date("2012-12-12T00:00:00Z" ) );
+        assertEquals( vuln.getPatchPublicationDate(), DateHelper.parseIso8601Date("2012-12-12T00:00:00Z" ) );
         assertNotNull( vuln.getSeeAlsos() );
         assertEquals( vuln.getSeeAlsos().size(), 1 );
         assertEquals( vuln.getSeeAlsos().get( 0 ), "http://secunia.com/secunia_research/2012-31/\n" +
@@ -176,11 +180,11 @@ public class WorkbenchNessusFileParserTest extends TestBase {
                 "                    Installed version : 7.0.0.308\n" +
                 "                    Fixed version : 7.3\n" +
                 "                " );
-        assertEquals( vuln.getPluginPublicationDate(), new ISO8601DateFormat().parse("2013-08-14T00:00:00Z" ) );
+        assertEquals( vuln.getPluginPublicationDate(), DateHelper.parseIso8601Date("2013-08-14T00:00:00Z" ) );
         assertEquals( vuln.getExploitAvailable(), false );
         assertEquals( vuln.getCvssBaseScore(), 9.3F, 0 );
         assertEquals( vuln.getSolution(), "Upgrade to Camera Raw Plug-In 6.7.1 / 7.3 or later." );
         assertEquals( vuln.getPluginType(), "local" );
-        assertEquals( vuln.getPluginModificationDate(), new ISO8601DateFormat().parse("2013-08-14T00:00:00Z" ) );
+        assertEquals( vuln.getPluginModificationDate(), DateHelper.parseIso8601Date("2013-08-14T00:00:00Z" ) );
     }
 }

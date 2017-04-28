@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.tenable.io.api.models.*;
 import com.tenable.io.api.workbenches.models.nessus.*;
 import com.tenable.io.core.exceptions.TenableIoException;
-import com.tenable.io.core.utilities.MacAddressHelper;
-import com.tenable.io.core.utilities.NessusFileParser;
-import com.tenable.io.core.utilities.NessusFileParserBuilder;
-import com.tenable.io.core.utilities.NessusObject;
+import com.tenable.io.core.utilities.*;
 import com.tenable.io.core.utilities.models.DefaultXmlObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -191,13 +188,13 @@ public class WorkbenchNessusFileParser {
                                 currentObject.setId( UUID.fromString( tagValue ) );
                                 break;
                             case "host_start":
-                                currentObject.setLastHostScanStart( new ISO8601DateFormat().parse( tagValue ) );
+                                currentObject.setLastHostScanStart( DateHelper.parseIso8601Date( tagValue ) );
                                 break;
                             case "host_end":
-                                currentObject.setLastHostScanEnd( new ISO8601DateFormat().parse( tagValue ) );
+                                currentObject.setLastHostScanEnd( DateHelper.parseIso8601Date( tagValue ) );
                                 break;
                             case "lastauthenticatedresults":
-                                currentObject.setLastAuthenticatedResult( new ISO8601DateFormat().parse( tagValue ) );
+                                currentObject.setLastAuthenticatedResult( DateHelper.parseIso8601Date( tagValue ) );
                                 break;
                             case "local-checks-proto":
                                 currentObject.setLastAuthenticatedScanProto( tagValue );
@@ -326,7 +323,7 @@ public class WorkbenchNessusFileParser {
                             currentObject.setExploitedByMalware( Boolean.parseBoolean( childValue ) );
                             break;
                         case "first_found":
-                            currentObject.setFirstFound( new ISO8601DateFormat().parse( childValue ) );
+                            currentObject.setFirstFound( DateHelper.parseIso8601Date( childValue ) );
                             break;
                         case "has_patch":
                             currentObject.setHasPatch( Boolean.parseBoolean( childValue ) );
@@ -335,10 +332,10 @@ public class WorkbenchNessusFileParser {
                             currentObject.setInTheNews( Boolean.parseBoolean( childValue ) );
                             break;
                         case "last_found":
-                            currentObject.setLastFound( new ISO8601DateFormat().parse( childValue ) );
+                            currentObject.setLastFound( DateHelper.parseIso8601Date( childValue ) );
                             break;
                         case "last_fixed":
-                            currentObject.setLastFixed( new ISO8601DateFormat().parse( childValue ) );
+                            currentObject.setLastFixed( DateHelper.parseIso8601Date( childValue ) );
                             break;
                         case "malware":
                             currentObject.setMalware( Boolean.parseBoolean( childValue ) );
@@ -347,13 +344,13 @@ public class WorkbenchNessusFileParser {
                             currentObject.setMetasploitName( childValue );
                             break;
                         case "patch_publication_date":
-                            currentObject.setPatchPublicationDate( new ISO8601DateFormat().parse( childValue ) );
+                            currentObject.setPatchPublicationDate( DateHelper.parseIso8601Date( childValue ) );
                             break;
                         case "plugin_modification_date":
-                            currentObject.setPluginModificationDate( new ISO8601DateFormat().parse( childValue ) );
+                            currentObject.setPluginModificationDate( DateHelper.parseIso8601Date( childValue ) );
                             break;
                         case "plugin_publication_date":
-                            currentObject.setPluginPublicationDate( new ISO8601DateFormat().parse( childValue ) );
+                            currentObject.setPluginPublicationDate( DateHelper.parseIso8601Date( childValue ) );
                             break;
                         case "plugin_output":
                             currentObject.setPluginOutput( childValue );
@@ -380,7 +377,7 @@ public class WorkbenchNessusFileParser {
                             currentObject.setVulnerabilityState( VulnerabilityState.forValue( childValue ) );
                             break;
                         case "vuln_publication_date":
-                            currentObject.setVulnPublicationDate( new ISO8601DateFormat().parse( childValue ) );
+                            currentObject.setVulnPublicationDate( DateHelper.parseIso8601Date( childValue ) );
                             break;
                         case "xref":
                             currentObject.addXref( childValue );
