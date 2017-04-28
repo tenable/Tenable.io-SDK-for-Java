@@ -9,11 +9,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import static com.tenable.io.api.TestBase.TEST_AGENT_GROUP_NAME_PREFIX;
 import static org.junit.Assert.*;
 
 
