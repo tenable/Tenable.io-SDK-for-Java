@@ -16,5 +16,6 @@ public enum TenableIoErrorCode {
     DeserializationError,
     FileError,
     InvalidRequestParameter,
-    InvalidParameter
+    InvalidParameter,
+    StateConflict
 }

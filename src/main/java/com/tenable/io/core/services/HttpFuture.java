@@ -286,12 +286,17 @@ public class HttpFuture {
                 case 400: // invalid request
                     exceptionToThrow = new TenableIoException( TenableIoErrorCode.InvalidRequestParameter, error != null ? error.getError() : "At least one request parameter is not valid." );
                     break;
+
                 case 401: // non authorized
                     exceptionToThrow = new TenableIoException( TenableIoErrorCode.NotAuthorized, error != null ? error.getError() : "You are not authorized to perform this request." );
                     break;
 
                 case 404: // server error
                     exceptionToThrow = new TenableIoException( TenableIoErrorCode.NotFound, error != null ? error.getError() : "Requested content not found." );
+                    break;
+
+                case 409: // state conflict error
+                    exceptionToThrow = new TenableIoException( TenableIoErrorCode.StateConflict, error != null ? error.getError() : "The request could not be completed due to a conflict with the current state of the target resource." );
                     break;
 
                 case 429: // rate limit hit
