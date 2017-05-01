@@ -2,15 +2,14 @@ package com.tenable.io.api;
 
 
 import com.tenable.io.api.agentGroups.models.AgentGroup;
-import com.tenable.io.api.assetLists.models.AssetList;
 import com.tenable.io.api.exlusions.models.Exclusion;
 import com.tenable.io.api.folders.models.Folder;
 import com.tenable.io.api.groups.models.Group;
 import com.tenable.io.api.policies.models.Policy;
-import com.tenable.io.api.policies.models.PolicyCreateResponse;
 import com.tenable.io.api.scannerGroups.models.ScannerGroup;
 import com.tenable.io.api.scans.models.Scan;
 import com.tenable.io.api.scans.models.ScanListResult;
+import com.tenable.io.api.targetGroups.models.TargetGroup;
 import com.tenable.io.api.users.models.User;
 import com.tenable.io.api.users.models.UserRole;
 import com.tenable.io.core.exceptions.TenableIoException;
@@ -29,7 +28,7 @@ public class TestBase {
     protected static final String TEST_SCAN_NAME_PREFIX = "tioTestScan_";
     protected static final String TEST_FOLDER_NAME_PREFIX = "tioTestFolder_";
     protected static final String TEST_AGENT_GROUP_NAME_PREFIX = "tioTestAgentGroup_";
-    protected static final String TEST_ASSET_LIST_NAME_PREFIX = "tioTestAssetList_";
+    protected static final String TEST_TARGET_GROUP_PREFIX = "tioTestTargetGroup_";
     protected static final String TEST_EXCLUSION_NAME_PREFIX = "tioTestExclusion_";
     protected static final String TEST_GROUP_NAME_PREFIX = "tioTestGroup_";
     protected static final String TEST_POLICY_NAME_PREFIX = "tioTestPolicy_";
@@ -193,20 +192,20 @@ public class TestBase {
     }
 
 
-    protected void deleteTestAssetLists( TenableIoClient apiClient ) throws TenableIoException {
+    protected void deleteTestTargetGroups( TenableIoClient apiClient ) throws TenableIoException {
         //delete potential test asset lists
-        List<AssetList> assetLists = apiClient.getAssetListsApi().list();
-        if( assetLists != null ) {
-            for( AssetList assetList : assetLists ) {
-                if( assetList.getName().toLowerCase().startsWith( TEST_ASSET_LIST_NAME_PREFIX.toLowerCase() ) ) {
-                    apiClient.getAssetListsApi().delete( assetList.getId() );
+        List<TargetGroup> targetGroups = apiClient.getTargetGroupsApi().list();
+        if( targetGroups != null ) {
+            for( TargetGroup targetGroup : targetGroups ) {
+                if( targetGroup.getName().toLowerCase().startsWith( TEST_TARGET_GROUP_PREFIX.toLowerCase() ) ) {
+                    apiClient.getTargetGroupsApi().delete( targetGroup.getId() );
                 }
             }
         }
     }
 
-    protected String getNewTestAssetListName() {
-        return getNewTestName( TEST_ASSET_LIST_NAME_PREFIX );
+    protected String getNewTestTargetGroupName() {
+        return getNewTestName( TEST_TARGET_GROUP_PREFIX );
     }
 
 

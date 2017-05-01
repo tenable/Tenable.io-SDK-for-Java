@@ -3,7 +3,6 @@ package com.tenable.io.api;
 
 import com.tenable.io.api.agentGroups.AgentGroupsApi;
 import com.tenable.io.api.agents.AgentsApi;
-import com.tenable.io.api.assetLists.AssetListsApi;
 import com.tenable.io.api.filters.FiltersApi;
 import com.tenable.io.api.folders.FolderHelper;
 import com.tenable.io.api.permissions.PermissionsApi;
@@ -19,6 +18,7 @@ import com.tenable.io.api.scanners.ScannersApi;
 import com.tenable.io.api.scans.ScanHelper;
 import com.tenable.io.api.scans.ScansApi;
 import com.tenable.io.api.server.ServerApi;
+import com.tenable.io.api.targetGroups.TargetGroupsApi;
 import com.tenable.io.api.users.UsersApi;
 import com.tenable.io.api.workbenches.WorkbenchHelper;
 import com.tenable.io.api.workbenches.WorkbenchesApi;
@@ -53,7 +53,7 @@ public class TenableIoClient implements AutoCloseable {
     private ExclusionsApi exclusionsApi = null;
     private AgentsApi agentsApi = null;
     private AgentGroupsApi agentGroupsApi = null;
-    private AssetListsApi assetListsApi = null;
+    private TargetGroupsApi targetGroupsApi = null;
     private PermissionsApi permissionsApi = null;
     private ServerApi serverApi = null;
     private WorkbenchesApi workbenchesApi = null;
@@ -349,11 +349,11 @@ public class TenableIoClient implements AutoCloseable {
      *
      * @return the asset lists api
      */
-    synchronized public AssetListsApi getAssetListsApi() {
-        if( assetListsApi == null )
-            assetListsApi = new AssetListsApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
+    synchronized public TargetGroupsApi getTargetGroupsApi() {
+        if( targetGroupsApi == null )
+            targetGroupsApi = new TargetGroupsApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
-        return assetListsApi;
+        return targetGroupsApi;
     }
 
 

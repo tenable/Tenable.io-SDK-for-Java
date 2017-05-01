@@ -1,10 +1,10 @@
 package com.tenable.io.api;
 
 
-import com.tenable.io.api.assetLists.models.AssetList;
-import com.tenable.io.api.assetLists.models.AssetListRequest;
 import com.tenable.io.api.permissions.models.Permission;
 
+import com.tenable.io.api.targetGroups.models.TargetGroup;
+import com.tenable.io.api.targetGroups.models.TargetGroupRequest;
 import com.tenable.io.core.exceptions.TenableIoException;
 import org.junit.After;
 import org.junit.Before;
@@ -29,12 +29,12 @@ public class PermissionsApiClientTest extends TestBase {
         List<Permission> acls = new ArrayList<Permission>();
         acls.add( permission );
 
-        String testName = getNewTestAssetListName();
-        AssetListRequest request = new AssetListRequest().withName( testName ).withMembers( getTestUsername( 0 ) )
+        String testName = getNewTestTargetGroupName();
+        TargetGroupRequest request = new TargetGroupRequest().withName( testName ).withMembers( getTestUsername( 0 ) )
         .withType( "user" )
         .withAcls( acls );
 
-        AssetList created = apiClient.getAssetListsApi().create( request );
+        TargetGroup created = apiClient.getTargetGroupsApi().create( request );
         assertNotNull( created );
         assertTrue( created.getName().equals( testName ) );
         assertTrue( created.getMembers().equals( getTestUsername( 0 ) ) );
@@ -63,7 +63,7 @@ public class PermissionsApiClientTest extends TestBase {
         assertTrue( foundChanged );
 
         //delete item
-        apiClient.getAssetListsApi().delete( created.getId() );
+        apiClient.getTargetGroupsApi().delete( created.getId() );
     }
 
 
@@ -72,6 +72,6 @@ public class PermissionsApiClientTest extends TestBase {
     public void cleanup() throws TenableIoException {
         TenableIoClient apiClient = new TenableIoClient();
 
-        deleteTestAssetLists( apiClient );
+        deleteTestTargetGroups( apiClient );
     }
 }

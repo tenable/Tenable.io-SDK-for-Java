@@ -1,4 +1,4 @@
-package com.tenable.io.api.assetLists.models;
+package com.tenable.io.api.targetGroups.models;
 
 
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -7,26 +7,26 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
-public enum AssetListRole {
+public enum TargetGroupRole {
     /**
-     * Hosts in asset lists with these permissions can not be viewed or scanned.
+     * Hosts in TargetGroup with these permissions can not be viewed or scanned.
      */
     NO_ACCESS( 0 ),
 
     /**
-     * Hosts in asset lists with these permissions can be viewed.
+     * Hosts in TargetGroup with these permissions can be viewed.
      */
     CAN_VIEW( 32 ),
 
     /**
-     * Hosts in asset lists with these permissions can be scanned.
+     * Hosts in TargetGroup with these permissions can be scanned.
      */
     CAN_SCAN( 64 );
 
     private int value;
 
 
-    private AssetListRole( int value ) {
+    private TargetGroupRole( int value ) {
         this.value = value;
     }
 

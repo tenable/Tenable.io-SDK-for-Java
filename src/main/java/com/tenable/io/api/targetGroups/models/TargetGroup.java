@@ -1,4 +1,4 @@
-package com.tenable.io.api.assetLists.models;
+package com.tenable.io.api.targetGroups.models;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,9 +10,9 @@ import java.util.List;
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
-public class AssetList {
+public class TargetGroup {
     private int id;
-    private boolean defaultList;
+    private boolean defaultGroup;
     private String name;
     private String members;
     private String type;
@@ -68,9 +68,9 @@ public class AssetList {
 
 
     /**
-     * The unique id of the list.
+     * The unique id of the TargetGroup.
      *
-     * @return The unique id of the list.
+     * @return The unique id of the TargetGroup.
      */
     public int getId() {
         return id;
@@ -78,9 +78,9 @@ public class AssetList {
 
 
     /**
-     * The unique id of the list.
+     * The unique id of the TargetGroup.
      *
-     * @param id The unique id of the list.
+     * @param id The unique id of the TargetGroup.
      */
     public void setId( int id ) {
         this.id = id;
@@ -88,31 +88,31 @@ public class AssetList {
 
 
     /**
-     * If true, this list is the default.
+     * If true, this TargetGroup is the default.
      *
-     * @return If true, this list is the default.
+     * @return If true, this TargetGroup is the default.
      */
-    @JsonProperty( "default_list" )
-    public boolean isDefaultList() {
-        return defaultList;
+    @JsonProperty( "default_group" )
+    public boolean isDefaultGroup() {
+        return defaultGroup;
     }
 
 
     /**
-     * If true, this list is the default.
+     * If true, this TargetGroup is the default.
      *
-     * @param defaultList If true, this list is the default.
+     * @param defaultGroup If true, this TargetGroup is the default.
      */
-    @JsonProperty( "default_list" )
-    public void setDefaultList( boolean defaultList ) {
-        this.defaultList = defaultList;
+    @JsonProperty( "default_group" )
+    public void setDefaultGroup( boolean defaultGroup ) {
+        this.defaultGroup = defaultGroup;
     }
 
 
     /**
-     * The name of the list.
+     * The name of the TargetGroup.
      *
-     * @return The name of the list.
+     * @return The name of the TargetGroup.
      */
     public String getName() {
         return name;
@@ -120,9 +120,9 @@ public class AssetList {
 
 
     /**
-     * The name of the list.
+     * The name of the TargetGroup.
      *
-     * @param name The name of the list.
+     * @param name The name of the TargetGroup.
      */
     public void setName( String name ) {
         this.name = name;
@@ -130,9 +130,9 @@ public class AssetList {
 
 
     /**
-     * The members of the list.
+     * The members of the TargetGroup.
      *
-     * @return The members of the list.
+     * @return The members of the TargetGroup.
      */
     public String getMembers() {
         return members;
@@ -140,9 +140,9 @@ public class AssetList {
 
 
     /**
-     * The members of the list.
+     * The members of the TargetGroup.
      *
-     * @param members The members of the list.
+     * @param members The members of the TargetGroup.
      */
     public void setMembers( String members ) {
         this.members = members;
@@ -150,9 +150,9 @@ public class AssetList {
 
 
     /**
-     * The list type (user or system). Only administrators can create lists using the 'system' type.
+     * The TargetGroup type (user or system). Only administrators can create TargetGroup using the 'system' type.
      *
-     * @return The list type (user or system). Only administrators can create lists using the 'system' type.
+     * @return The TargetGroup type (user or system). Only administrators can create TargetGroup using the 'system' type.
      */
     public String getType() {
         return type;
@@ -160,9 +160,9 @@ public class AssetList {
 
 
     /**
-     * The list type (user or system). Only administrators can create lists using the 'system' type.
+     * The TargetGroup type (user or system). Only administrators can create TargetGroup using the 'system' type.
      *
-     * @param type The list type (user or system). Only administrators can create lists using the 'system' type.
+     * @param type The TargetGroup type (user or system). Only administrators can create TargetGroup using the 'system' type.
      */
     public void setType( String type ) {
         this.type = type;
@@ -170,9 +170,9 @@ public class AssetList {
 
 
     /**
-     * The name of the owner of the list. A user of 'nessus_ms_agent' indicates it is a system asset list.
+     * The name of the owner of the TargetGroup. A user of 'nessus_ms_agent' indicates it is a system TargetGroup.
      *
-     * @return The name of the owner of the list. A user of 'nessus_ms_agent' indicates it is a system asset list.
+     * @return The name of the owner of the TargetGroup. A user of 'nessus_ms_agent' indicates it is a system TargetGroup.
      */
     public String getOwner() {
         return owner;
@@ -180,9 +180,9 @@ public class AssetList {
 
 
     /**
-     * The name of the owner of the list. A user of 'nessus_ms_agent' indicates it is a system asset list.
+     * The name of the owner of the TargetGroup. A user of 'nessus_ms_agent' indicates it is a system TargetGroup.
      *
-     * @param owner The name of the owner of the list. A user of 'nessus_ms_agent' indicates it is a system asset list.
+     * @param owner The name of the owner of the TargetGroup. A user of 'nessus_ms_agent' indicates it is a system TargetGroup.
      */
     public void setOwner( String owner ) {
         this.owner = owner;
@@ -190,9 +190,9 @@ public class AssetList {
 
 
     /**
-     * The unique id of the owner of the list.
+     * The unique id of the owner of the TargetGroup.
      *
-     * @return The unique id of the owner of the list.
+     * @return The unique id of the owner of the TargetGroup.
      */
     @JsonProperty( "owner_id" )
     public int getOwnerId() {
@@ -201,9 +201,9 @@ public class AssetList {
 
 
     /**
-     * The unique id of the owner of the list.
+     * The unique id of the owner of the TargetGroup.
      *
-     * @param ownerId The unique id of the owner of the list.
+     * @param ownerId The unique id of the owner of the TargetGroup.
      */
     @JsonProperty( "owner_id" )
     public void setOwnerId( int ownerId ) {
@@ -212,9 +212,9 @@ public class AssetList {
 
 
     /**
-     * The last modification date for the exclusion in unixtime.
+     * The last modification date for the TargetGroup in unixtime.
      *
-     * @return The last modification date for the exclusion in unixtime.
+     * @return The last modification date for the TargetGroup in unixtime.
      */
     @JsonProperty( "last_modification_date" )
     public int getLastModificationDate() {
@@ -223,9 +223,9 @@ public class AssetList {
 
 
     /**
-     * The last modification date for the exclusion in unixtime.
+     * The last modification date for the TargetGroup in unixtime.
      *
-     * @param lastModificationDate The last modification date for the exclusion in unixtime.
+     * @param lastModificationDate The last modification date for the TargetGroup in unixtime.
      */
     @JsonProperty( "last_modification_date" )
     public void setLastModificationDate( int lastModificationDate ) {
@@ -234,9 +234,9 @@ public class AssetList {
 
 
     /**
-     * The shared status of the list.
+     * The shared status of the TargetGroup.
      *
-     * @return The shared status of the list.
+     * @return The shared status of the TargetGroup.
      */
     public int getShared() {
         return shared;
@@ -244,9 +244,9 @@ public class AssetList {
 
 
     /**
-     * The shared status of the list.
+     * The shared status of the TargetGroup.
      *
-     * @param shared The shared status of the list.
+     * @param shared The shared status of the TargetGroup.
      */
     public void setShared( int shared ) {
         this.shared = shared;
@@ -254,9 +254,9 @@ public class AssetList {
 
 
     /**
-     * The current user permissions for the list.
+     * The current user permissions for the TargetGroup.
      *
-     * @return The current user permissions for the list.
+     * @return The current user permissions for the TargetGroup.
      */
     @JsonProperty( "user_permissions" )
     public int getUserPermissions() {
@@ -265,9 +265,9 @@ public class AssetList {
 
 
     /**
-     * The current user permissions for the list.
+     * The current user permissions for the TargetGroup.
      *
-     * @param userPermissions The current user permissions for the list.
+     * @param userPermissions The current user permissions for the TargetGroup.
      */
     @JsonProperty( "user_permissions" )
     public void setUserPermissions( int userPermissions ) {

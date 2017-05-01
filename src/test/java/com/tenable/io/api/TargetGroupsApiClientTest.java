@@ -1,41 +1,45 @@
 package com.tenable.io.api;
 
 
-import com.tenable.io.api.assetLists.models.AssetList;
-import com.tenable.io.api.assetLists.models.AssetListRequest;
 import com.tenable.io.api.permissions.models.Permission;
-
+import com.tenable.io.api.targetGroups.models.TargetGroup;
+import com.tenable.io.api.targetGroups.models.TargetGroupRequest;
+import com.tenable.io.api.users.models.User;
 import com.tenable.io.core.exceptions.TenableIoException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
-public class AssetListsApiClientTest extends TestBase {
+public class TargetGroupsApiClientTest extends TestBase {
     @Test
-    public void testAssetLists() throws Exception {
+    public void testTargetGroups() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
 
         //create asset list
+        User user = createTestUser( apiClient, 0 );
+
         Permission permission = new Permission().withType( "default" ).withPermissions( 64 );
         List<Permission> acls = new ArrayList<Permission>();
         acls.add( permission );
 
-        String testName = getNewTestAssetListName();
+        String testName = getNewTestTargetGroupName();
 
-        AssetListRequest request = new AssetListRequest().withName( testName )
+        TargetGroupRequest request = new TargetGroupRequest().withName( testName )
                 .withMembers(getTestUsername( 0 ) )
                 .withType( "user" )
                 .withAcls( acls );
 
-        AssetList created = apiClient.getAssetListsApi().create( request );
+        TargetGroup created = apiClient.getTargetGroupsApi().create( request );
         assertNotNull( created );
 
         assertTrue( created.getName().equals( testName ) );
@@ -43,29 +47,29 @@ public class AssetListsApiClientTest extends TestBase {
         assertNotNull( created.getAcls() );
 
         //list
-        List<AssetList> result = apiClient.getAssetListsApi().list();
+        List<TargetGroup> result = apiClient.getTargetGroupsApi().list();
         assertNotNull( result );
 
         //edit
-        String testRename = getNewTestAssetListName();
-        AssetListRequest editRequest = new AssetListRequest().withName( testRename );
-        apiClient.getAssetListsApi().edit( created.getId(), editRequest );
+        String testRename = getNewTestTargetGroupName();
+        TargetGroupRequest editRequest = new TargetGroupRequest().withName( testRename );
+        apiClient.getTargetGroupsApi().edit( created.getId(), editRequest );
 
         //details
-        AssetList detail = apiClient.getAssetListsApi().details( created.getId() );
+        TargetGroup detail = apiClient.getTargetGroupsApi().details( created.getId() );
         assertNotNull( detail );
         assertTrue( detail.getName().equals( testRename ) );
         assertTrue( detail.getMembers().equals( getTestUsername( 0 ) ) );
         assertNotNull( detail.getAcls() );
 
         //delete
-        apiClient.getAssetListsApi().delete( detail.getId() );
+        apiClient.getTargetGroupsApi().delete( detail.getId() );
 
         //verify deleted
-        result = apiClient.getAssetListsApi().list();
+        result = apiClient.getTargetGroupsApi().list();
         boolean deleted = true;
         if( result != null ) {
-            for( AssetList item : result ) {
+            for( TargetGroup item : result ) {
                 if( item.getId() == detail.getId() ) {
                     deleted = false;
                     break;
@@ -81,6 +85,6 @@ public class AssetListsApiClientTest extends TestBase {
     public void cleanup() throws TenableIoException {
         TenableIoClient apiClient = new TenableIoClient();
 
-        deleteTestAssetLists( apiClient );
+        deleteTestTargetGroups( apiClient );
     }
 }
