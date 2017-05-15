@@ -1,6 +1,8 @@
 # Tenable.io Java SDK
 Tenable.io Java SDK
 
+For you Pythonistas, check out Tenable.io SDK for Python.
+
 ### Configuration
 Access key and secret key are needed to authenticate with the [Tenable Cloud API]. There are three ways to configure the `TenableIoClient` with the keys.
 
