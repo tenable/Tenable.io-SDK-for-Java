@@ -48,7 +48,7 @@ import java.util.concurrent.Future;
 public class AsyncHttpService implements AutoCloseable {
     private static int CONNECTION_REQUEST_TIMEOUT = 30000;
     private static int CONNECTION_TIMEOUT = 30000;
-    private static int SOCKET_TIMEOUT = 60000; // 1 min
+    private static int SOCKET_TIMEOUT = 1200000; // 2 mins
 
     private CloseableHttpAsyncClient asyncClient = null;
     private JsonHelper jsonHelper;
