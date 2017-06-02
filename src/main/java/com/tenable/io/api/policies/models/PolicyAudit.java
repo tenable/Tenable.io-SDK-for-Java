@@ -1,6 +1,8 @@
 package com.tenable.io.api.policies.models;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -8,7 +10,7 @@ import java.util.Map;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class PolicyAudit {
-    private int id;
+    private String id;
     private Map<String, String> variables;
 
 
@@ -17,7 +19,7 @@ public class PolicyAudit {
      *
      * @return the audit id
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -27,7 +29,7 @@ public class PolicyAudit {
      *
      * @param id the audit id
      */
-    public void setId( int id ) {
+    public void setId( String id ) {
         this.id = id;
     }
 
@@ -49,5 +51,20 @@ public class PolicyAudit {
      */
     public void setVariables( Map<String, String> variables ) {
         this.variables = variables;
+    }
+
+
+    /**
+     * Add variable.
+     *
+     * @param name  the variable name
+     * @param value the variable value
+     */
+    public void addVariable( String name, String value ) {
+        if( variables == null ) {
+            variables = new HashMap<>();
+        }
+
+        variables.put( name, value );
     }
 }

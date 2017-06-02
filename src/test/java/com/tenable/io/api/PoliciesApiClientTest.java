@@ -203,7 +203,7 @@ public class PoliciesApiClientTest extends TestBase {
         auditVariables.put( "1", "test" );
         auditVariables.put( "2", "test" );
         auditVariables.put( "3", "test" );
-        audit.setId( 1 );
+        audit.setId( "1" );
         audit.setVariables( auditVariables );
         auditList.add( audit );
         auditFeed.setAdd( auditList );

@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
-public class PolicyAuditFeed {
-    private List<PolicyAudit> add;
+public class PolicyAuditCustomFeed {
+    private List<PolicyAuditCustom> add;
 
 
     /**
@@ -17,7 +17,7 @@ public class PolicyAuditFeed {
      *
      * @return the list of policy audits
      */
-    public List<PolicyAudit> getAdd() {
+    public List<PolicyAuditCustom> getAdd() {
         return add;
     }
 
@@ -27,7 +27,7 @@ public class PolicyAuditFeed {
      *
      * @param add the list of policy audits
      */
-    public void setAdd( List<PolicyAudit> add ) {
+    public void setAdd( List<PolicyAuditCustom> add ) {
         this.add = add;
     }
 
@@ -35,13 +35,13 @@ public class PolicyAuditFeed {
     /**
      * Adds a policy audits to the list.
      *
-     * @param policyAudit the PolicyAudit object to add to the list
+     * @param policyAuditCustom the PolicyAuditCustom object to add to the list
      */
-    public void addPolicyAudit( PolicyAudit policyAudit ) {
+    public void addPolicyAuditCustom( PolicyAuditCustom policyAuditCustom ) {
         if( add == null ) {
             add = new ArrayList<>();
         }
 
-        add.add( policyAudit );
+        add.add( policyAuditCustom );
     }
 }
