@@ -124,6 +124,23 @@ public class WorkbenchesApi extends ApiWrapperBase {
         return httpFuture.getAsType( WbAssetInfo.class, "info" );
     }
 
+    /**
+     * List all the assets recorded.
+     *
+     * @param assetId The uuid of the asset.
+     * @param range The date range in days for activity returned.
+     * @return the list of activity
+     * @throws TenableIoException the tenable IO exception
+     */
+    public List<WbAssetActivity> assetActivityList( String assetId, int range ) throws TenableIoException {
+        UriBuilderHelper uri = createBaseUriBuilder( "/workbenches/assets/" + assetId + "/activity" );
+
+        HttpFuture httpFuture = asyncHttpService.doGet( uri.addParameter( "range", ( (Integer) range ).toString() ).build() );
+        return httpFuture.getAsType( new TypeReference<List<WbAssetActivity>>() {}, "activity" );
+    }
+
+
+
 
     /**
      * List all the vulnerabilities recorded for a given asset.

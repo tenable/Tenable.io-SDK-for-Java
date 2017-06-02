@@ -188,6 +188,21 @@ public class ScanRef implements RunnableScan, RunningScan {
 
 
     /**
+     * Get last (most recent) scan history object
+     *
+     * @return the last scan history object
+     * @throws TenableIoException the Tenable IO exception
+     */
+    public History getLastHistory() throws TenableIoException {
+        List<History> histories = this.getDetails().getHistories();
+        if( histories.size() == 0 ) {
+            return null;
+        }
+        return histories.get( histories.size() - 1 );
+    }
+
+
+    /**
      * Launch the scan.
      *
      * @return The same ScanRef instance

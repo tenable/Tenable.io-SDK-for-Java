@@ -5,12 +5,12 @@ import com.tenable.io.api.TenableIoClient;
 
 import com.tenable.io.api.TestBase;
 import com.tenable.io.api.folders.FolderRef;
-import com.tenable.io.api.folders.models.Folder;
-import com.tenable.io.api.scanners.models.ScanDetail;
+import com.tenable.io.api.scans.ScanActivity;
 import com.tenable.io.api.scans.ScanRef;
 import com.tenable.io.api.scans.interfaces.RunnableScan;
 import com.tenable.io.api.scans.interfaces.ScanBaseOp;
 import com.tenable.io.api.scans.models.*;
+import com.tenable.io.api.workbenches.models.FilterAssetField;
 import com.tenable.io.core.exceptions.TenableIoErrorCode;
 import com.tenable.io.core.exceptions.TenableIoException;
 import org.junit.After;
@@ -19,9 +19,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -130,13 +128,43 @@ public class ScanWorkflowsExamples extends TestBase {
     @Test
     public void testRecentlyRunScans() throws Exception {
         TenableIoClient client = new TenableIoClient();
-        List<ScanDetails> scans = client.getScanHelper().getRecentlyRunScans( Arrays.asList( new String[] { "localhost", "127.0.0.1" } ), 30 );
-        if( scans != null && scans.size() > 0 ) {
-            for( ScanDetails scanDetails : scans ) {
-                String targets = scanDetails.getInfo().getTargets().toLowerCase();
-                assert( targets.indexOf( "localhost" ) != -1 || targets.indexOf( "127.0.0.1" ) != -1 );
+        Map<String, FilterAssetField> assets = new HashMap<String, FilterAssetField>() {{
+            put( getScanTextTargets(), FilterAssetField.FQDN );
+        }};
+
+        // create a new scan and pause
+        String scanName = getNewTestScanName();
+        RunnableScan scan = client.getScanHelper().createScan( scanName, getScanTextTargets(), getScanTemplateName() );
+        scan.launch().pause();
+        ScanRef scanRef = client.getScanHelper().getScan( scan.getId() );
+        History pausedScanHistory = scanRef.getLastHistory();
+
+        // assert paused scan shows up in scan activities
+        List<ScanActivity> scanActivities = client.getScanHelper().getActivities( assets, 1 );
+        Boolean isPausedScanHistoryFound = false;
+        for( ScanActivity scanActivity : scanActivities ) {
+            if( scanActivity.getHistoryUuid().equals( pausedScanHistory.getUuid() ) ) {
+                isPausedScanHistoryFound = true;
+                break;
             }
         }
+        assert( isPausedScanHistoryFound );
+
+        // complete the paused scan
+        scan.resume().waitUntilStopped();
+        scanRef = client.getScanHelper().getScan( scan.getId() );
+        History completedScanHistory = scanRef.getLastHistory();
+
+        // assert the completed scan shows up in scan activities
+        scanActivities = client.getScanHelper().getActivities( assets, 1 );
+        Boolean isCompletedScanHistoryFound = false;
+        for( ScanActivity scanActivity : scanActivities ) {
+            if( scanActivity.getHistoryUuid().equals( completedScanHistory.getUuid() ) ) {
+                isCompletedScanHistoryFound = true;
+                break;
+            }
+        }
+        assert( isCompletedScanHistoryFound );
     }
 
 
