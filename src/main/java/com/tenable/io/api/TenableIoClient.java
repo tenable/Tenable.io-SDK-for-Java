@@ -105,6 +105,21 @@ public class TenableIoClient implements AutoCloseable {
         this.accessKey = accessKey;
         this.secretKey = secretKey;
 
+        tenableIoScheme = System.getProperty( "tenableIoScheme" );
+        tenableIoHost = System.getProperty( "tenableIoHost" );
+
+        if( tenableIoScheme == null ) {
+            tenableIoScheme = System.getProperty( "TENABLE_IO_SCHEME" );
+            if( tenableIoScheme == null )
+                tenableIoScheme = DEFAULT_TENABLE_IO_SCHEME;
+        }
+
+        if( tenableIoHost == null ) {
+            tenableIoHost = System.getProperty( "TENABLE_IO_HOST" );
+            if( tenableIoHost == null )
+                tenableIoHost = DEFAULT_TENABLE_IO_HOST;
+        }
+
         asyncHttpService = new AsyncHttpService( accessKey, secretKey );
     }
 
