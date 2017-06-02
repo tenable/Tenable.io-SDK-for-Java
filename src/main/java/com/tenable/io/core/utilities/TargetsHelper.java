@@ -71,8 +71,8 @@ public class TargetsHelper {
             } else if( ( matcher = IP_ADDRESS_WITH_RANGE.matcher( target ) ).matches() ) {
                 ret.add( new Target().withIpRange( matcher.group( "byte1" ), matcher.group( "byte2" ), matcher.group( "byte3" ), matcher.group( "byte4" ) ) );
             } else if( ( matcher = HOSTNAME_AND_IP.matcher( target ) ).matches() ) {
-                ret.add( new Target().withHostname( matcher.group( "hostname" ) ) );
-                ret.add( new Target().withIp( matcher.group( "ip" ) ) );
+                ret.add(new Target().withHostname(matcher.group("hostname")));
+                ret.add(new Target().withIp(matcher.group("ip")));
             } else { //hostname
                 ret.add( new Target().withHostname( target.toLowerCase() ) );
             }
