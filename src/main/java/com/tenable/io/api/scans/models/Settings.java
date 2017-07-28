@@ -12,6 +12,7 @@ import java.util.List;
  */
 @JsonInclude( JsonInclude.Include.NON_DEFAULT )
 public class Settings {
+
     private String name;
     private String description;
     private int policyId;
@@ -26,7 +27,7 @@ public class Settings {
     private String fileTargets;
     private String emails;
     private List<Permission> acls;
-
+    private String providedCredsOnly;
 
     /**
      * Gets the name of the scan.
@@ -504,6 +505,17 @@ public class Settings {
     public Settings withAcls(List<Permission> acls) {
         this.acls = acls;
         return this;
+    }
+
+
+    @JsonProperty( "provided_creds_only" )
+    public String getProvidedCredsOnly() {
+        return providedCredsOnly;
+    }
+
+    @JsonProperty( "provided_creds_only" )
+    public void setProvidedCredsOnly(String providedCredsOnly) {
+        this.providedCredsOnly = providedCredsOnly;
     }
 
 }

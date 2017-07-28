@@ -1,7 +1,6 @@
 package com.tenable.io.api.scans;
 
 
-import com.sun.deploy.util.ArrayUtil;
 import com.tenable.io.api.TenableIoClient;
 import com.tenable.io.api.editors.EditorApi;
 import com.tenable.io.api.editors.models.Template;

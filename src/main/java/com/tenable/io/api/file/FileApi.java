@@ -6,7 +6,7 @@ import com.tenable.io.api.ApiWrapperBase;
 import com.tenable.io.core.exceptions.TenableIoException;
 import com.tenable.io.core.services.AsyncHttpService;
 import com.tenable.io.core.services.HttpFuture;
-import javafx.util.Pair;
+import com.tenable.io.core.utilities.models.Pair;
 
 import java.io.File;
 import java.util.ArrayList;

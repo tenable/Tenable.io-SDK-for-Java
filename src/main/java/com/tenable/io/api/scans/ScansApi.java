@@ -9,8 +9,10 @@ import com.tenable.io.core.exceptions.TenableIoException;
 import com.tenable.io.core.services.AsyncHttpService;
 import com.tenable.io.core.services.HttpFuture;
 import com.tenable.io.api.scans.models.*;
+import com.tenable.io.core.utilities.JsonHelper;
 
 import java.io.File;
+import java.util.Map;
 
 
 /**
@@ -135,6 +137,36 @@ public class ScansApi extends ApiWrapperBase {
      */
     public ScanResult create( String uuid, Settings settings ) throws TenableIoException {
         CreateConfigureRequest request = new CreateConfigureRequest().withUuid( uuid ).withSettings( settings );
+        HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans" ).build(), request );
+        return httpFuture.getAsType( ScanResult.class, "scan" );
+    }
+
+
+    /**
+     * Creates a scan with the global settings.
+     *
+     * @param uuid     The uuid for the editor template to use
+     * @param settings the settings object to create a scan
+     * @return the scan result
+     * @throws TenableIoException the tenable IO exception
+     */
+    public ScanResult create( String uuid, Map<String, Object> settings) throws TenableIoException {
+        return create(uuid, settings, null);
+    }
+
+
+    /**
+     * Creates a scan with the settings and the credentials.
+     *
+     * @param uuid     The uuid for the editor template to use
+     * @param settings the settings object to create a scan
+     * @param credentials the credentials object to create a scan
+     * @return the scan result
+     * @throws TenableIoException the tenable IO exception
+     */
+    public ScanResult create( String uuid, Map<String, Object> settings, ScanCredentials credentials ) throws TenableIoException {
+        CreateConfigureRequestCreds request = new CreateConfigureRequestCreds().withUuid( uuid ).withSettings( settings )
+                .withCredentials(credentials);
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans" ).build(), request );
         return httpFuture.getAsType( ScanResult.class, "scan" );
     }
@@ -678,6 +710,110 @@ public class ScansApi extends ApiWrapperBase {
          * @return the create configure request
          */
         public CreateConfigureRequest withUuid( String uuid ) {
+            this.uuid = uuid;
+            return this;
+        }
+    }
+
+    @JsonInclude( JsonInclude.Include.NON_DEFAULT )
+    private class CreateConfigureRequestCreds {
+        private String uuid;
+        private ScanCredentials credentials;
+        private Map<String, Object> settings;
+
+
+        /**
+         * Gets uuid.
+         *
+         * @return the uuid
+         */
+        public String getUuid() {
+            return uuid;
+        }
+
+
+        /**
+         * Sets uuid.
+         *
+         * @param uuid the uuid
+         */
+        public void setUuid( String uuid ) {
+            this.uuid = uuid;
+        }
+
+
+        /**
+         * Gets settings.
+         *
+         * @return the settings
+         */
+        public Map<String, Object> getSettings() {
+            return settings;
+        }
+
+
+        /**
+         * Sets credentials.
+         *
+         * @param credentials the credentials
+         */
+        public void setCredentials( ScanCredentials credentials ) {
+            this.credentials = credentials;
+        }
+
+        /**
+         * Gets credentials.
+         *
+         * @return the credentials
+         */
+        public ScanCredentials getCredentials() {
+            return credentials;
+        }
+
+
+        /**
+         * Sets settings.
+         *
+         * @param settings the settings
+         */
+        public void setSettings( Map<String, Object> settings ) {
+            this.settings = settings;
+        }
+
+
+        /**
+         * Sets settings.
+         *
+         * @param settings the settings
+         * @return the create configure request
+         */
+        public CreateConfigureRequestCreds withSettings( Map<String, Object> settings ) {
+            this.settings = settings;
+            return this;
+        }
+
+        /**
+         * Sets credentials.
+         *
+         * @param credentials the credentials
+         * @return the create configure request
+         */
+        public CreateConfigureRequestCreds withCredentials( ScanCredentials credentials ) {
+            if (credentials == null) {
+                credentials = new ScanCredentials();
+            }
+            this.credentials = credentials;
+            return this;
+        }
+
+
+        /**
+         * Sets uuid.
+         *
+         * @param uuid the uuid
+         * @return the create configure request
+         */
+        public CreateConfigureRequestCreds withUuid( String uuid ) {
             this.uuid = uuid;
             return this;
         }

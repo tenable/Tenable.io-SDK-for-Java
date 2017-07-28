@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.tenable.io.core.exceptions.TenableIoException;
 import com.tenable.io.core.exceptions.TenableIoErrorCode;
 import com.tenable.io.core.utilities.JsonHelper;
-import javafx.util.Pair;
+import com.tenable.io.core.utilities.models.Pair;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -48,7 +48,7 @@ import java.util.concurrent.Future;
 public class AsyncHttpService implements AutoCloseable {
     private static int CONNECTION_REQUEST_TIMEOUT = 30000;
     private static int CONNECTION_TIMEOUT = 30000;
-    private static int SOCKET_TIMEOUT = 1200000; // 2 mins
+    private static int SOCKET_TIMEOUT = 12000000; // 20 mins
 
     private CloseableHttpAsyncClient asyncClient = null;
     private JsonHelper jsonHelper;

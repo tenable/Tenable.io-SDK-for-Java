@@ -32,13 +32,14 @@ public class HttpFuture {
     private static Logger logger = LoggerFactory.getLogger( HttpFuture.class );
     private static final Map<TenableIoErrorCode, int[]> retrySteps;
     private static final int REQUEST_AND_RESPONSE_BODY_LOG_MAX_LENGTH = 100 * 1024;
+    private static final int MAX_RETRY = 4;
 
     static {
         retrySteps = new HashMap<>();
-        retrySteps.put( TenableIoErrorCode.TooManyApiCalls, new int[]{ 1000, 2000, 6000 } );
-        retrySteps.put( TenableIoErrorCode.ApiServerError, new int[]{ 1000, 2000, 10000 } );
-        retrySteps.put( TenableIoErrorCode.DnsError, new int[]{ 1000, 2000, 10000 } );
-        retrySteps.put( TenableIoErrorCode.ConnectionTimeout, new int[]{ 1000, 2000, 10000 } );
+        retrySteps.put( TenableIoErrorCode.TooManyApiCalls, new int[]{ 1000, 2000, 6000, 6000, 6000 } );
+        retrySteps.put( TenableIoErrorCode.ApiServerError, new int[]{ 1000, 2000, 10000, 10000, 10000 } );
+        retrySteps.put( TenableIoErrorCode.DnsError, new int[]{ 1000, 2000, 10000, 10000, 10000 } );
+        retrySteps.put( TenableIoErrorCode.ConnectionTimeout, new int[]{ 1000, 2000, 10000, 10000, 10000 } );
     }
 
     private final AsyncHttpService asyncHttpService;
@@ -340,7 +341,7 @@ public class HttpFuture {
      */
     private HttpResponse checkAndHandleRetries( TenableIoException e, HttpResponse response ) throws TenableIoException {
         if( retrySteps.containsKey( e.getErrorCode() ) ) {
-            if( numRetry < 3 ) {
+            if( numRetry < MAX_RETRY ) {
                 numRetry++;
 
                 logEvent( response, "", e.getMessage(), e, numRetry, false );

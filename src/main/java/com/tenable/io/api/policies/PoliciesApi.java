@@ -7,12 +7,14 @@ import com.tenable.io.api.ApiWrapperBase;
 import com.tenable.io.api.policies.models.Policy;
 import com.tenable.io.api.policies.models.PolicyCreateResponse;
 import com.tenable.io.api.policies.models.PolicyDetail;
+import com.tenable.io.api.policies.models.PolicyDetailGlobal;
 import com.tenable.io.core.exceptions.TenableIoException;
 import com.tenable.io.core.services.AsyncHttpService;
 import com.tenable.io.core.services.HttpFuture;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -83,6 +85,20 @@ public class PoliciesApi extends ApiWrapperBase {
     }
 
 
+
+    /**
+     * Creates a policy (with settings map)
+     *
+     * @param createRequest the create request
+     * @return the policy create response
+     * @throws TenableIoException the tenable IO exception
+     */
+    public PolicyCreateResponse createGlobal(PolicyDetailGlobal createRequest) throws TenableIoException {
+        HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/policies" ).build(), createRequest );
+        return httpFuture.getAsType( PolicyCreateResponse.class );
+    }
+
+
     /**
      * Return details for the given policy
      *
@@ -95,6 +111,19 @@ public class PoliciesApi extends ApiWrapperBase {
         return httpFuture.getAsType( PolicyDetail.class );
     }
 
+    /**
+     * Return details for the given policy (with settings map)
+     *
+     * @param policyId the policy id
+     * @return the policy detail
+     * @throws TenableIoException the tenable IO exception
+     */
+    public PolicyDetailGlobal detailsGlobal( int policyId ) throws TenableIoException {
+        HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/policies/" + policyId ).build() );
+        return httpFuture.getAsType( PolicyDetailGlobal.class );
+    }
+
+
 
     /**
      * Changes the parameters of a policy.
@@ -104,6 +133,19 @@ public class PoliciesApi extends ApiWrapperBase {
      * @throws TenableIoException the tenable IO exception
      */
     public void configure( int policyId, PolicyDetail detail ) throws TenableIoException {
+        HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/policies/" +
+                policyId ).build(), detail );
+        httpFuture.get();
+    }
+
+    /**
+     * Changes the parameters of a policy (with settings map)
+     *
+     * @param policyId the policy id to change
+     * @param detail   the change parameters object
+     * @throws TenableIoException the tenable IO exception
+     */
+    public void configure( int policyId, PolicyDetailGlobal detail ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doPut( createBaseUriBuilder( "/policies/" +
                 policyId ).build(), detail );
         httpFuture.get();

@@ -123,6 +123,43 @@ public class TenableIoClient implements AutoCloseable {
         asyncHttpService = new AsyncHttpService( accessKey, secretKey );
     }
 
+    /**
+     * Instantiates a new Tenable IO client.
+     *
+     * @param host io host url
+     * @param hostScheme io host scheme
+     * @param accessKey the access key
+     * @param secretKey the secret key
+     */
+    public TenableIoClient( String host, String hostScheme, String accessKey, String secretKey ) {
+        this.accessKey = accessKey;
+        this.secretKey = secretKey;
+
+        tenableIoScheme = hostScheme;
+        tenableIoHost = host;
+
+        if( tenableIoScheme == null ) {
+            tenableIoScheme = System.getProperty("tenableIoScheme");
+        }
+        if( tenableIoHost == null ) {
+            tenableIoHost = System.getProperty("tenableIoHost");
+        }
+
+        if( tenableIoScheme == null ) {
+            tenableIoScheme = System.getProperty( "TENABLE_IO_SCHEME" );
+            if( tenableIoScheme == null )
+                tenableIoScheme = DEFAULT_TENABLE_IO_SCHEME;
+        }
+
+        if( tenableIoHost == null ) {
+            tenableIoHost = System.getProperty( "TENABLE_IO_HOST" );
+            if( tenableIoHost == null )
+                tenableIoHost = DEFAULT_TENABLE_IO_HOST;
+        }
+
+        asyncHttpService = new AsyncHttpService( accessKey, secretKey );
+    }
+
 
     /**
      * Instantiates a new Tenable IO client which impersonates the given user.
