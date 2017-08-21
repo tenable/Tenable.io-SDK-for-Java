@@ -11,7 +11,6 @@ target
 *.iml
 /build
 /.gradle
-/gradle/*
 /classes
 /local-test-config.txt
 test.txt
