@@ -10,8 +10,6 @@ description = """"""
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-
-
 repositories {
     mavenCentral()
 }
@@ -53,4 +51,3 @@ test {
     // Name of template to create a policy with.
     jvmArgs "-DpolicyTemplateName=discovery"
 }
-
