@@ -3,17 +3,21 @@ package com.tenable.io.api;
 
 import com.tenable.io.api.agentGroups.AgentGroupsApi;
 import com.tenable.io.api.agents.AgentsApi;
+import com.tenable.io.api.containerSecurity.CsTestJobsApi;
+import com.tenable.io.api.containerSecurity.CsImagesApi;
+import com.tenable.io.api.containerSecurity.CsPolicyApi;
+import com.tenable.io.api.containerSecurity.CsReportsApi;
+import com.tenable.io.api.editors.EditorApi;
+import com.tenable.io.api.exlusions.ExclusionsApi;
+import com.tenable.io.api.file.FileApi;
 import com.tenable.io.api.filters.FiltersApi;
 import com.tenable.io.api.folders.FolderHelper;
-import com.tenable.io.api.permissions.PermissionsApi;
-import com.tenable.io.api.scannerGroups.ScannerGroupsApi;
-import com.tenable.io.api.editors.EditorApi;
-import com.tenable.io.api.file.FileApi;
-import com.tenable.io.api.exlusions.ExclusionsApi;
 import com.tenable.io.api.folders.FoldersApi;
 import com.tenable.io.api.groups.GroupsApi;
+import com.tenable.io.api.permissions.PermissionsApi;
 import com.tenable.io.api.plugins.PluginsApi;
 import com.tenable.io.api.policies.PoliciesApi;
+import com.tenable.io.api.scannerGroups.ScannerGroupsApi;
 import com.tenable.io.api.scanners.ScannersApi;
 import com.tenable.io.api.scans.ScanHelper;
 import com.tenable.io.api.scans.ScansApi;
@@ -23,14 +27,13 @@ import com.tenable.io.api.users.UsersApi;
 import com.tenable.io.api.workbenches.WorkbenchHelper;
 import com.tenable.io.api.workbenches.WorkbenchesApi;
 import com.tenable.io.core.services.AsyncHttpService;
+import com.tenable.io.core.utilities.ApiParametersHelper;
 
 
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class TenableIoClient implements AutoCloseable {
-    private static String DEFAULT_TENABLE_IO_SCHEME = "https";
-    private static String DEFAULT_TENABLE_IO_HOST = "cloud.tenable.com";
     private String impersonateUsername = null;
 
     private String accessKey;
@@ -60,36 +63,20 @@ public class TenableIoClient implements AutoCloseable {
     private ScanHelper scanHelper = null;
     private WorkbenchHelper workbenchHelper = null;
     private FolderHelper folderHelper = null;
-
+    private CsImagesApi csImagesApi = null;
+    private CsReportsApi csReportsApi = null;
+    private CsTestJobsApi csTestJobsApi = null;
+    private CsPolicyApi csPolicyApi = null;
 
     /**
      * Instantiates a new Tenable IO client from environment variables.
      * Needs JVM params tenableIoAccessKey and tenableIoSecretKey or environment variables TENABLEIO_ACCESS_KEY and TENABLEIO_SECRET_KEY
      */
     public TenableIoClient() {
-        // first check the JVM param
-        accessKey = System.getProperty( "tenableIoAccessKey" );
-        secretKey = System.getProperty( "tenableIoSecretKey" );
-        tenableIoScheme = System.getProperty( "tenableIoScheme" );
-        tenableIoHost = System.getProperty( "tenableIoHost" );
-
-        // if not there, default to environment variables
-        if( accessKey == null || secretKey == null ) {
-            accessKey = System.getenv( "TENABLEIO_ACCESS_KEY" );
-            secretKey = System.getenv( "TENABLEIO_SECRET_KEY" );
-        }
-
-        if( tenableIoScheme == null ) {
-            tenableIoScheme = System.getProperty( "TENABLE_IO_SCHEME" );
-            if( tenableIoScheme == null )
-                tenableIoScheme = DEFAULT_TENABLE_IO_SCHEME;
-        }
-
-        if( tenableIoHost == null ) {
-            tenableIoHost = System.getProperty( "TENABLE_IO_HOST" );
-            if( tenableIoHost == null )
-                tenableIoHost = DEFAULT_TENABLE_IO_HOST;
-        }
+        accessKey = ApiParametersHelper.getAccessKey();
+        secretKey = ApiParametersHelper.getSecretKey();
+        tenableIoScheme = ApiParametersHelper.getTenableIoScheme();
+        tenableIoHost = ApiParametersHelper.getTenableIoHost();
 
         asyncHttpService = new AsyncHttpService( accessKey, secretKey );
     }
@@ -105,20 +92,8 @@ public class TenableIoClient implements AutoCloseable {
         this.accessKey = accessKey;
         this.secretKey = secretKey;
 
-        tenableIoScheme = System.getProperty( "tenableIoScheme" );
-        tenableIoHost = System.getProperty( "tenableIoHost" );
-
-        if( tenableIoScheme == null ) {
-            tenableIoScheme = System.getProperty( "TENABLE_IO_SCHEME" );
-            if( tenableIoScheme == null )
-                tenableIoScheme = DEFAULT_TENABLE_IO_SCHEME;
-        }
-
-        if( tenableIoHost == null ) {
-            tenableIoHost = System.getProperty( "TENABLE_IO_HOST" );
-            if( tenableIoHost == null )
-                tenableIoHost = DEFAULT_TENABLE_IO_HOST;
-        }
+        tenableIoScheme = ApiParametersHelper.getTenableIoScheme();
+        tenableIoHost = ApiParametersHelper.getTenableIoHost();
 
         asyncHttpService = new AsyncHttpService( accessKey, secretKey );
     }
@@ -137,25 +112,6 @@ public class TenableIoClient implements AutoCloseable {
 
         tenableIoScheme = hostScheme;
         tenableIoHost = host;
-
-        if( tenableIoScheme == null ) {
-            tenableIoScheme = System.getProperty("tenableIoScheme");
-        }
-        if( tenableIoHost == null ) {
-            tenableIoHost = System.getProperty("tenableIoHost");
-        }
-
-        if( tenableIoScheme == null ) {
-            tenableIoScheme = System.getProperty( "TENABLE_IO_SCHEME" );
-            if( tenableIoScheme == null )
-                tenableIoScheme = DEFAULT_TENABLE_IO_SCHEME;
-        }
-
-        if( tenableIoHost == null ) {
-            tenableIoHost = System.getProperty( "TENABLE_IO_HOST" );
-            if( tenableIoHost == null )
-                tenableIoHost = DEFAULT_TENABLE_IO_HOST;
-        }
 
         asyncHttpService = new AsyncHttpService( accessKey, secretKey );
     }
@@ -265,6 +221,53 @@ public class TenableIoClient implements AutoCloseable {
         return policiesApi;
     }
 
+    /**
+     * Gets container security container images api.
+     *
+     * @return the container security container images api.
+     */
+    synchronized public CsImagesApi getCsImagesApi() {
+        if ( csImagesApi == null )
+            csImagesApi = new CsImagesApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
+
+        return csImagesApi;
+    }
+
+    /**
+     * Gets container security container reports api.
+     *
+     * @return the container security container reports api.
+     */
+    synchronized public CsReportsApi getCsReportsApi() {
+        if ( csReportsApi == null )
+            csReportsApi = new CsReportsApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
+
+        return csReportsApi;
+    }
+
+    /**
+     * Gets container security test jobs api.
+     *
+     * @return the container security test jobs api
+     */
+    synchronized public CsTestJobsApi getCsTestJobsApi() {
+        if ( csTestJobsApi == null )
+            csTestJobsApi = new CsTestJobsApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
+
+        return csTestJobsApi;
+    }
+
+    /**
+     * Gets cs policy api.
+     *
+     * @return the cs policy api
+     */
+    synchronized public CsPolicyApi getCsPolicyApi() {
+        if ( csPolicyApi == null )
+            csPolicyApi = new CsPolicyApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
+
+        return csPolicyApi;
+    }
 
     /**
      * Gets editor api.
@@ -485,7 +488,6 @@ public class TenableIoClient implements AutoCloseable {
 
         return folderHelper;
     }
-
 
     private String getTenableIoHost() {
         return tenableIoHost;

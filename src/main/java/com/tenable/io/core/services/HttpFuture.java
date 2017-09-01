@@ -4,6 +4,7 @@ package com.tenable.io.core.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.tenable.io.api.ApiError;
+import com.tenable.io.api.TenableIoClient;
 import com.tenable.io.core.exceptions.TenableIoException;
 import com.tenable.io.core.exceptions.TenableIoErrorCode;
 import com.tenable.io.core.utilities.LoggerHelper;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
 
@@ -243,6 +245,17 @@ public class HttpFuture {
         } catch( Exception e ) {
             throw new TenableIoException( TenableIoErrorCode.Generic, "Error while executing HTTP request.", e );
         }
+    }
+
+    /**
+     * Get all response headers matching a specific name.
+     *
+     * @param name the name of the response headers to return
+     * @return the response header array
+     * @throws TenableIoException the tenable io exception
+     */
+    public Header[] getResponseHeaders( String name ) throws TenableIoException {
+        return getResponse().getHeaders( name );
     }
 
 
