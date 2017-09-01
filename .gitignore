@@ -1,5 +1,6 @@
 logs
 target
+*.DS_Store
 /.tmpBin
 /.idea
 /.idea_modules
@@ -16,3 +17,4 @@ target
 test.txt
 workbench.xml
 workbenchExport.nessus
+/out

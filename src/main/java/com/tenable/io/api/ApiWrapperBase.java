@@ -21,14 +21,17 @@ public abstract class ApiWrapperBase {
      * The Api host.
      */
     protected final String apiHost;
-
+    /**
+     * The Container security host.
+     */
+    protected final String containerSecurityBaseUrl = "/container-security/api/v1";
 
     /**
      * Instantiates a new Api wrapper base.
      *
      * @param asyncHttpService the AsyncHttpService
-     * @param apiScheme        the Tenable IO scheme
-     * @param ApiHost          the Tenable IO host
+     * @param apiScheme the Tenable IO scheme
+     * @param ApiHost the Tenable IO host
      */
     public ApiWrapperBase( AsyncHttpService asyncHttpService, String apiScheme, String ApiHost ) {
         this.asyncHttpService = asyncHttpService;
