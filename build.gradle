@@ -63,5 +63,7 @@ test {
     jvmArgs "-DscanTemplateName=" + System.properties['scanTemplateName']
     // Name of template to create a policy with.
     jvmArgs "-DpolicyTemplateName=" + System.properties['policyTemplateName']
+    // Name of tenable io host to run tests
+    jvmArgs "-DtenableIoHost=" + System.properties['tenableIoHost']
 }
 
