@@ -193,10 +193,10 @@ public class ScansApiClientTest extends TestBase {
     @Test
     public void testImportScan() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
-        String filename = apiClient.getFileApi().upload( new File( "src/test/resources/scan_export.nessus" ) );
+        String filename = apiClient.getFileApi().upload( new File( "src/test/resources/sdk_import_test.nessus" ) );
         assertNotNull( filename );
         //password must be the same used when exporting the scan
-        Scan imported = apiClient.getScansApi().importFile( filename, "test" );
+        Scan imported = apiClient.getScansApi().importFile( filename, "test", "1" );
         assertNotNull( imported );
 
         apiClient.getScansApi().delete( imported.getId() );
