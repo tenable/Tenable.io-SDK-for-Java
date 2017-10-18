@@ -6,6 +6,7 @@ import com.tenable.io.api.permissions.models.Permission;
 import com.tenable.io.api.policies.models.Policy;
 import com.tenable.io.api.scanners.models.Scanner;
 import com.tenable.io.api.scans.models.*;
+import com.tenable.io.api.editors.models.Template;
 import com.tenable.io.core.exceptions.TenableIoException;
 
 import org.junit.After;
@@ -34,17 +35,6 @@ public class ScansApiClientTest extends TestBase {
         assertTrue( result.getTimezones().size() > 0 );
     }
 
-
-    @Test
-    public void testScansList() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-        ScanListResult result = apiClient.getScansApi().list();
-        ScanDetails details = apiClient.getScansApi().details( result.getScans().get( 0 ).getId() );
-        assertNotNull( result );
-        assertNotNull( details );
-    }
-
-
     @Test
     public void testCreateAndLaunch() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
@@ -59,23 +49,30 @@ public class ScansApiClientTest extends TestBase {
 
         assertEquals( waitForStatus( apiClient, result.getId(), ScanStatus.COMPLETED ), ScanStatus.COMPLETED );
 
-        apiClient.getScansApi().delete( result.getId() );
-        apiClient.getFoldersApi().delete( folderId );
+        // Scan is used by subsequent tests, so do not delete
+        // apiClient.getScansApi().delete( result.getId() );
+        // apiClient.getFoldersApi().delete( folderId );
     }
 
+    @Test
+    public void testScansList() throws Exception {
+        TenableIoClient apiClient = new TenableIoClient();
+        ScanListResult result = apiClient.getScansApi().list();
+        ScanDetails details = apiClient.getScansApi().details( result.getScans().get( 0 ).getId() );
+        assertNotNull( result );
+        assertNotNull( details );
+    }
 
     @Test
     public void testPauseAndResume() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
         int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
         ScanResult result = createScan( apiClient, folderId );
-
         //launch the scan
         String scanUuid = apiClient.getScansApi().launch( result.getId(), null );
         ScanDetails details = apiClient.getScansApi().details( result.getId() );
 
         assertEquals( waitForStatus( apiClient, result.getId(), ScanStatus.RUNNING ), ScanStatus.RUNNING );
-
         //pause the scan
         apiClient.getScansApi().pause( result.getId() );
         details = apiClient.getScansApi().details( result.getId() );
@@ -214,7 +211,11 @@ public class ScansApiClientTest extends TestBase {
         assertNotNull( newScan );
         //configure
         int randomScannerId = getRandomScannerId( apiClient );
+        // import a policy to be used in test
+        String filename = apiClient.getFileApi().upload( new File( "src/test/resources/nessus_policy_test.nessus" ) );
+        Policy imported = apiClient.getPoliciesApi().importPolicy( filename );
         int randomPolicyId = getRandomPolicyId( apiClient );
+
         Settings scanSettings = new Settings();
         scanSettings.setName( "newName" );
         scanSettings.setDescription( "new description" );
@@ -319,11 +320,14 @@ public class ScansApiClientTest extends TestBase {
         settings.setFolderId( folderId );
         settings.setLaunch( LaunchFrequency.ON_DEMAND );
         settings.setStartTime( "20161220110500" );
+        String scanTemplateName = getScanTemplateName();
+        Template scanTemplateUuid = apiClient.getScanHelper().getTemplateByName( scanTemplateName );
+
 
         //Basic network scan
         //ScanResult result = apiClient.getScansApi().create("731a8e52-3ea6-a291-ec0a-d2ff0619c19d7bd788d6be818b65", settings);
-        //host discovery scan
-        ScanResult result = apiClient.getScansApi().create( "bbd4f805-3966-d464-b2d1-0079eb89d69708c3a05ec2812bcf", settings );
+        //Scan from configured template name
+        ScanResult result = apiClient.getScansApi().create( scanTemplateUuid.getUuid(), settings );
         assertNotNull( result );
         assertTrue( result.isEnabled() );
         assertTrue( result.getName().equals( scanName ) );
@@ -355,7 +359,6 @@ public class ScansApiClientTest extends TestBase {
     public void cleanup() throws TenableIoException {
         TenableIoClient apiClient = new TenableIoClient();
 
-        deleteTestScans( apiClient );
         deleteTestFolders( apiClient );
     }
 }
