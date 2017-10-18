@@ -330,6 +330,7 @@ public class ScansApi extends ApiWrapperBase {
      * @param file     The name of the file to import as provided by the response from file: upload
      * @param folderId The id of the destination folder. If not specified, the default folder will be used
      * @param password The password for the file to import (required for nessus.db)
+     * @param aggregate Whether or not the scan details should be included in the Vulnerabilities workbench. (1 if yes, 0 if no)
      * @return the scan
      * @throws TenableIoException the tenable IO exception
      */
@@ -346,7 +347,7 @@ public class ScansApi extends ApiWrapperBase {
      *
      * @param file     The name of the file to import as provided by the response from file: upload
      * @param password The password for the file to import (required for nessus.db)
-     * @param aggregate Whether or not the scan details should be included in the Vulnerabilities workbench
+     * @param aggregate Whether or not the scan details should be included in the Vulnerabilities workbench. (1 if yes, 0 if no)
      * @return the scan
      * @throws TenableIoException the tenable IO exception
      */
