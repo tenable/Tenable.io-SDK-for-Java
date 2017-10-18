@@ -5,6 +5,7 @@ import com.tenable.io.api.models.SeverityLevel;
 import com.tenable.io.api.plugins.models.PluginDetail;
 import com.tenable.io.api.plugins.models.PluginFamily;
 import com.tenable.io.api.plugins.models.PluginFamilyDetail;
+import com.tenable.io.api.scans.models.Scan;
 import com.tenable.io.api.scans.models.ScanVulnerability;
 
 import com.tenable.io.api.workbenches.WorkbenchNessusFileParser;
@@ -63,6 +64,11 @@ public class WorkbenchesApiClientTest extends TestBase {
     @Test
     public void testAssets() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
+
+        // Assets need to be imported prior to running this otherwise asset count will be 0
+        String filename = apiClient.getFileApi().upload( new File( "src/test/resources/sdk_import_test.nessus" ) );
+        assertNotNull( filename );
+        Scan imported = apiClient.getScansApi().importFile( filename, "test", "1");
 
         List<WbVulnerabilityAsset> assets = apiClient.getWorkbenchesApi().assets(new FilteringOptions());
         if(assets != null && assets.size() > 0) {
