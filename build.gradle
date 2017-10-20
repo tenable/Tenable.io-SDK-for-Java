@@ -41,14 +41,16 @@ dependencies {
 test {
     // add a gradle.properties file in the form:
   
-    // systemProp.policyTemplateName=<your policy template name>
-    // systemProp.scanAltTargets=<
+    // systemProp.policyTemplateName=basic
+    // systemProp.scanAltTargets=target2.tenable.com
     // systemProp.scanTemplateName=basic
-    // systemProp.scanTextTargets=target2.pubtarg.tenablesecurity.com
+    // systemProp.scanTextTargets=target1.tenable.com
     // systemProp.tenableIoAccessKey=652fd6e609d33bad710211b55e4355804a609d9b266ba4b9bd2ab62f329634bb
-    // systemProp.tenableIoHost=qa-milestone.cloud.aws.tenablesecurity.com
+    // systemProp.tenableIoHost=develop.cloud.tenable.com
     // systemProp.tenableIoSecretKey=********
-    // systemProp.userDomainName=tenable.de
+    // systemProp.userDomainName=tenable.dev
+    // systemProp.registryHost=registry.cloud.tenable.com
+    // systemProp.registryProtocol=https
  
     // Access key and secret
     jvmArgs "-DtenableIoAccessKey=" + System.properties['tenableIoAccessKey']
@@ -65,5 +67,9 @@ test {
     jvmArgs "-DpolicyTemplateName=" + System.properties['policyTemplateName']
     // Name of tenable io host to run tests
     jvmArgs "-DtenableIoHost=" + System.properties['tenableIoHost']
+    // Name of registry to be used for containers
+    jvmArgs "-DregistryHost=" + System.properties['registryHost']
+    // Name of registry protocol be used for containers
+    jvmArgs "-DregistryProtocol=" + System.properties['registryProtocol']
 }
 
