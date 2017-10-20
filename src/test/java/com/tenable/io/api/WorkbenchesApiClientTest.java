@@ -69,23 +69,36 @@ public class WorkbenchesApiClientTest extends TestBase {
         String filename = apiClient.getFileApi().upload( new File( "src/test/resources/sdk_import_test.nessus" ) );
         assertNotNull( filename );
         Scan imported = apiClient.getScansApi().importFile( filename, "test", "1");
-
+        assertNotNull( imported );
         List<WbVulnerabilityAsset> assets = apiClient.getWorkbenchesApi().assets(new FilteringOptions());
+        
+        // wait for assets in scan results to be processed
+        while (assets.size() == 0) {
+            Thread.sleep(10000);
+            assets = apiClient.getWorkbenchesApi().assets(new FilteringOptions());
+        }
+
         if(assets != null && assets.size() > 0) {
             assertNotNull(assets.get(0));
             assertNotNull(assets.get(0).getId());
             assertNotNull(assets.get(0).getLastSeen());
 
+            Thread.sleep(15000); // sleep another 15 seconds to be safe before requesting asset info
             WbAssetInfo assetInfo = apiClient.getWorkbenchesApi().assetInfo(assets.get(0).getId(), new FilteringOptions());
             assertNotNull(assetInfo);
-
             List<ScanVulnerability> vulnerabilities = apiClient.getWorkbenchesApi().assetVulnerabilities(
                     assets.get(0).getId(), new FilteringOptions());
+            
+            // wait for vulnerability details in scan results to be processed
+            while (vulnerabilities.size() == 0) {
+                Thread.sleep(10000);
+                vulnerabilities = apiClient.getWorkbenchesApi().assetVulnerabilities(assets.get(0).getId(), new FilteringOptions());
+            }
             assertNotNull(vulnerabilities);
             assertTrue( vulnerabilities.size() > 0 );
             assertTrue(vulnerabilities.get(0).getCount() > 0);
             assertNotNull(vulnerabilities.get(0).getPluginId());
-            assertTrue(vulnerabilities.get(0).getVulnerabilityState().equals("Active"));
+            assertTrue(vulnerabilities.get(0).getVulnerabilityState().equals("New"));
 
             WbVulnerabilityInfo info = apiClient.getWorkbenchesApi().vulnerabilityInfo(assets.get(0).getId(),
                     vulnerabilities.get(0).getPluginId(), new FilteringOptions());
@@ -96,6 +109,14 @@ public class WorkbenchesApiClientTest extends TestBase {
             List<WbVulnerabilityOutputResult> assetVulnerabilityOutput = apiClient.getWorkbenchesApi()
                     .assetVulnerabilityOutput(assets.get(0).getId(), vulnerabilities.get(0).getPluginId(),
                             new FilteringOptions());
+
+            // wait for vulnerability output details to be ready
+            while (assetVulnerabilityOutput.size() == 0) {
+                Thread.sleep(10000);
+                assetVulnerabilityOutput = apiClient.getWorkbenchesApi()
+                    .assetVulnerabilityOutput(assets.get(0).getId(), vulnerabilities.get(0).getPluginId(),
+                            new FilteringOptions());
+            }
             assertNotNull(assetVulnerabilityOutput);
             assertTrue(assetVulnerabilityOutput.size() > 0);
             assertNotNull(assetVulnerabilityOutput.get(0).getPluginOutput());
