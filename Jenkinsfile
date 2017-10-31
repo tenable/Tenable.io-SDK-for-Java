@@ -27,9 +27,9 @@ try {
     }
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
       docker.image('ci-vulnautomation-base:1.0.9').inside("-u root") {
-        sshagent(['bitbucket-checkout']) {
-          stage('build automation') {
-            timeout(time: 10, unit: 'MINUTES') {
+        stage('build automation') {
+          timeout(time: 10, unit: 'MINUTES') {
+            sshagent(['bitbucket-checkout']) {
               sh 'git config --global user.name "buildenginer"'
               sh 'mkdir ~/.ssh && chmod 600 ~/.ssh'
               sh 'ssh-keyscan -H  stash.corp.tenablesecurity.com  >> ~/.ssh/known_hosts'
