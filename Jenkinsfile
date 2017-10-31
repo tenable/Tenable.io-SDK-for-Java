@@ -23,10 +23,11 @@ try {
       }
     }
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
-      docker.image('ci-vulnautomation-base:1.0.9').withRun('-u 1000') {
+      docker.image('ci-vulnautomation-base:1.0.9').inside {
         sshagent(['buildenginer-checkout']) {
           stage('build automation') {
             timeout(time: 10, unit: 'MINUTES') {
+              ss 'id'
               sh 'cd automation && python3 autosetup.py catium --all'
             }
           }
