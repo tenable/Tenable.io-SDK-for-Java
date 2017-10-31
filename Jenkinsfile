@@ -27,6 +27,7 @@ try {
           timeout(time: 10, unit: 'MINUTES') {
             sh 'chmod +x gradlew'
             sh './gradlew build'
+	    step([$class: 'JUnitResultArchiver', testResults: 'build/test-results/test/*.xml'])
           }
         }
       }
@@ -35,6 +36,5 @@ try {
 }
 catch (exc) {
   echo "caught exception: ${exc}"
-//  messageSlack("sc-jenkins", "Build Failed", "danger", true)
   currentBuild.result = 'FAILURE'
 }
