@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-library 'sayHello'
+//library 'sayHello'
 
 // this is a scripted (not declarative) pipeline
 // https://jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline
