@@ -27,7 +27,7 @@ try {
         sshagent(['bitbucket-checkout']) {
           stage('build automation') {
             timeout(time: 10, unit: 'MINUTES') {
-              ss 'id'
+              sh 'id'
               sh 'cd automation && python3 autosetup.py catium --all'
             }
           }
