@@ -22,39 +22,42 @@ try {
     }
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
       docker.image('ci-vulnautomation-base:1.0.9').inside {
-        stage('build automation') {
-          timeout(time: 10, unit: 'MINUTES') {
-            //sh 'python3 autosetup.py catium --all'
-            sh 'git --version'
+        withCredentials([sshUserPrivateKey(credentialsId: 'buildenginer_public', keyFileVariable: 'KEYFILE', passphraseVariable: 'PF', usernameVariable: 'USERNAME')]) {
+          stage('build automation') {
+            timeout(time: 10, unit: 'MINUTES') {
+              //sh 'python3 autosetup.py catium --all'
+              sh 'git --version'
+              sh "echo ${USERNAME}" 
+              sh "echo ${KEYFILE}" 
+            }
           }
         }
       }
     } 
   }
 
-  node('docker') {
-    deleteDir()
-
-    stage('git checkout') {
-      checkout scm
-    }
-
-    docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
-      docker.image('ci-java-base:2.0.18').inside {
-        stage('build') {
-          try {
-            timeout(time: 10, unit: 'MINUTES') {
-              sh 'chmod +x gradlew'
-              sh './gradlew build'
-            }
-          }
-          finally {
-	    step([$class: 'JUnitResultArchiver', testResults: 'build/test-results/test/*.xml'])
-          }
-        }
-      }
-    }
-  }
+//  node('docker') {
+//    deleteDir()
+//    stage('git checkout') {
+//      checkout scm
+//    }
+//
+//    docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
+//      docker.image('ci-java-base:2.0.18').inside {
+//        stage('build') {
+//          try {
+//            timeout(time: 10, unit: 'MINUTES') {
+//              sh 'chmod +x gradlew'
+//              sh './gradlew build'
+//            }
+//          }
+//          finally {
+//	    step([$class: 'JUnitResultArchiver', testResults: 'build/test-results/test/*.xml'])
+//          }
+//        }
+//      }
+//    }
+//  }
 }
 catch (exc) {
   echo "caught exception: ${exc}"
