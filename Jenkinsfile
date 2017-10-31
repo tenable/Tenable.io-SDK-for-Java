@@ -27,8 +27,8 @@ try {
             timeout(time: 10, unit: 'MINUTES') {
               //sh 'python3 autosetup.py catium --all'
               sh 'git --version'
-              sh "echo ${USERNAME}" 
-              sh "echo ${KEYFILE}" 
+              sh "echo " + USERNAME 
+              sh "echo " + KEYFILE  
             }
           }
         }
