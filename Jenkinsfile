@@ -31,6 +31,7 @@ try {
           stage('build automation') {
             timeout(time: 10, unit: 'MINUTES') {
               sh 'git config --global user.name "buildenginer"'
+              sh 'mkdir ~/.ssh && chnmod 600 ~/.ssh'
               sh 'ssh-keyscan -H  stash.corp.tenablesecurity.com  >> ~/.ssh/known_hosts'
               sh 'cd automation && python3 autosetup.py catium --all'
             }
