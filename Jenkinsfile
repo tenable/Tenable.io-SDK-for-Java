@@ -31,6 +31,7 @@ try {
           stage('build automation') {
             timeout(time: 10, unit: 'MINUTES') {
               sh 'id'
+              sh 'cat /etc/passwd'
               sh 'cd automation && python3 autosetup.py catium --all'
             }
           }
