@@ -24,13 +24,16 @@ try {
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
       docker.image('ci-java-base:2.0.18').inside {
         stage('build') {
-          timeout(time: 10, unit: 'MINUTES') {
-            sh 'chmod +x gradlew'
-            sh './gradlew build'
-            sh 'find build/test-results/tes'
+          try {
+            timeout(time: 10, unit: 'MINUTES') {
+              sh 'chmod +x gradlew'
+              sh './gradlew build'
+            }
+          }
+          finally {
+	    step([$class: 'JUnitResultArchiver', testResults: 'build/test-results/test/*.xml'])
           }
         }
-	step([$class: 'JUnitResultArchiver', testResults: 'build/test-results/test/*.xml'])
       }
     }
   }
