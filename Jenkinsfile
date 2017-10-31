@@ -24,7 +24,8 @@ try {
       docker.image('ci-vulnautomation-base:1.0.9').inside {
         stage('build automation') {
           timeout(time: 10, unit: 'MINUTES') {
-            sh 'python3 autosetup.py catium --all'
+            //sh 'python3 autosetup.py catium --all'
+            sh 'git --version'
           }
         }
       }
