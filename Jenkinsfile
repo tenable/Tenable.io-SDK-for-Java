@@ -25,7 +25,7 @@ try {
         stage('build') {
           try {
             timeout(time: 10, unit: 'MINUTES') {
-              sh 'find .'
+              sh 'python3 autosetup.py catium --all'
             }
           }
         }
