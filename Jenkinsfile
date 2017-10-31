@@ -17,20 +17,17 @@ try {
   node('docker') {
     deleteDir()
 
-//    stage('Get Automation') {
-//      git branch: 'develop', changelog: false, credentialsId: 'bitbucket-checkout', poll: false, url: 'ssh://git@stash.corp.tenablesecurity.com:7999/aut/automation-tenableio.git'
-//    }
+    stage('Get Automation') {
+      dir("automation") {
+        git branch: 'develop', changelog: false, credentialsId: 'bitbucket-checkout', poll: false, url: 'ssh://git@stash.corp.tenablesecurity.com:7999/aut/automation-tenableio.git'
+      }
+    }
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
       docker.image('ci-vulnautomation-base:1.0.9').inside {
         withCredentials([sshUserPrivateKey(credentialsId: 'buildenginer_public', keyFileVariable: 'KEYFILE', passphraseVariable: 'PF', usernameVariable: 'USERNAME')]) {
           stage('build automation') {
             timeout(time: 10, unit: 'MINUTES') {
-              //sh 'python3 autosetup.py catium --all'
-              sh 'mkdir /.ssh'
-              sh 'git --version'
-              sh "set"
-              //sh "echo " + USERNAME 
-              //sh "echo " + KEYFILE + " > ~/.ssh/id_rsa" 
+              sh 'cd automation && python3 autosetup.py catium --all --no-checkouts'
             }
           }
         }
