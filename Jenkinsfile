@@ -17,7 +17,7 @@ try {
   node('docker') {
     deleteDir()
 
-    git branch: 'develop', credentialsId: 'bitbucket-scan', url: 'https://stash.corp.tenablesecurity.com:7999/aut/automation-tenableio.git'
+    git branch: 'develop', changelog: false, credentialsId: 'bitbucket-checkout', poll: false, url: 'ssh://git@stash.corp.tenablesecurity.com:7999/aut/automation-tenableio.git'
   }
 
   node('docker') {
