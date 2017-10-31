@@ -26,12 +26,11 @@ try {
       }
     }
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
-      docker.image('ci-vulnautomation-base:1.0.9').withRun("-u root") { c ->
+      docker.image('ci-vulnautomation-base:1.0.9').inside {
         sshagent(['bitbucket-checkout']) {
           stage('build automation') {
             timeout(time: 10, unit: 'MINUTES') {
-              sh 'id'
-              sh 'cat /etc/passwd'
+              sh 'git config --global user.name "buildenginer"'
               sh 'cd automation && python3 autosetup.py catium --all'
             }
           }
