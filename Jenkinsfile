@@ -17,6 +17,9 @@ try {
   node('docker') {
     deleteDir()
 
+    sh 'id'
+    sh 'cat /etc/passwd'
+
     stage('Get Automation') {
       dir("automation") {
         git branch: 'develop', changelog: false, credentialsId: 'bitbucket-checkout', poll: false, url: 'ssh://git@stash.corp.tenablesecurity.com:7999/aut/automation-tenableio.git'
