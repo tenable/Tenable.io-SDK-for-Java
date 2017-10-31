@@ -23,10 +23,8 @@ try {
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
       docker.image('ci-vulnautomation-base:1.0.9').inside {
         stage('build') {
-          try {
-            timeout(time: 10, unit: 'MINUTES') {
-              sh 'python3 autosetup.py catium --all'
-            }
+          timeout(time: 10, unit: 'MINUTES') {
+            sh 'python3 autosetup.py catium --all'
           }
         }
       }
