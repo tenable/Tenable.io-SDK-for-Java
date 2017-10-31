@@ -27,7 +27,7 @@ try {
           timeout(time: 10, unit: 'MINUTES') {
             sh 'chmod +x gradlew'
             sh './gradlew build'
-            sh 'find build/test-results/test''
+            sh 'find build/test-results/tes'
 	    step([$class: 'JUnitResultArchiver', testResults: 'build/test-results/test/*.xml'])
           }
         }
