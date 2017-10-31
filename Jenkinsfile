@@ -26,7 +26,7 @@ try {
           stage('build automation') {
             timeout(time: 10, unit: 'MINUTES') {
               //sh 'python3 autosetup.py catium --all'
-              //sh 'mkdir ~/.ssh'
+              sh 'mkdir /.ssh'
               sh 'git --version'
               sh "set"
               //sh "echo " + USERNAME 
