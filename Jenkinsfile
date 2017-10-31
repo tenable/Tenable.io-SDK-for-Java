@@ -17,7 +17,20 @@ try {
   node('docker') {
     deleteDir()
 
-    git branch: 'develop', changelog: false, credentialsId: 'bitbucket-checkout', poll: false, url: 'ssh://git@stash.corp.tenablesecurity.com:7999/aut/automation-tenableio.git'
+    stage('Get Automation') {
+      git branch: 'develop', changelog: false, credentialsId: 'bitbucket-checkout', poll: false, url: 'ssh://git@stash.corp.tenablesecurity.com:7999/aut/automation-tenableio.git'
+    }
+    docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
+      docker.image('ci-vulnautomation-base:1.0.9').inside {
+        stage('build') {
+          try {
+            timeout(time: 10, unit: 'MINUTES') {
+              sh 'find .'
+            }
+          }
+        }
+      }
+    } 
   }
 
   node('docker') {
