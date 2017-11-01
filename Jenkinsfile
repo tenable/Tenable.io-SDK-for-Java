@@ -38,12 +38,13 @@ try {
         stage('build automation') {
           timeout(time: 10, unit: 'MINUTES') {
             sshagent(['buildenginer_public']) {
+              sh 'pip install virtualenv'
               sh 'git config --global user.name "buildenginer"'
               sh 'mkdir ~/.ssh && chmod 600 ~/.ssh'
               sh 'ssh-keyscan -H -p 7999 stash.corp.tenablesecurity.com >> ~/.ssh/known_hosts'
               sh 'ssh-keyscan -H -p 7999 172.25.100.131 >> ~/.ssh/known_hosts'
               //sh 'cat ~/.ssh/known_hosts'
-              sh 'cd automation && python3 autosetup.py catium --all --no-venv 2>&1'
+              sh 'cd automation && python3 autosetup.py catium --all 2>&1'
               sh '''
 export PYTHONHASHSEED=0 
 export PYTHONPATH=. 
