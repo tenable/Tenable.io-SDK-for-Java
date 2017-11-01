@@ -37,20 +37,23 @@ dependencies {
     testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.23'
 }
 
+
+println System.properties.tenableIoAccessKey
+
 // Configure this block to run the tests
 test {
     // Access key and secret
-    jvmArgs "-DtenableIoAccessKey=<ACCESS KEY>"
-    jvmArgs "-DtenableIoSecretKey=<ACCESS SECRET>"
+    jvmArgs "-DtenableIoAccessKey=" + System.properties.tenableIoAccessKey
+    jvmArgs "-DtenableIoSecretKey=" + System.properties.tenableIoSecretKey
     // A valid domain name for username
-    jvmArgs "-DuserDomainName=<YOUR DOMAIN>"
+    jvmArgs "-DuserDomainName=" + System.properties.userDomainName
     // Comma-separated list of host targets to create a scan with. (Warning: do not scan targets that you're not authorized to.)
-    jvmArgs "-DscanTextTargets=<SCAN_TEXT_TARGETS>"
+    jvmArgs "-DscanTextTargets=" + System.properties.scanTextTargets
     // Comma-separated list of host alternative targets to launch a scan with. (Warning: do not scan targets that you're not authorized to.)
-    jvmArgs "-DscanAltTargets=<SCAN_ALT_TARGETS>"
+    jvmArgs "-DscanAltTargets=" + System.properties.scanAltTargets
     // Name of template to create a scan with.
-    jvmArgs "-DscanTemplateName=discovery"
+    jvmArgs "-DscanTemplateName=" + System.properties.scanTemplateName 
     // Name of template to create a policy with.
-    jvmArgs "-DpolicyTemplateName=discovery"
+    jvmArgs "-DpolicyTemplateName=" + System.properties.policyTemplateName
 }
 
