@@ -18,7 +18,7 @@ try {
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
       docker.image('ci-vulnautomation-base:1.0.9').inside("-u root") {
         stage('clean_workspace') {
-          sh 'chmod -R 1000:1000 .'
+          sh 'chown -R 1000:1000 .'
         }
       }
     } 
