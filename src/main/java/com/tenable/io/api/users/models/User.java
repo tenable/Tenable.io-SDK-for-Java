@@ -20,7 +20,7 @@ public class User {
     private int loginFailCount;
     private int lastLoginAttempt;
     private UUID uuid;
-    private int aggregate;
+    private boolean aggregate;
     private int containerId;
     private String containerName;
     private UUID containerUuid;
@@ -35,7 +35,7 @@ public class User {
      *
      * @return the aggregate
      */
-    public int getAggregate() {
+    public boolean getAggregate() {
         return aggregate;
     }
 
@@ -45,7 +45,7 @@ public class User {
      *
      * @param aggregate the aggregate
      */
-    public void setAggregate( int aggregate ) {
+    public void setAggregate( boolean aggregate ) {
         this.aggregate = aggregate;
     }
 

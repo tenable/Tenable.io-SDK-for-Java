@@ -120,6 +120,7 @@ public class ScannersApiClientTest extends TestBase {
     public void cleanup() throws TenableIoException {
         TenableIoClient apiClient = new TenableIoClient();
 
-        deleteTestScans( apiClient );
+        // No longer needed on temporary test containers
+        // deleteTestScans( apiClient );
     }
 }
