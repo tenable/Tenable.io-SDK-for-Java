@@ -17,21 +17,20 @@ try {
   node('docker') {
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
       docker.image('ci-vulnautomation-base:1.0.9').inside("-u root") {
-        stage('build automation') {
-          timeout(time: 10, unit: 'MINUTES') {
-            sshagent(['buildenginer_public']) {
-              deleteDir()
-            }
-          }
+        stage('clean_workspace') {
+          deleteDir()
         }
       }
     } 
+
+    deleteDir()
 
     stage('Get Automation') {
       dir("automation") {
         git branch: 'develop', changelog: false, credentialsId: 'bitbucket-checkout', poll: false, url: 'ssh://git@stash.corp.tenablesecurity.com:7999/aut/automation-tenableio.git'
       }
     }
+
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
       docker.image('ci-vulnautomation-base:1.0.9').inside("-u root") {
         stage('build automation') {
