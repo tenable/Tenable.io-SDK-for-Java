@@ -30,6 +30,7 @@ try {
               sh 'git config --global user.name "buildenginer"'
               sh 'mkdir ~/.ssh && chmod 600 ~/.ssh'
               sh 'ssh-keyscan -H -p 7999 stash.corp.tenablesecurity.com >> ~/.ssh/known_hosts'
+              sh 'ssh-keyscan -H -p 7999 172.25.100.131 >> ~/.ssh/known_hosts'
               sh 'cat ~/.ssh/known_hosts'
               sh 'cd automation && python3 autosetup.py catium --all'
             }
