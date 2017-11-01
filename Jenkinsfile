@@ -17,9 +17,6 @@ try {
   node('docker') {
     deleteDir()
 
-    sh 'id'
-    sh 'cat /etc/passwd'
-
     stage('Get Automation') {
       dir("automation") {
         git branch: 'develop', changelog: false, credentialsId: 'bitbucket-checkout', poll: false, url: 'ssh://git@stash.corp.tenablesecurity.com:7999/aut/automation-tenableio.git'
@@ -33,6 +30,7 @@ try {
               sh 'git config --global user.name "buildenginer"'
               sh 'mkdir ~/.ssh && chmod 600 ~/.ssh'
               sh 'ssh-keyscan -H  stash.corp.tenablesecurity.com  >> ~/.ssh/known_hosts'
+              sh 'cat ~/.ssh/known_hosts'
               sh 'cd automation && python3 autosetup.py catium --all'
             }
           }
