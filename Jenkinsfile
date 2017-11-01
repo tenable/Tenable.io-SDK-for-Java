@@ -29,7 +29,7 @@ try {
             sshagent(['buildenginer_public']) {
               sh 'git config --global user.name "buildenginer"'
               sh 'mkdir ~/.ssh && chmod 600 ~/.ssh'
-              sh 'ssh-keyscan -H  stash.corp.tenablesecurity.com:7999  >> ~/.ssh/known_hosts'
+              sh 'ssh-keyscan -H  stash.corp.tenablesecurity.com -p 7999  >> ~/.ssh/known_hosts'
               sh 'cat ~/.ssh/known_hosts'
               sh 'cd automation && python3 autosetup.py catium --all'
             }
