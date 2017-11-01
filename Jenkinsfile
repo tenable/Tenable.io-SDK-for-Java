@@ -60,6 +60,8 @@ pwd
 
 mkdir ../tenableio-sdk
 python3 tenableio/commandline/sdk_test_container.py --create_container --raw
+
+cat site-config.ini
 '''
             }
           }
