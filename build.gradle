@@ -43,17 +43,14 @@ println System.properties.tenableIoAccessKey
 // Configure this block to run the tests
 test {
     // Access key and secret
-    jvmArgs [ "-DtenableIoAccessKey=" + System.properties.tenableIoAccessKey
-            , "-DtenableIoSecretKey=" + System.properties.tenableIoSecretKey
-    // A valid domain name for username
-            , "-DuserDomainName=" + System.properties.userDomainName
-    // Comma-separated list of host targets to create a scan with. (Warning: do not scan targets that you're not authorized to.)
-            , "-DscanTextTargets=" + System.properties.scanTextTargets
-    // Comma-separated list of host alternative targets to launch a scan with. (Warning: do not scan targets that you're not authorized to.)
-            , "-DscanAltTargets=" + System.properties.scanAltTargets
-    // Name of template to create a scan with.
-            , "-DscanTemplateName=" + System.properties.scanTemplateName 
-    // Name of template to create a policy with.
-            , "-DpolicyTemplateName=" + System.properties.policyTemplateName ]
+    jvmArgs   "-DtenableIoAccessKey=" + System.properties.tenableIoAccessKey
+    jvmArgs   "-DtenableIoSecretKey=" + System.properties.tenableIoSecretKey
+    jvmArgs   "-DuserDomainName=" + System.properties.userDomainName
+    jvmArgs   "-DscanTextTargets=" + System.properties.scanTextTargets
+    jvmArgs   "-DscanAltTargets=" + System.properties.scanAltTargets
+    jvmArgs   "-DscanTemplateName=" + System.properties.scanTemplateName
+    jvmArgs   "-DpolicyTemplateName=" + System.properties.policyTemplateName
+    jvmArgs   "-DtenableIoHost=" + System.properties.tenableIoHost
+    jvmArgs   "-DTENABLE_IO_HOST=" + System.properties.tenableIoHost
 }
 
