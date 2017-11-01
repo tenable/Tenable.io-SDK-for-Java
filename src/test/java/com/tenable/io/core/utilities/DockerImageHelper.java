@@ -27,8 +27,10 @@ import java.util.List;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class DockerImageHelper {
-    private final String REGISTRY_HOST = "registry.cloud.tenable.com";
-    private final String REGISTRY_PROTOCOL = "https";
+    // Name of container registry to test with.
+    private String REGISTRY_HOST = System.getProperty( "registryHost" ); // default "registry.cloud.tenable.com"
+    // Registry protocol to test with.
+    private String REGISTRY_PROTOCOL = System.getProperty( "registryProtocol" ); // default "https"
 
     /**
      * Upload docker image docker image upload data.
