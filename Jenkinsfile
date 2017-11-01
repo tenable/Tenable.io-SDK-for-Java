@@ -15,7 +15,17 @@ properties(projectProperties)
 
 try {
   node('docker') {
-    deleteDir()
+    docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
+      docker.image('ci-vulnautomation-base:1.0.9').inside("-u root") {
+        stage('build automation') {
+          timeout(time: 10, unit: 'MINUTES') {
+            sshagent(['buildenginer_public']) {
+              deleteDir()
+            }
+          }
+        }
+      }
+    } 
 
     stage('Get Automation') {
       dir("automation") {
@@ -31,7 +41,7 @@ try {
               sh 'mkdir ~/.ssh && chmod 600 ~/.ssh'
               sh 'ssh-keyscan -H -p 7999 stash.corp.tenablesecurity.com >> ~/.ssh/known_hosts'
               sh 'ssh-keyscan -H -p 7999 172.25.100.131 >> ~/.ssh/known_hosts'
-              sh 'cat ~/.ssh/known_hosts'
+              //sh 'cat ~/.ssh/known_hosts'
               sh 'cd automation && python3 autosetup.py catium --all'
             }
           }
