@@ -15,6 +15,8 @@ properties(projectProperties)
 
 try {
   node('docker') {
+
+    // Cleanup within the container as we run as root
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
       docker.image('ci-vulnautomation-base:1.0.9').inside("-u root") {
         stage('clean_workspace') {
