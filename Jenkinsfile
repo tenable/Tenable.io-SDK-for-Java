@@ -63,6 +63,7 @@ python3 tenableio/commandline/sdk_test_container.py --create_container --raw
 
 cat site-config.ini
 '''
+              stash includes: '**/tenableio-sdk/tio_config.txt', name: 'Config'
             }
           }
         }
@@ -70,28 +71,33 @@ cat site-config.ini
     } 
   }
 
-//  node('docker') {
-//    deleteDir()
-//    stage('git checkout') {
-//      checkout scm
-//    }
-//
-//    docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
-//      docker.image('ci-java-base:2.0.18').inside {
-//        stage('build') {
-//          try {
-//            timeout(time: 10, unit: 'MINUTES') {
-//              sh 'chmod +x gradlew'
-//              sh './gradlew build'
-//            }
-//          }
-//          finally {
-//	    step([$class: 'JUnitResultArchiver', testResults: 'build/test-results/test/*.xml'])
-//          }
-//        }
-//      }
-//    }
-//  }
+  node('docker') {
+    deleteDir()
+    stage('git checkout') {
+      unstash 'Config'
+      sh 'find .'
+      checkout scm
+    }
+ 
+
+   
+
+    docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
+      docker.image('ci-java-base:2.0.18').inside {
+        stage('build') {
+          try {
+            timeout(time: 10, unit: 'MINUTES') {
+              sh 'chmod +x gradlew'
+              sh './gradlew build'
+            }
+          }
+          finally {
+	    step([$class: 'JUnitResultArchiver', testResults: 'build/test-results/test/*.xml'])
+          }
+        }
+      }
+    }
+  }
 }
 catch (exc) {
   echo "caught exception: ${exc}"
