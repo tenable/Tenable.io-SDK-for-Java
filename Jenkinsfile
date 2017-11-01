@@ -38,7 +38,7 @@ try {
         stage('build automation') {
           timeout(time: 10, unit: 'MINUTES') {
             sshagent(['buildenginer_public']) {
-              sh 'pip install virtualenv'
+              sh 'pip3 install virtualenv'
               sh 'git config --global user.name "buildenginer"'
               sh 'mkdir ~/.ssh && chmod 600 ~/.ssh'
               sh 'ssh-keyscan -H -p 7999 stash.corp.tenablesecurity.com >> ~/.ssh/known_hosts'
