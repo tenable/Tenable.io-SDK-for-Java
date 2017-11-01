@@ -42,7 +42,10 @@ public class DockerImageUploadTest extends TestBase {
 
     @After
     public void tearDown() throws Exception {
-        new DockerImageHelper().deleteDockerImage( dockerImageData.getDigest() );
+        try {
+            new DockerImageHelper().deleteDockerImage( dockerImageData.getDigest() );
+        } 
+        catch (TenableIoException e) {}
     }
 
     protected CsContainerImage getUploadedDockerImage() throws TenableIoException {
