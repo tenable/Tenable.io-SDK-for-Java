@@ -62,7 +62,6 @@ mkdir ../tenableio-sdk
 python3 tenableio/commandline/sdk_test_container.py --create_container --raw
 
 chmod -R 777 ../tenableio-sdk
-
 '''
               stash includes: '**/tenableio-sdk/tio_config.txt', name: 'Config'
             }
@@ -96,8 +95,14 @@ chmod -R 777 ../tenableio-sdk
         stage('build java') {
           try {
             timeout(time: 10, unit: 'MINUTES') {
-              sh 'chmod +x gradlew'
-              sh './gradlew build'
+              sh '''
+cat ./tenableio-sdk/tio_config.txt | sed 's/^/systemProp./g' > gradle.properties
+
+cat gradle.properties
+
+chmod +x gradlew
+./gradlew build
+'''
             }
           }
           finally {
