@@ -61,7 +61,8 @@ pwd
 mkdir ../tenableio-sdk
 python3 tenableio/commandline/sdk_test_container.py --create_container --raw
 
-cat site-config.ini
+chmod -T ../tenableio-sdk
+
 '''
               stash includes: '**/tenableio-sdk/tio_config.txt', name: 'Config'
             }
@@ -72,15 +73,23 @@ cat site-config.ini
   }
 
   node('docker') {
+
+    // Cleanup within the container as we run as root
+    docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
+      docker.image('ci-vulnautomation-base:1.0.9').inside("-u root") {
+        stage('clean_java_workspace') {
+          sh 'chown -R 1000:1000 .'
+        }
+      }
+    } 
+
     deleteDir()
+
     stage('git checkout') {
       unstash 'Config'
       sh 'find .'
       checkout scm
     }
- 
-
-   
 
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
       docker.image('ci-java-base:2.0.18').inside {
