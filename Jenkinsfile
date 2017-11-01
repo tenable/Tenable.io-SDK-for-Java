@@ -85,9 +85,9 @@ chmod -R 777 ../tenableio-sdk
     deleteDir()
 
     stage('scm java') {
-      unstash 'Config'
-      sh 'find .'
       checkout scm
+      unstash 'Config'
+      sh 'find tenableio-sdk'
     }
 
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
@@ -96,6 +96,7 @@ chmod -R 777 ../tenableio-sdk
           try {
             timeout(time: 10, unit: 'MINUTES') {
               sh '''
+find .
 cat ./tenableio-sdk/tio_config.txt | sed 's/^/systemProp./g' > gradle.properties
 
 cat gradle.properties
