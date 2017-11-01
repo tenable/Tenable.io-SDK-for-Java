@@ -41,7 +41,7 @@ try {
               sh 'ssh-keyscan -H -p 7999 stash.corp.tenablesecurity.com >> ~/.ssh/known_hosts'
               sh 'ssh-keyscan -H -p 7999 172.25.100.131 >> ~/.ssh/known_hosts'
               //sh 'cat ~/.ssh/known_hosts'
-              sh 'cd automation && python3 autosetup.py catium --all ----no-venv'
+              sh 'cd automation && python3 autosetup.py catium --all --no-venv'
             }
           }
         }
