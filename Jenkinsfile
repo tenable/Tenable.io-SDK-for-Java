@@ -53,11 +53,10 @@ export PYTHONPATH=.
 export CAT_LOG_LEVEL_CONSOLE=INFO
 export CAT_SITE=qa-milestone
 
+env
+cd automation
 pwd
 
-cd automation
-
-// . bin/activate
 mkdir ../tenableio-sdk
 python3 tenableio/commandline/sdk_test_container.py --create_container --raw
 '''
