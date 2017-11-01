@@ -20,7 +20,7 @@ try {
     // Cleanup within the container as we run as root
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
       docker.image('ci-vulnautomation-base:1.0.9').inside("-u root") {
-        stage('clean_workspace') {
+        stage('clean auto') {
           sh 'chown -R 1000:1000 .'
         }
       }
@@ -29,7 +29,7 @@ try {
     deleteDir()
 
     // Pull the automation framework from develop
-    stage('Get Automation') {
+    stage('scm auto') {
       dir("automation") {
         git branch: 'develop', changelog: false, credentialsId: 'bitbucket-checkout', poll: false, url: 'ssh://git@stash.corp.tenablesecurity.com:7999/aut/automation-tenableio.git'
       }
@@ -37,7 +37,7 @@ try {
 
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
       docker.image('ci-vulnautomation-base:1.0.9').inside("-u root") {
-        stage('build automation') {
+        stage('build auto') {
           timeout(time: 10, unit: 'MINUTES') {
             sshagent(['buildenginer_public']) {
               // This may need to go back to the image
@@ -61,7 +61,7 @@ pwd
 mkdir ../tenableio-sdk
 python3 tenableio/commandline/sdk_test_container.py --create_container --raw
 
-chmod -T ../tenableio-sdk
+chmod -R 777 ../tenableio-sdk
 
 '''
               stash includes: '**/tenableio-sdk/tio_config.txt', name: 'Config'
@@ -77,7 +77,7 @@ chmod -T ../tenableio-sdk
     // Cleanup within the container as we run as root
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
       docker.image('ci-vulnautomation-base:1.0.9').inside("-u root") {
-        stage('clean_java_workspace') {
+        stage('clean java') {
           sh 'chown -R 1000:1000 .'
         }
       }
@@ -85,7 +85,7 @@ chmod -T ../tenableio-sdk
 
     deleteDir()
 
-    stage('git checkout') {
+    stage('scm java') {
       unstash 'Config'
       sh 'find .'
       checkout scm
@@ -93,7 +93,7 @@ chmod -T ../tenableio-sdk
 
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
       docker.image('ci-java-base:2.0.18').inside {
-        stage('build') {
+        stage('build java') {
           try {
             timeout(time: 10, unit: 'MINUTES') {
               sh 'chmod +x gradlew'
