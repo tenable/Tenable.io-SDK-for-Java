@@ -38,7 +38,7 @@ try {
               sh 'ssh-keyscan -H -p 7999 stash.corp.tenablesecurity.com >> ~/.ssh/known_hosts'
               sh 'ssh-keyscan -H -p 7999 172.25.100.131 >> ~/.ssh/known_hosts'
               sh """
-cd automation && exit 1
+cd automation
 python3 autosetup.py catium --all --no-venv 2>&1
 export PYTHONHASHSEED=0 
 export PYTHONPATH=. 
