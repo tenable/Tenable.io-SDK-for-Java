@@ -38,13 +38,13 @@ try {
               sh 'ssh-keyscan -H -p 7999 stash.corp.tenablesecurity.com >> ~/.ssh/known_hosts'
               sh 'ssh-keyscan -H -p 7999 172.25.100.131 >> ~/.ssh/known_hosts'
               sh """
-cd automation && python3 autosetup.py catium --all --no-venv 2>&1
+cd automation && exit 1
+python3 autosetup.py catium --all --no-venv 2>&1
 export PYTHONHASHSEED=0 
 export PYTHONPATH=. 
 export CAT_LOG_LEVEL_CONSOLE=INFO
 export CAT_SITE=${params.CAT_SITE}
 
-cd automation
 pwd
 
 mkdir ../tenableio-sdk
