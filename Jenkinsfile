@@ -1,12 +1,5 @@
 #!/usr/bin/env groovy
 
-//library 'sayHello'
-
-// this is a scripted (not declarative) pipeline
-// https://jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline
-// https://jenkins.io/doc/book/pipeline/syntax/#compare
-// https://jenkins.io/blog/2017/02/03/declarative-pipeline-ga/
-
 def projectProperties = [
   [$class: 'BuildDiscarderProperty',strategy: [$class: 'LogRotator', numToKeepStr: '5']],disableConcurrentBuilds(),
   [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: 'qa-staging', description: '', name: 'CAT_SITE']]]
@@ -40,21 +33,17 @@ try {
         stage('build auto') {
           timeout(time: 10, unit: 'MINUTES') {
             sshagent(['buildenginer_public']) {
-              // This may need to go back to the image
-              // sh 'pip3 install virtualenv'
               sh 'git config --global user.name "buildenginer"'
               sh 'mkdir ~/.ssh && chmod 600 ~/.ssh'
               sh 'ssh-keyscan -H -p 7999 stash.corp.tenablesecurity.com >> ~/.ssh/known_hosts'
               sh 'ssh-keyscan -H -p 7999 172.25.100.131 >> ~/.ssh/known_hosts'
-              //sh 'cat ~/.ssh/known_hosts'
-              sh 'cd automation && python3 autosetup.py catium --all --no-venv 2>&1'
               sh '''
+cd automation && python3 autosetup.py catium --all --no-venv 2>&1
 export PYTHONHASHSEED=0 
 export PYTHONPATH=. 
 export CAT_LOG_LEVEL_CONSOLE=INFO
-export CAT_SITE=qa-milestone
+export CAT_SITE=${params.CAT_SITE}
 
-env
 cd automation
 pwd
 
@@ -72,7 +61,6 @@ chmod -R 777 ../tenableio-sdk
   }
 
   node('docker') {
-
     // Cleanup within the container as we run as root
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
       docker.image('ci-vulnautomation-base:1.0.9').inside("-u root") {
@@ -87,7 +75,6 @@ chmod -R 777 ../tenableio-sdk
     stage('scm java') {
       checkout scm
       unstash 'Config'
-      sh 'find tenableio-sdk'
     }
 
     docker.withRegistry('https://docker-registry.cloud.aws.tenablesecurity.com:8888/') {
