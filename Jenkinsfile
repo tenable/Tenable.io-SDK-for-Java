@@ -32,7 +32,7 @@ try {
       docker.image('ci-vulnautomation-base:1.0.9').inside("-u root") {
         stage('build auto') {
           timeout(time: 10, unit: 'MINUTES') {
-            sshagent(['buildenginer_public']) {
+            sshagent(['bitbucket-checkout']) {
               sh 'git config --global user.name "buildenginer"'
               sh 'mkdir ~/.ssh && chmod 600 ~/.ssh'
               sh 'ssh-keyscan -H -p 7999 stash.corp.tenablesecurity.com >> ~/.ssh/known_hosts'
