@@ -2,11 +2,14 @@ package com.tenable.io.api;
 
 
 import com.tenable.io.api.agents.models.Agent;
+import com.tenable.io.core.exceptions.TenableIoException;
+import com.tenable.io.core.exceptions.TenableIoErrorCode;
+
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 
@@ -18,11 +21,16 @@ public class AgentsApiClientTest extends TestBase {
     public void testAgents() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
 
+        // No agents expected to be returned on a new container
         List<Agent> agents = apiClient.getAgentsApi().list();
-        assertNotNull( agents );
-        assertTrue( agents.size() > 0 );
+        assertNull( agents );
 
-        //works. don't want to delete agent since adding a new agent requires manual steps
-        //apiClient.getAgentsApi().delete(1, 6100);
+        //Since no agents should exist on testing containers a 404 is expected
+        try {
+            apiClient.getAgentsApi().delete(9999);
+        }
+        catch (TenableIoException e){
+            assertTrue(e.getErrorCode() == TenableIoErrorCode.NotFound);
+        }
     }
 }
