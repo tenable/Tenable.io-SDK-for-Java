@@ -330,12 +330,48 @@ public class ScansApi extends ApiWrapperBase {
      * @param file     The name of the file to import as provided by the response from file: upload
      * @param folderId The id of the destination folder. If not specified, the default folder will be used
      * @param password The password for the file to import (required for nessus.db)
+     * @param aggregate Whether or not the scan details should be included in the Vulnerabilities workbench. (1 if yes, 0 if no)
      * @return the scan
      * @throws TenableIoException the tenable IO exception
      */
-    public Scan importFile( String file, int folderId, String password ) throws TenableIoException {
+    public Scan importFile( String file, int folderId, String password, String aggregate  ) throws TenableIoException {
         ImportRequest request = new ImportRequest().withFile( file ).withFolderId( folderId ).withPassword( password );
-        HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans/import" ).build(), request );
+        HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans/import" )
+                .addParameter( "include_aggregate", aggregate ).build(), request );
+        return httpFuture.getAsType( Scan.class, "scan" );
+    }
+
+
+    /**
+     * Import an existing scan uploaded using file: upload.
+     *
+     * @param file     The name of the file to import as provided by the response from file: upload
+     * @param folderId The id of the destination folder. If not specified, the default folder will be used
+     * @param password The password for the file to import (required for nessus.db)
+     * @return the scan
+     * @throws TenableIoException the tenable IO exception
+     */
+    public Scan importFile( String file, int folderId, String password  ) throws TenableIoException {
+        ImportRequest request = new ImportRequest().withFile( file ).withFolderId( folderId ).withPassword( password );
+        HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans/import" )
+                .addParameter( "include_aggregate", "1" ).build(), request );
+        return httpFuture.getAsType( Scan.class, "scan" );
+    }
+
+
+    /**
+     * Import an existing scan uploaded using file: upload.
+     *
+     * @param file     The name of the file to import as provided by the response from file: upload
+     * @param password The password for the file to import (required for nessus.db)
+     * @param aggregate Whether or not the scan details should be included in the Vulnerabilities workbench. (1 if yes, 0 if no)
+     * @return the scan
+     * @throws TenableIoException the tenable IO exception
+     */
+    public Scan importFile( String file, String password, String aggregate ) throws TenableIoException {
+        ImportRequest request = new ImportRequest().withFile( file ).withPassword( password );
+        HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans/import" )
+                .addParameter( "include_aggregate", aggregate ).build(), request );
         return httpFuture.getAsType( Scan.class, "scan" );
     }
 
@@ -350,7 +386,8 @@ public class ScansApi extends ApiWrapperBase {
      */
     public Scan importFile( String file, String password ) throws TenableIoException {
         ImportRequest request = new ImportRequest().withFile( file ).withPassword( password );
-        HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans/import" ).build(), request );
+        HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans/import" )
+                .addParameter( "include_aggregate", "1" ).build(), request );
         return httpFuture.getAsType( Scan.class, "scan" );
     }
 
