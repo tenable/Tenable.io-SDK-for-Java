@@ -10,6 +10,7 @@ import com.tenable.io.api.policies.models.PolicyDetail;
 import com.tenable.io.api.editors.models.EditorDetail;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.List;
 import java.util.Random;
 
@@ -75,6 +76,11 @@ public class EditorApiClientTest extends TestBase {
     @Test
     public void testPluginDescription() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
+
+        // import a policy to be used in test
+        String filename = apiClient.getFileApi().upload( new File( "src/test/resources/nessus_policy_test.nessus" ) );
+        Policy imported = apiClient.getPoliciesApi().importPolicy( filename );
+
         List<Policy> policies = apiClient.getPoliciesApi().list();
         assertNotNull( policies );
         Random random = new Random();
