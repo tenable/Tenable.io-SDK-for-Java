@@ -51,7 +51,7 @@ public class ScanWorkflowsExamples extends TestBase {
         assertTrue( scansByName.size() > 0 );
 
         //Select scans by name with regular expression.
-        List<ScanRef> scansByRegex = client.getScanHelper().getScansByRegex( ".*Scan$" );
+        List<ScanRef> scansByRegex = client.getScanHelper().getScansByRegex( "tioTestScan_.*?" );
         assertNotNull( scansByRegex );
         assertTrue( scansByRegex.size() > 0 );
 
@@ -237,7 +237,6 @@ public class ScanWorkflowsExamples extends TestBase {
     public void cleanup() throws TenableIoException {
         TenableIoClient apiClient = new TenableIoClient();
 
-        deleteTestScans( apiClient );
         deleteTestFolders( apiClient );
     }
 }
