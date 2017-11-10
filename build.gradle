@@ -37,20 +37,44 @@ dependencies {
     testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.23'
 }
 
+
+println System.properties.tenableIoAccessKey
+
 // Configure this block to run the tests
 test {
+    // add a gradle.properties file in the form:
+  
+    // systemProp.policyTemplateName=basic
+    // systemProp.scanAltTargets=target2.tenable.com
+    // systemProp.scanTemplateName=basic
+    // systemProp.scanTextTargets=target1.tenable.com
+    // systemProp.tenableIoAccessKey=652fd6e609d33bad710211b55e4355804a609d9b266ba4b9bd2ab62f329634bb
+    // systemProp.tenableIoHost=develop.cloud.tenable.com
+    // systemProp.tenableIoSecretKey=********
+    // systemProp.userDomainName=tenable.dev
+    // systemProp.registryHost=registry.cloud.tenable.com
+    // systemProp.registryProtocol=https
+ 
     // Access key and secret
-    jvmArgs "-DtenableIoAccessKey=<ACCESS KEY>"
-    jvmArgs "-DtenableIoSecretKey=<ACCESS SECRET>"
+    jvmArgs "-DtenableIoAccessKey=" + System.properties['tenableIoAccessKey']
+    jvmArgs "-DtenableIoSecretKey=" + System.properties['tenableIoSecretKey']
     // A valid domain name for username
-    jvmArgs "-DuserDomainName=<YOUR DOMAIN>"
+    jvmArgs "-DuserDomainName=" + System.properties['userDomainName']
     // Comma-separated list of host targets to create a scan with. (Warning: do not scan targets that you're not authorized to.)
-    jvmArgs "-DscanTextTargets=<SCAN_TEXT_TARGETS>"
+    jvmArgs "-DscanTextTargets=" + System.properties['scanTextTargets']
     // Comma-separated list of host alternative targets to launch a scan with. (Warning: do not scan targets that you're not authorized to.)
-    jvmArgs "-DscanAltTargets=<SCAN_ALT_TARGETS>"
+    jvmArgs "-DscanAltTargets=" + System.properties['scanAltTargets']
     // Name of template to create a scan with.
-    jvmArgs "-DscanTemplateName=discovery"
+    jvmArgs "-DscanTemplateName=" + System.properties['scanTemplateName']
     // Name of template to create a policy with.
-    jvmArgs "-DpolicyTemplateName=discovery"
+    jvmArgs "-DpolicyTemplateName=" + System.properties['policyTemplateName']
+    // Name of tenable io host to run tests
+    jvmArgs "-DtenableIoHost=" + System.properties['tenableIoHost']
+    // Name of registry to be used for containers
+    jvmArgs "-DregistryHost=" + System.properties['registryHost']
+    // Name of registry protocol be used for containers
+    jvmArgs "-DregistryProtocol=" + System.properties['registryProtocol']
+ 
+    exclude '**/containerSecurity/**'   
+    exclude '**/examples/**'
 }
-
