@@ -2,7 +2,9 @@ package com.tenable.io.api.agents.models;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tenable.io.api.agentGroups.models.AgentGroup;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -13,11 +15,17 @@ public class Agent {
     private String distro;
     private int id;
     private String ip;
-    private String lastScanned;
+    private Integer lastScanned;
     private String name;
     private String platform;
-    private String token;
     private UUID uuid;
+    private Integer linkedOn;
+    private Integer lastConnect;
+    private String pluginFeedId;
+    private String coreBuild;
+    private String coreVersion;
+    private List<AgentGroup> groups;
+    private String status;
 
 
     /**
@@ -86,7 +94,7 @@ public class Agent {
      * @return The last scanned date for the agent in unixtime.
      */
     @JsonProperty( "last_scanned" )
-    public String getLastScanned() {
+    public Integer getLastScanned() {
         return lastScanned;
     }
 
@@ -97,7 +105,7 @@ public class Agent {
      * @param lastScanned The last scanned date for the agent in unixtime.
      */
     @JsonProperty( "last_scanned" )
-    public void setLastScanned( String lastScanned ) {
+    public void setLastScanned( Integer lastScanned ) {
         this.lastScanned = lastScanned;
     }
 
@@ -141,27 +149,6 @@ public class Agent {
         this.platform = platform;
     }
 
-
-    /**
-     * The token of the agent.
-     *
-     * @return The token of the agent.
-     */
-    public String getToken() {
-        return token;
-    }
-
-
-    /**
-     * The token of the agent.
-     *
-     * @param token The token of the agent.
-     */
-    public void setToken( String token ) {
-        this.token = token;
-    }
-
-
     /**
      * The uuid of the agent.
      *
@@ -180,4 +167,112 @@ public class Agent {
     public void setUuid( UUID uuid ) {
         this.uuid = uuid;
     }
+
+    /**
+     * Gets linked on.
+     *
+     * @return the linked on
+     */
+    @JsonProperty( "linked_on" )
+    public Integer getLinkedOn() { return linkedOn; }
+
+    /**
+     * Sets linked on.
+     *
+     * @param linkedOn the linked on
+     */
+    @JsonProperty( "linked_on" )
+    public void setLinkedOn( Integer linkedOn ) { this.linkedOn = linkedOn; }
+
+    /**
+     * Gets last connect.
+     *
+     * @return the last connect
+     */
+    @JsonProperty( "last_connect" )
+    public Integer getLastConnect() { return lastConnect; }
+
+    /**
+     * Sets last connect.
+     *
+     * @param lastConnect the last connect
+     */
+     @JsonProperty( "last_connect" )
+    public void setLastConnect( Integer lastConnect ) { this.lastConnect = lastConnect; }
+
+    /**
+     * Gets plugin feed id.
+     *
+     * @return the plugin feed id
+     */
+    @JsonProperty( "plugin-feed-id" )
+    public String getPluginFeedId() { return pluginFeedId; }
+
+    /**
+     * Sets plugin feed id.
+     *
+     * @param pluginFeedId the public feed id
+     */
+    @JsonProperty( "plugin-feed-id" )
+    public void setPluginFeedId( String pluginFeedId ) { this.pluginFeedId = pluginFeedId; }
+
+    /**
+     * Gets core build.
+     *
+     * @return the core build
+     */
+    @JsonProperty( "core_build" )
+    public String getCoreBuild() { return coreBuild; }
+
+    /**
+     * Sets core build.
+     *
+     * @param coreBuild the core build
+     */
+    @JsonProperty( "core_build" )
+    public void setCoreBuild( String coreBuild ) { this.coreBuild = coreBuild; }
+
+    /**
+     * Gets core version.
+     *
+     * @return the core version
+     */
+    @JsonProperty( "core_version" )
+    public String getCoreVersion() { return coreVersion; }
+
+    /**
+     * Sets core version.
+     *
+     * @param coreVersion the core version
+     */
+    @JsonProperty( "core_version" )
+    public void setCoreVersion( String coreVersion ) { this.coreVersion = coreVersion; }
+
+    /**
+     * Gets groups.
+     *
+     * @return the groups
+     */
+    public List<AgentGroup> getGroups() { return groups; }
+
+    /**
+     * Sets groups.
+     *
+     * @param groups the groups
+     */
+    public void setGroups( List<AgentGroup> groups ) { this.groups = groups; }
+
+    /**
+     * Gets status.
+     *
+     * @return the status
+     */
+    public String getStatus() { return status; }
+
+    /**
+     * Sets status.
+     *
+     * @param status the status
+     */
+    public void setStatus( String status ) { this.status = status; }
 }

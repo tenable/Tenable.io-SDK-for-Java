@@ -12,6 +12,7 @@ target
 *.iml
 /build
 /.gradle
+gradle.properties
 /classes
 /local-test-config.txt
 test.txt
