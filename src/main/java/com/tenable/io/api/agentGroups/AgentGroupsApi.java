@@ -7,7 +7,9 @@ import com.tenable.io.api.agentGroups.models.AgentGroup;
 import com.tenable.io.core.exceptions.TenableIoException;
 import com.tenable.io.core.services.AsyncHttpService;
 import com.tenable.io.core.services.HttpFuture;
+import org.apache.http.NameValuePair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -56,14 +58,27 @@ public class AgentGroupsApi extends ApiWrapperBase {
 
 
     /**
+     * Details agent group.
+     *
+     * @param groupId the group id
+     * @return the agent group
+     * @throws TenableIoException the tenable io exception
+     */
+    public AgentGroup details( int groupId ) throws TenableIoException {
+        return details( DEFAULT_SCANNER_ID, groupId, new ArrayList<NameValuePair>() );
+    }
+
+
+    /**
      * Returns details for the given agent group.
      *
      * @param groupId   The id of the agent group to query
+     * @param filtering the filtering
      * @return details for the given agent group
      * @throws TenableIoException the tenable IO exception
      */
-    public AgentGroup details( int groupId ) throws TenableIoException {
-        return details( DEFAULT_SCANNER_ID, groupId );
+    public AgentGroup details( int groupId, List<NameValuePair> filtering ) throws TenableIoException {
+        return details( DEFAULT_SCANNER_ID, groupId, filtering );
     }
 
 
@@ -72,12 +87,13 @@ public class AgentGroupsApi extends ApiWrapperBase {
      *
      * @param scannerId The id of the scanner
      * @param groupId   The id of the agent group to query
+     * @param filtering the filtering
      * @return details for the given agent group
      * @throws TenableIoException the tenable IO exception
      */
-    protected AgentGroup details( int scannerId, int groupId ) throws TenableIoException {
+    protected AgentGroup details( int scannerId, int groupId, List<NameValuePair> filtering ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scanners/" + scannerId +
-                "/agent-groups/" + groupId ).build() );
+                "/agent-groups/" + groupId ).addParameters( filtering ).build() );
         return httpFuture.getAsType( AgentGroup.class );
     }
 
@@ -85,8 +101,8 @@ public class AgentGroupsApi extends ApiWrapperBase {
     /**
      * Deletes an agent from the given agent group.
      *
-     * @param groupId   The id of the agent group.
-     * @param agentId   The id of the agent to remove.
+     * @param groupId The id of the agent group.
+     * @param agentId The id of the agent to remove.
      * @throws TenableIoException the tenable IO exception
      */
     public void deleteAgent( int groupId, int agentId ) throws TenableIoException {
@@ -112,7 +128,7 @@ public class AgentGroupsApi extends ApiWrapperBase {
     /**
      * Deletes an agent group from the default scanner.
      *
-     * @param groupId   The id of the agent group to delete.
+     * @param groupId The id of the agent group to delete.
      * @throws TenableIoException the tenable IO exception
      */
     public void delete( int groupId ) throws TenableIoException {
@@ -137,7 +153,7 @@ public class AgentGroupsApi extends ApiWrapperBase {
     /**
      * Creates an agent group on the default scanner.
      *
-     * @param name      The name of the agent group.
+     * @param name The name of the agent group.
      * @return the agent group
      * @throws TenableIoException the tenable IO exception
      */
@@ -166,8 +182,8 @@ public class AgentGroupsApi extends ApiWrapperBase {
     /**
      * Changes the name of the given agent group.
      *
-     * @param groupId   The id of the agent group to change
-     * @param name      The name for the agent group
+     * @param groupId The id of the agent group to change
+     * @param name    The name for the agent group
      * @throws TenableIoException the tenable IO exception
      */
     public void configure( int groupId, String name ) throws TenableIoException {
@@ -195,8 +211,8 @@ public class AgentGroupsApi extends ApiWrapperBase {
     /**
      * Adds an agent to the given agent group
      *
-     * @param groupId   The id of the agent group
-     * @param agentId   The id of the agent to add
+     * @param groupId The id of the agent group
+     * @param agentId The id of the agent to add
      * @throws TenableIoException the tenable IO exception
      */
     public void addAgent( int groupId, int agentId ) throws TenableIoException {
