@@ -18,7 +18,7 @@ public class Agent {
     private Integer lastScanned;
     private String name;
     private String platform;
-    private UUID uuid;
+    private String uuid;
     private Integer linkedOn;
     private Integer lastConnect;
     private String pluginFeedId;
@@ -154,7 +154,7 @@ public class Agent {
      *
      * @return The uuid of the agent.
      */
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
@@ -164,7 +164,7 @@ public class Agent {
      *
      * @param uuid The uuid of the agent.
      */
-    public void setUuid( UUID uuid ) {
+    public void setUuid( String uuid ) {
         this.uuid = uuid;
     }
 
