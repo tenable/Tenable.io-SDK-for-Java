@@ -109,5 +109,5 @@ finally {
         "Built off branch ${env.BRANCH_NAME}" + tests + took)
 
     messageAttachment.channel = "@rboerger"
-    slack.postMessage(this, messageAttachment)}
+    slack.postMessage(this, messageAttachment)
 }
