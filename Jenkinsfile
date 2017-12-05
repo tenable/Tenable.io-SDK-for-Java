@@ -17,6 +17,7 @@ Constants global = new Constants()
 Common common = new Common()
 Slack slack  = new Slack()
 def fmt = slack.helper()
+def auser = ''
 
 try {
     node(global.DOCKERNODE) {
@@ -90,14 +91,27 @@ chmod +x gradlew
         }
 
         currentBuild.result = currentBuild.result ?: 'SUCCESS'
-
-        hipchatSend room: "T.io SDK", message: "Build Successfully: <a href=\"${env.JOB_URL}\">${env.JOB_NAME} ${env.BUILD_NUMBER}</a>", color: "GREEN", token: "584f28c72ae1648f179c4716b37dfd", notify: true
     }
 }
 catch (exc) {
-    echo "caught exception: ${exc}"
-    currentBuild.result = 'FAILURE'
-    hipchatSend room: "T.io SDK", message: "Build Failed: <a href=\"${env.JOB_URL}\">${env.JOB_NAME} ${env.BUILD_NUMBER}</a>", color: "RED", token: "584f28c72ae1648f179c4716b37dfd", notify: true
+    if (currentBuild.result == null || currentBuild.result == 'ANORTED') {
+        // Try to detect if the build was aborted
+        if (currentBuild.rawBuild.getAction(InterruptedBuildAction.class)) {
+            currentBuild.result = 'ABORTED'
+            auser = common.jenkinsAbortUser()
+
+            if (auser) {
+               auser = '\nAborted by ' + auser
+            }
+        }
+        else {
+            currentBuild.result = 'FAILURE'
+        }
+    }
+    else {
+        currentBuild.result = 'FAILURE'
+    }
+    throw exc
 }
 finally {
     String tests = common.jenkinsTestResults()
@@ -107,7 +121,7 @@ finally {
 
     messageAttachment = fmt.getDecoratedFinishMsg(this,
         'Tenable SDK Java build finished with result: ',
-        "Built off branch ${env.BRANCH_NAME}" + tests + took)
+        "Built off branch ${env.BRANCH_NAME}" + tests + took + auser)
 
     messageAttachment.channel = "@rboerger"
     slack.postMessage(this, messageAttachment)
