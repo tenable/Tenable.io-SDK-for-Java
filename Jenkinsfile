@@ -16,6 +16,7 @@ import com.tenable.jenkins.Constants
 Constants global = new Constants()
 Common common = new Common()
 Slack slack  = new Slack()
+def fmt = slack.helper()
 
 try {
     node(global.DOCKERNODE) {
@@ -56,22 +57,21 @@ chmod -R 777 ../tenableio-sdk
                 }
             }
         } 
-    }
 
-    common.cleanup()
-    deleteDir()
+        common.cleanup()
+        deleteDir()
 
-    stage('scm java') {
-        checkout scm
-        unstash 'Config'
-    }
+        stage('scm java') {
+            checkout scm
+            unstash 'Config'
+        }
 
-    docker.withRegistry(global.AWS_DOCKER_REGISTRY) {
-        docker.image('ci-java-base:2.0.18').inside {
-            stage('build java') {
-                try {
-                    timeout(time: 30, unit: 'MINUTES') {
-                        sh '''
+        docker.withRegistry(global.AWS_DOCKER_REGISTRY) {
+            docker.image('ci-java-base:2.0.18').inside {
+                stage('build java') {
+                    try {
+                        timeout(time: 30, unit: 'MINUTES') {
+                            sh '''
 find .
 cat ./tenableio-sdk/tio_config.txt | sed 's/^/systemProp./g' > gradle.properties
 
@@ -80,18 +80,19 @@ cat gradle.properties
 chmod +x gradlew
 ./gradlew build
 '''
+                        }
                     }
-                }
-                finally {
-	            step([$class: 'JUnitResultArchiver', testResults: 'build/test-results/test/*.xml'])
+                    finally {
+	                step([$class: 'JUnitResultArchiver', testResults: 'build/test-results/test/*.xml'])
+                    }
                 }
             }
         }
+
+        currentBuild.result = currentBuild.result ?: 'SUCCESS'
+
+        hipchatSend room: "T.io SDK", message: "Build Successfully: <a href=\"${env.JOB_URL}\">${env.JOB_NAME} ${env.BUILD_NUMBER}</a>", color: "GREEN", token: "584f28c72ae1648f179c4716b37dfd", notify: true
     }
-
-    currentBuild.result = currentBuild.result ?: 'SUCCESS'
-
-    hipchatSend room: "T.io SDK", message: "Build Successfully: <a href=\"${env.JOB_URL}\">${env.JOB_NAME} ${env.BUILD_NUMBER}</a>", color: "GREEN", token: "584f28c72ae1648f179c4716b37dfd", notify: true
 }
 catch (exc) {
     echo "caught exception: ${exc}"
