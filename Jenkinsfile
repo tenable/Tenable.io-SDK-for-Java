@@ -96,7 +96,7 @@ chmod +x gradlew
 catch (exc) {
     if (currentBuild.result == null || currentBuild.result == 'ANORTED') {
         // Try to detect if the build was aborted
-        if (currentBuild.rawBuild.getAction(InterruptedBuildAction.class)) {
+        if (common.wasAborted(this)) {
             currentBuild.result = 'ABORTED'
             auser = common.jenkinsAbortUser()
 
