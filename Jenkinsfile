@@ -3,8 +3,10 @@
 @Library('tenable.common@feature/MATT_CHANGES')
 
 def projectProperties = [
-  [$class: 'BuildDiscarderProperty',strategy: [$class: 'LogRotator', numToKeepStr: '5']],disableConcurrentBuilds(),
-  [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: 'qa-staging', description: '', name: 'CAT_SITE']]]
+    [$class: 'BuildDiscarderProperty',strategy: [$class: 'LogRotator', numToKeepStr: '5']],
+    disableConcurrentBuilds(),
+    [$class: 'ParametersDefinitionProperty', parameterDefinitions: 
+       [[$class: 'StringParameterDefinition', defaultValue: 'qa-staging', description: '', name: 'CAT_SITE']]]
 ]
 
 properties(projectProperties)
@@ -25,23 +27,24 @@ try {
 
         // Pull the automation framework from develop
         stage('scm auto') {
-            dir("automation") {
-                git branch: 'develop', changelog: false, credentialsId: 'bitbucket-checkout', poll: false, url: 'ssh://git@stash.corp.tenablesecurity.com:7999/aut/automation-tenableio.git'
+            dir('automation') {
+                git(branch:'develop', changelog:false, credentialsId:'bitbucket-checkout', 
+                    poll:false, url:'ssh://git@stash.corp.tenablesecurity.com:7999/aut/automation-tenableio.git'
            }
         }
 
         docker.withRegistry(global.AWS_DOCKER_REGISTRY) {
-            docker.image('ci-vulnautomation-base:1.0.9').inside("-u root") {
+            docker.image('ci-vulnautomation-base:1.0.9').inside('-u root') {
                 stage('build auto') {
                     timeout(time: 10, unit: 'MINUTES') {
                         common.prepareGit()
 
-                        sshagent([global.BITBUCKETUSER]) {  
+                        sshagent([global.BITBUCKETUSER]) {
                             sh """
 cd automation
 python3 autosetup.py catium --all --no-venv 2>&1
-export PYTHONHASHSEED=0 
-export PYTHONPATH=. 
+export PYTHONHASHSEED=0
+export PYTHONPATH=.
 export CAT_LOG_LEVEL_CONSOLE=INFO
 export CAT_SITE=${params.CAT_SITE}
 
@@ -57,7 +60,7 @@ chmod -R 777 ../tenableio-sdk
                     }
                 }
             }
-        } 
+        }
 
         common.cleanup()
         deleteDir()
@@ -84,7 +87,7 @@ chmod +x gradlew
                         }
                     }
                     finally {
-	                step([$class: 'JUnitResultArchiver', testResults: 'build/test-results/test/*.xml'])
+                        step([$class: 'JUnitResultArchiver', testResults: 'build/test-results/test/*.xml'])
                     }
                 }
             }
@@ -123,6 +126,6 @@ finally {
         'Tenable SDK Java build finished with result: ',
         "Built off branch ${env.BRANCH_NAME}" + tests + took + auser)
 
-    messageAttachment.channel = "@rboerger"
+    messageAttachment.channel = '#sdk'
     slack.postMessage(this, messageAttachment)
 }
