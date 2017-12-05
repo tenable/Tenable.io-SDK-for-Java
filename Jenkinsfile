@@ -29,7 +29,7 @@ try {
         stage('scm auto') {
             dir('automation') {
                 git(branch:'develop', changelog:false, credentialsId:'bitbucket-checkout', 
-                    poll:false, url:'ssh://git@stash.corp.tenablesecurity.com:7999/aut/automation-tenableio.git'
+                    poll:false, url:'ssh://git@stash.corp.tenablesecurity.com:7999/aut/automation-tenableio.git')
            }
         }
 
