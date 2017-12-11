@@ -8,7 +8,9 @@ import com.tenable.io.api.groups.models.Group;
 import com.tenable.io.api.policies.models.Policy;
 import com.tenable.io.api.scannerGroups.models.ScannerGroup;
 import com.tenable.io.api.scans.models.Scan;
+import com.tenable.io.api.scans.models.ScanDetails;
 import com.tenable.io.api.scans.models.ScanListResult;
+import com.tenable.io.api.scans.models.ScanStatus;
 import com.tenable.io.api.targetGroups.models.TargetGroup;
 import com.tenable.io.api.users.models.User;
 import com.tenable.io.api.users.models.UserRole;
@@ -19,6 +21,7 @@ import org.junit.Before;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Random;
 
 
 /**
@@ -99,7 +102,9 @@ public class TestBase {
 
 
     protected User createTestUser( TenableIoClient apiClient ) throws Exception {
-        return createTestUser( apiClient, 0 );
+        Random rand = new Random();
+        int n = rand.nextInt(50) + 1;
+        return createTestUser( apiClient, n );
     }
 
 
@@ -279,6 +284,22 @@ public class TestBase {
 
     private String getNewTestName( String prefix ) {
         return prefix + java.util.UUID.randomUUID().toString().substring( 0, 6 );
+    }
+
+
+    protected ScanStatus waitForStatus( TenableIoClient apiClient, int scanId, ScanStatus status ) throws TenableIoException, InterruptedException {
+        ScanDetails details = apiClient.getScansApi().details( scanId );
+        ScanStatus curStatus = details.getInfo().getStatus();
+        while( curStatus != status ) {
+            Thread.sleep( 5000 );
+            if( details.getInfo().getScheduleUuid() == null || details.getInfo().getUuid() == null ) {
+                details = apiClient.getScansApi().details( scanId );
+                curStatus = details.getInfo().getStatus();
+            }
+            else curStatus = apiClient.getScansApi().getScanHistoryStatus( details.getInfo().getScheduleUuid(), details.getInfo().getUuid() ).getStatus();
+        }
+
+        return curStatus;
     }
 }
 
