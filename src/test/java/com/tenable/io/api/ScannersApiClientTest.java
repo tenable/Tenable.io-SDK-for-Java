@@ -77,7 +77,7 @@ public class ScannersApiClientTest extends TestBase {
         assertNotNull( scanners );
 
         Scanner scanner = scanners.get( 0 );
-        for (Scanner scannerItem : scanners) {
+        for ( Scanner scannerItem : scanners ) {
             scanner = scannerItem;
             if ( scannerItem.getName().equals( "US Cloud Scanner") ) {
                 break;

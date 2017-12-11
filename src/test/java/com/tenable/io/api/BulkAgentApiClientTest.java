@@ -91,7 +91,11 @@ public class BulkAgentApiClientTest extends TestBase {
 
         List<Integer> agentIds = new ArrayList<>();
 
-        for ( int i = 2; i < agents.size(); i++ ) {
+        int agentSubset = agents.size();
+        if ( agents.size() > 2 ) {
+            agentSubset = agents.size() - 2;
+        }
+        for ( int i = 0; i < agentSubset; i++ ) {
             agentIds.add( agents.get( i ).getId() );
         }
 
