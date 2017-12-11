@@ -2,6 +2,10 @@ package com.tenable.io.api.agentGroups.models;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tenable.io.api.agents.models.Agent;
+import com.tenable.io.api.agents.models.AgentPagination;
+
+import java.util.List;
 
 
 /**
@@ -15,10 +19,14 @@ public class AgentGroup {
     private int shared;
     private int userPermissions;
     private int creationDate;
-    private int lastModificationDate;
     private int agentsCount;
+    private int lastModificationDate;
     private String ownerName;
     private String timestamp;
+    private List<Agent> agents;
+    private String ownerUuid;
+    private AgentPagination pagination;
+    private String uuid;
 
 
     /**
@@ -251,4 +259,70 @@ public class AgentGroup {
     public void setLastModificationDate( int lastModificationDate ) {
         this.lastModificationDate = lastModificationDate;
     }
+
+
+    /**
+     * Gets agents.
+     *
+     * @return the agents
+     */
+    public List<Agent> getAgents() { return agents; }
+
+
+    /**
+     * Sets agents.
+     *
+     * @param agents the agents
+     */
+    public void setAgents( List<Agent> agents ) { this.agents = agents; }
+
+
+    /**
+     * Gets owner uuid.
+     *
+     * @return the owner uuid
+     */
+    @JsonProperty( "owner_uuid" )
+    public String getOwnerUuid() { return ownerUuid; }
+
+
+    /**
+     * Sets owner uuid.
+     *
+     * @param ownerUuid the owner uuid
+     */
+    @JsonProperty( "owner_uuid" )
+    public void setOwnerUuid( String ownerUuid ) { this.ownerUuid = ownerUuid; }
+
+
+    /**
+     * Gets pagination.
+     *
+     * @return the pagination
+     */
+    public AgentPagination getPagination() { return pagination; }
+
+
+    /**
+     * Sets pagination.
+     *
+     * @param pagination the pagination
+     */
+    public void setPagination( AgentPagination pagination ) { this.pagination = pagination; }
+
+
+    /**
+     * Gets uuid.
+     *
+     * @return the uuid
+     */
+    public String getUuid() { return uuid; }
+
+
+    /**
+     * Sets uuid.
+     *
+     * @param uuid the uuid
+     */
+    public void setUuid( String uuid ) { this.uuid = uuid; }
 }
