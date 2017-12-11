@@ -336,9 +336,9 @@ public class ScansApiClientTest extends TestBase {
         List<Scanner> scanners = apiClient.getScannersApi().list();
 
         Scanner scanner = scanners.get( 0 );
-        for (Scanner scannerItem : scanners) {
+        for ( Scanner scannerItem : scanners ) {
             scanner = scannerItem;
-			if (  scannerItem.getName().equals("US Cloud Scanner")  ) {
+			if ( scannerItem.getName().equals( "US Cloud Scanner" ) ) {
                 break;
             }
 		}

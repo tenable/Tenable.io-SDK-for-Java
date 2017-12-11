@@ -290,9 +290,9 @@ public class TestBase {
     protected ScanStatus waitForStatus( TenableIoClient apiClient, int scanId, ScanStatus status ) throws TenableIoException, InterruptedException {
         ScanDetails details = apiClient.getScansApi().details( scanId );
         ScanStatus curStatus = details.getInfo().getStatus();
-        while( curStatus != status ) {
+        while ( curStatus != status ) {
             Thread.sleep( 5000 );
-            if( details.getInfo().getScheduleUuid() == null || details.getInfo().getUuid() == null ) {
+            if ( details.getInfo().getScheduleUuid() == null || details.getInfo().getUuid() == null ) {
                 details = apiClient.getScansApi().details( scanId );
                 curStatus = details.getInfo().getStatus();
             }
