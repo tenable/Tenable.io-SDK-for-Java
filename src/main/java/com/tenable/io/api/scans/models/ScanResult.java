@@ -26,6 +26,7 @@ public class ScanResult {
     private int policyId;
     private String rRules;
     private int scannerId;
+    private String scannerUuid;
     private int shared;
     private String startTime;
     private int tagId;
@@ -373,6 +374,28 @@ public class ScanResult {
     @JsonProperty( "scanner_id" )
     public void setScannerId( int scannerId ) {
         this.scannerId = scannerId;
+    }
+
+
+    /**
+     * Gets scanner uuid.
+     *
+     * @return the scanner uuid
+     */
+    @JsonProperty( "scanner_uuid" )
+    public String getScannerUuid() {
+        return scannerUuid;
+    }
+
+
+    /**
+     * Sets scanner id.
+     *
+     * @param scannerUuid the scanner id
+     */
+    @JsonProperty( "scanner_uuid" )
+    public void setScannerUuid( String scannerUuid ) {
+        this.scannerUuid = scannerUuid;
     }
 
 
