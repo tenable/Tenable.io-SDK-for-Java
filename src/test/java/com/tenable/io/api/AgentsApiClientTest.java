@@ -32,7 +32,7 @@ public class AgentsApiClientTest extends TestBase {
         assertNotNull( agents );
         assertTrue(agents.size() <= Integer.parseInt( limit ) );
 
-        Agent agent = apiClient.getAgentsApi().get( agents.get(0).getId() );
+        Agent agent = apiClient.getAgentsApi().get( agents.get( 0 ).getId() );
 
         assertNotNull( agent );
         assertNotNull( agent.getName() );
