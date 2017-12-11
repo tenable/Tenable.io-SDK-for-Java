@@ -12,6 +12,7 @@ public class Schedule {
     private boolean control;
     private RRules rRules;
     private String startTime;
+    private String endTime;
     private String timezone;
 
 
@@ -98,6 +99,15 @@ public class Schedule {
         this.startTime = startTime;
     }
 
+    @JsonProperty( "endtime" )
+    public String getEndTime() {
+        return endTime;
+    }
+
+    @JsonProperty( "endtime" )
+    public void setEndTime( String endTime ) {
+        this.endTime = endTime;
+    }
 
     /**
      * Gets the timezone.
