@@ -9,6 +9,7 @@ import com.tenable.io.core.exceptions.TenableIoException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ import static org.junit.Assert.*;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class ScannersApiClientTest extends TestBase {
+    @Ignore("CI-16038")
     @Test
     public void testScanners() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
@@ -67,20 +69,31 @@ public class ScannersApiClientTest extends TestBase {
         }
     }
 
-
+    @Ignore("CI-16726")
     @Test
     public void testControlScans() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
         List<Scanner> scanners = apiClient.getScannersApi().list();
         assertNotNull( scanners );
 
-        ScanResult newScan = createScan( apiClient, scanners.get( 0 ).getId() );
+        Scanner scanner = scanners.get( 0 );
+        for (Scanner scannerItem : scanners) {
+            scanner = scannerItem;
+            if ( scannerItem.getName().equals( "US Cloud Scanner") ) {
+                break;
+            }
+        }
+
+        ScanResult newScan = createScan( apiClient, scanner.getId() );
         assertNotNull( newScan );
         String scan_uuid = apiClient.getScansApi().launch( newScan.getId(), null );
 
-        apiClient.getScannersApi().controlScans( scanners.get( 0 ).getId(), scan_uuid, "stop" );
-
         ScanDetails details = apiClient.getScansApi().details( newScan.getId() );
+        assertEquals( waitForStatus( apiClient, newScan.getId(), ScanStatus.RUNNING ), ScanStatus.RUNNING );
+
+        apiClient.getScannersApi().controlScans( scanner.getId(), scan_uuid, "stop" );
+
+        details = apiClient.getScansApi().details( newScan.getId() );
         assertNotNull( details );
         assertTrue( details.getInfo().getStatus() == ScanStatus.CANCELED ||
                 details.getInfo().getStatus() == ScanStatus.STOPPING ||
