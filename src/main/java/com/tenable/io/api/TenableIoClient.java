@@ -1,8 +1,11 @@
 package com.tenable.io.api;
 
 
+import com.tenable.io.api.agentExclusions.AgentExclusionsApi;
+import com.tenable.io.api.agentConfig.AgentConfigApi;
 import com.tenable.io.api.agentGroups.AgentGroupsApi;
 import com.tenable.io.api.agents.AgentsApi;
+import com.tenable.io.api.bulkOperations.BulkAgentApi;
 import com.tenable.io.api.containerSecurity.CsTestJobsApi;
 import com.tenable.io.api.containerSecurity.CsImagesApi;
 import com.tenable.io.api.containerSecurity.CsPolicyApi;
@@ -67,6 +70,9 @@ public class TenableIoClient implements AutoCloseable {
     private CsReportsApi csReportsApi = null;
     private CsTestJobsApi csTestJobsApi = null;
     private CsPolicyApi csPolicyApi = null;
+    private BulkAgentApi bulkAgentApi = null;
+    private AgentExclusionsApi agentExclusionsApi = null;
+    private AgentConfigApi agentConfigApi = null;
 
     /**
      * Instantiates a new Tenable IO client from environment variables.
@@ -101,10 +107,10 @@ public class TenableIoClient implements AutoCloseable {
     /**
      * Instantiates a new Tenable IO client.
      *
-     * @param host io host url
+     * @param host       io host url
      * @param hostScheme io host scheme
-     * @param accessKey the access key
-     * @param secretKey the secret key
+     * @param accessKey  the access key
+     * @param secretKey  the secret key
      */
     public TenableIoClient( String host, String hostScheme, String accessKey, String secretKey ) {
         this.accessKey = accessKey;
@@ -267,6 +273,42 @@ public class TenableIoClient implements AutoCloseable {
             csPolicyApi = new CsPolicyApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return csPolicyApi;
+    }
+
+    /**
+     * Gets bulk agent api.
+     *
+     * @return the bulk agent api
+     */
+    synchronized public BulkAgentApi getBulkAgentApi() {
+        if ( bulkAgentApi == null )
+            bulkAgentApi = new BulkAgentApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
+
+        return bulkAgentApi;
+    }
+
+    /**
+     * Gets agent exclusions api.
+     *
+     * @return the agent exclusions api
+     */
+    synchronized public AgentExclusionsApi getAgentExclusionsApi() {
+        if ( agentExclusionsApi == null )
+            agentExclusionsApi = new AgentExclusionsApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
+
+        return agentExclusionsApi;
+    }
+
+    /**
+     * Gets agent config api.
+     *
+     * @return the agent config api
+     */
+    synchronized public AgentConfigApi getAgentConfigApi() {
+        if ( agentConfigApi == null )
+            agentConfigApi = new AgentConfigApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
+
+        return agentConfigApi;
     }
 
     /**

@@ -6,7 +6,7 @@ def projectProperties = [
     [$class: 'BuildDiscarderProperty',strategy: [$class: 'LogRotator', numToKeepStr: '5']],
     disableConcurrentBuilds(),
     [$class: 'ParametersDefinitionProperty', parameterDefinitions: 
-       [[$class: 'StringParameterDefinition', defaultValue: 'qa-staging', description: '', name: 'CAT_SITE']]]
+       [[$class: 'StringParameterDefinition', defaultValue: 'qa-milestone', description: '', name: 'CAT_SITE']]]
 ]
 
 properties(projectProperties)
@@ -51,7 +51,7 @@ export CAT_SITE=${params.CAT_SITE}
 pwd
 
 mkdir ../tenableio-sdk
-python3 tenableio/commandline/sdk_test_container.py --create_container --raw
+python3 tenableio/commandline/sdk_test_container.py --create_container --raw --agents 5
 
 chmod -R 777 ../tenableio-sdk
 """
