@@ -3,6 +3,7 @@ package com.tenable.io.api.filters;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tenable.io.api.ApiWrapperBase;
+import com.tenable.io.api.agents.models.AgentFilterOptions;
 import com.tenable.io.api.editors.models.Filter;
 import com.tenable.io.core.exceptions.TenableIoException;
 import com.tenable.io.core.services.AsyncHttpService;
@@ -39,4 +40,14 @@ public class FiltersApi extends ApiWrapperBase {
         return httpFuture.getAsType( new TypeReference<List<Filter>>() {}, "filters" );
     }
 
+    /**
+     * Agent filter options agent filter options.
+     *
+     * @return the agent filter options
+     * @throws TenableIoException the tenable io exception
+     */
+    public AgentFilterOptions agentFilterOptions() throws TenableIoException {
+        HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/filters/scans/agents" ).build() );
+        return httpFuture.getAsType( AgentFilterOptions.class );
+    }
 }
