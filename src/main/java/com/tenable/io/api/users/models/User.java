@@ -15,7 +15,7 @@ public class User {
     private String name;
     private String email;
     private UserRole permissions;
-    private int lastLogin;
+    private long lastLogin;
     private String type;
     private int loginFailCount;
     private int lastLoginAttempt;
@@ -306,7 +306,7 @@ public class User {
      * @return the last login for the user in unixtime
      */
     @JsonProperty( "lastlogin" )
-    public int getLastLogin() {
+    public long getLastLogin() {
         return lastLogin;
     }
 
@@ -317,7 +317,7 @@ public class User {
      * @param lastLogin the last login for the user in unixtime
      */
     @JsonProperty( "lastlogin" )
-    public void setLastLogin( int lastLogin ) {
+    public void setLastLogin( long lastLogin ) {
         this.lastLogin = lastLogin;
     }
 
