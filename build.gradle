@@ -48,7 +48,7 @@ test {
     // systemProp.scanAltTargets=target2.tenable.com
     // systemProp.scanTemplateName=basic
     // systemProp.scanTextTargets=target1.tenable.com
-    // systemProp.tenableIoAccessKey=652fd6e609d33bad710211b55e4355804a609d9b266ba4b9bd2ab62f329634bb
+    // systemProp.tenableIoAccessKey=<your-key>
     // systemProp.tenableIoHost=develop.cloud.tenable.com
     // systemProp.tenableIoSecretKey=********
     // systemProp.userDomainName=tenable.dev
