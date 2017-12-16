@@ -3,8 +3,11 @@ package com.tenable.io.api.scans.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tenable.io.api.editors.models.Filter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,7 +18,7 @@ public class ScanDetails {
     private ScanDetailsInfo info;
     private List<ScanHost> hosts;
     private List<ScanHost> comphosts;
-    private List<Note> notes;
+    private List<?> notes;
     private RemediationsResult remediations;
     private List<ScanVulnerability> vulnerabilities;
     private List<ScanVulnerability> compliances;
@@ -88,7 +91,7 @@ public class ScanDetails {
      *
      * @return the list of notes
      */
-    public List<Note> getNotes() {
+    public List<?> getNotes() {
         return notes;
     }
 
@@ -98,8 +101,14 @@ public class ScanDetails {
      *
      * @param notes the list of notes
      */
-    public void setNotes( List<Note> notes ) {
-        this.notes = notes;
+    public void setNotes( List<?> notes ) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            this.notes = mapper.readValue(notes.toString(), new TypeReference<NotesRoot>() {} );
+        } catch( Exception e ) {
+            this.notes = notes;
+        }
     }
 
 
@@ -203,5 +212,46 @@ public class ScanDetails {
      */
     public void setFilters( List<Filter> filters ) {
         this.filters = filters;
+    }
+
+    private class NotesRoot {
+        private List<Note> note;
+        private String type;
+
+        /**
+         * Gets note.
+         *
+         * @return the note
+         */
+        public List<Note> getNote() {
+            return note;
+        }
+
+        /**
+         * Sets note.
+         *
+         * @param note the note
+         */
+        public void setNote( List<Note> note ) {
+            this.note = note;
+        }
+
+        /**
+         * Gets type.
+         *
+         * @return the type
+         */
+        public String getType() {
+            return type;
+        }
+
+        /**
+         * Sets type.
+         *
+         * @param type the type
+         */
+        public void setType( String type ) {
+            this.type = type;
+        }
     }
 }
