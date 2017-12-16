@@ -375,6 +375,7 @@ public class AsyncHttpService implements AutoCloseable {
             defaultHeaders = new ArrayList<>( 3 );
             defaultHeaders.add( new BasicHeader( "X-ApiKeys", String.format( "accessKey=%s; secretKey=%s", accessKey, secretKey ) ) );
             defaultHeaders.add( new BasicHeader( "User-Agent", String.format( "TenableIOSDK Java/%s %s/%s/%s", systemProperties.get( "java.runtime.version" ), systemProperties.get( "os.name" ), systemProperties.get( "os.version" ), systemProperties.get( "os.arch" ) ) ) );
+            defaultHeaders.add( new BasicHeader( "Accept", "*/*" ) );
 
             if ( impersonateUsername != null ) {
                 defaultHeaders.add( new BasicHeader( "X-Impersonate", "username=" + impersonateUsername ) );
