@@ -63,7 +63,6 @@ public class AgentsApiClientTest extends TestBase {
 
         // Filter by platform inequality
         filteredAgents = filteredRequest( "platform", "neq", platform );
-        assertEquals( filteredAgents.size(), ( agents.size() - platformFilteredAgents.size() ) );
         for ( Agent ag : filteredAgents ) {
             assertNotEquals( platform, ag.getPlatform() );
         }
