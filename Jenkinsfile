@@ -74,7 +74,7 @@ chmod -R 777 ../tenableio-sdk
             docker.image('ci-java-base:2.0.18').inside {
                 stage('build java') {
                     try {
-                        timeout(time: 30, unit: 'MINUTES') {
+                        timeout(time: 60, unit: 'MINUTES') {
                             sh '''
 find .
 cat ./tenableio-sdk/tio_config.txt | sed 's/^/systemProp./g' > gradle.properties
