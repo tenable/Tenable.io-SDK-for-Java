@@ -1,1 +1,0 @@
-35db219a5880634bf9c76db1bb9edec5c3b4cca4 620 gradle.properties
