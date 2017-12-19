@@ -42,7 +42,11 @@ try {
                         sshagent([global.BITBUCKETUSER]) {
                             sh """
 cd automation
+export JENKINS_NODE_COOKIE=
+unset JENKINS_NODE_COOKIE
+
 python3 autosetup.py catium --all --no-venv 2>&1
+
 export PYTHONHASHSEED=0
 export PYTHONPATH=.
 export CAT_LOG_LEVEL_CONSOLE=INFO
