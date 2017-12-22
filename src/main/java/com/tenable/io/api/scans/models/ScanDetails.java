@@ -19,7 +19,7 @@ public class ScanDetails {
     private List<ScanHost> hosts;
     private List<ScanHost> comphosts;
     private List<?> notes;
-    private RemediationsResult remediations;
+    private List<RemediationsResult> remediations;
     private List<ScanVulnerability> vulnerabilities;
     private List<ScanVulnerability> compliances;
     private List<History> histories;
@@ -113,21 +113,21 @@ public class ScanDetails {
 
 
     /**
-     * Gets the remediations.
+     * Gets remediations.
      *
      * @return the remediations
      */
-    public RemediationsResult getRemediations() {
+    public List<RemediationsResult> getRemediations() {
         return remediations;
     }
 
 
     /**
-     * Sets the remediations.
+     * Sets remediations.
      *
      * @param remediations the remediations
      */
-    public void setRemediations( RemediationsResult remediations ) {
+    public void setRemediations( List<RemediationsResult> remediations ) {
         this.remediations = remediations;
     }
 
