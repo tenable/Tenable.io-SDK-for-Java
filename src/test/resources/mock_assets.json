@@ -1,0 +1,25 @@
+{
+  "assets": [
+    {
+      "fqdn": [ "acas.devlab.tenablesecurity.com" ],
+      "ipv4": [ "172.26.3.243" ],
+      "ipv6": [],
+      "netbios_name": "",
+      "mac_address": [],
+      "ssh_fingerprint": "",
+      "operating_system": [ "Linux Kernel 2.6 on CentOS Linux release 6" ],
+      "system_type": "",
+      "aws_ec2_instance_id": "",
+      "aws_ec2_instance_ami_id": "",
+      "aws_owner_id": "",
+      "aws_availability_zone": "",
+      "aws_region": "",
+      "aws_vpc_id": "",
+      "aws_ec2_instance_state_name": "",
+      "aws_ec2_instance_type": "",
+      "aws_subnet_id": "",
+      "aws_ec2_name": ""
+    }
+  ],
+  "source": "NESSUS_SCAN"
+}
