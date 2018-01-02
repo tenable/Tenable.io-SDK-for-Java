@@ -36,7 +36,6 @@ public class ScansApiClientTest extends TestBase {
         assertTrue( result.getTimezones().size() > 0 );
     }
 
-    @Ignore("CI-16726")
     @Test
     public void testCreateAndLaunch() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
@@ -56,7 +55,6 @@ public class ScansApiClientTest extends TestBase {
         // apiClient.getFoldersApi().delete( folderId );
     }
 
-    @Ignore("CI-16726")
     @Test
     public void testScansList() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
@@ -66,7 +64,6 @@ public class ScansApiClientTest extends TestBase {
         assertNotNull( details );
     }
 
-    @Ignore("CI-16726")
     @Test
     public void testPauseAndResume() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
@@ -93,7 +90,6 @@ public class ScansApiClientTest extends TestBase {
         apiClient.getFoldersApi().delete( folderId );
     }
 
-    @Ignore("CI-16726")
     @Test
     public void testStopAndCancel() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
@@ -172,6 +168,7 @@ public class ScansApiClientTest extends TestBase {
         while( !status.equals( "ready" ) ) {
             Thread.sleep( 5000 );
             status = apiClient.getScansApi().exportStatus( result.getScans().get( 0 ).getId(), fileId );
+            System.out.println( status );
         }
         apiClient.getScansApi().exportDownload( result.getScans().get( 0 ).getId(), fileId, new File( "src/test/resources/scan_export.nessus" ) );
     }
