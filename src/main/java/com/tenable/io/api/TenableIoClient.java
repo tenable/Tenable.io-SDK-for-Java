@@ -5,6 +5,7 @@ import com.tenable.io.api.agentExclusions.AgentExclusionsApi;
 import com.tenable.io.api.agentConfig.AgentConfigApi;
 import com.tenable.io.api.agentGroups.AgentGroupsApi;
 import com.tenable.io.api.agents.AgentsApi;
+import com.tenable.io.api.assetImport.AssetImportApi;
 import com.tenable.io.api.bulkOperations.BulkAgentApi;
 import com.tenable.io.api.containerSecurity.CsTestJobsApi;
 import com.tenable.io.api.containerSecurity.CsImagesApi;
@@ -73,6 +74,7 @@ public class TenableIoClient implements AutoCloseable {
     private BulkAgentApi bulkAgentApi = null;
     private AgentExclusionsApi agentExclusionsApi = null;
     private AgentConfigApi agentConfigApi = null;
+    private AssetImportApi assetImportApi = null;
 
     /**
      * Instantiates a new Tenable IO client from environment variables.
@@ -530,6 +532,20 @@ public class TenableIoClient implements AutoCloseable {
 
         return folderHelper;
     }
+
+
+    /**
+     * Gets asset import api.
+     *
+     * @return the asset import api
+     */
+    synchronized public AssetImportApi getAssetImportApi() {
+        if( assetImportApi == null )
+            assetImportApi = new AssetImportApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
+
+        return assetImportApi;
+    }
+
 
     private String getTenableIoHost() {
         return tenableIoHost;
