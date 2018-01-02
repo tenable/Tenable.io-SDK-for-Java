@@ -11,6 +11,10 @@ import com.tenable.io.core.exceptions.TenableIoErrorCode;
  */
 public enum ScanStatus {
     /**
+     * Initializing scan status.
+     */
+    INITIALIZING,
+    /**
      * Completed scan status.
      */
     COMPLETED,
