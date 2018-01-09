@@ -184,7 +184,7 @@ public class WorkbenchHelper {
      * @return all assets with the given vuln bound by date up to today
      * @throws TenableIoException the tenable io exception
      */
-    public List<WbVulnerabilityOutput> getAllRecentAssetsByVulnApi( int pluginId, int startingFromDays ) throws TenableIoException {
+    public List<WbVulnerabilityOutput> getAllRecentAssetsByVulnApi( String pluginId, int startingFromDays ) throws TenableIoException {
         List<WbVulnerabilityOutputResult> results = client.getWorkbenchesApi().vulnerabilityOutput( pluginId, new FilteringOptions().withDateRange( startingFromDays ) );
         List<WbVulnerabilityOutput> vulnerabilityOutputs = new ArrayList<>( results.size() );
 

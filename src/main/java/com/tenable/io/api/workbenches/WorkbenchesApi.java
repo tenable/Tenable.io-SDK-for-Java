@@ -53,7 +53,7 @@ public class WorkbenchesApi extends ApiWrapperBase {
      * @return the vulnerability info
      * @throws TenableIoException the tenable IO exception
      */
-    public WbVulnerabilityInfo vulnerabilityInfo( int pluginId, FilteringOptions options ) throws TenableIoException {
+    public WbVulnerabilityInfo vulnerabilityInfo( String pluginId, FilteringOptions options ) throws TenableIoException {
         UriBuilderHelper uri = createBaseUriBuilder( "/workbenches/vulnerabilities/" + pluginId + "/info" );
         addFilteringOptions( options, uri );
         HttpFuture httpFuture = asyncHttpService.doGet( uri.build() );
@@ -70,7 +70,7 @@ public class WorkbenchesApi extends ApiWrapperBase {
      * @return the vulnerability output list
      * @throws TenableIoException the tenable IO exception
      */
-    public List<WbVulnerabilityOutputResult> vulnerabilityOutput( int pluginId, FilteringOptions options )
+    public List<WbVulnerabilityOutputResult> vulnerabilityOutput( String pluginId, FilteringOptions options )
             throws TenableIoException {
         UriBuilderHelper uri = createBaseUriBuilder( "/workbenches/vulnerabilities/" + pluginId + "/outputs" );
         addFilteringOptions( options, uri );
@@ -168,7 +168,7 @@ public class WorkbenchesApi extends ApiWrapperBase {
      * @return the details for a vulnerability recorded on a given asset
      * @throws TenableIoException the tenable IO exception
      */
-    public WbVulnerabilityInfo vulnerabilityInfo( String assetId, int pluginId, FilteringOptions options )
+    public WbVulnerabilityInfo vulnerabilityInfo( String assetId, String pluginId, FilteringOptions options )
             throws TenableIoException {
         UriBuilderHelper uri = createBaseUriBuilder( "/workbenches/assets/" + assetId + "/vulnerabilities/" +
                 pluginId + "/info" );
@@ -187,7 +187,7 @@ public class WorkbenchesApi extends ApiWrapperBase {
      * @return the vulnerability outputs for a plugin recorded on a given asset
      * @throws TenableIoException the tenable IO exception
      */
-    public List<WbVulnerabilityOutputResult> assetVulnerabilityOutput( String assetId, int pluginId, FilteringOptions options ) throws TenableIoException {
+    public List<WbVulnerabilityOutputResult> assetVulnerabilityOutput( String assetId, String pluginId, FilteringOptions options ) throws TenableIoException {
         UriBuilderHelper uri = createBaseUriBuilder( "/workbenches/assets/" + assetId + "/vulnerabilities/" +
                 pluginId + "/outputs" );
         addFilteringOptions( options, uri );
