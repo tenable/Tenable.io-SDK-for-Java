@@ -107,7 +107,7 @@ public class ScanRef implements RunnableScan, RunningScan {
         ExportScanSettings settings = new ExportScanSettings();
         settings.setFormat( format );
 
-        int fileId = this.client.getScansApi().exportRequest( this.id, settings );
+        String fileId = this.client.getScansApi().exportRequest( this.id, settings );
         String status = this.client.getScansApi().exportStatus( this.id, fileId );
         while( !status.equals( this.client.getScanHelper().STATUS_EXPORT_READY ) ) {
             try {
@@ -136,7 +136,7 @@ public class ScanRef implements RunnableScan, RunningScan {
         ExportScanSettings settings = new ExportScanSettings();
         settings.setFormat( format );
 
-        int fileId = this.client.getScansApi().exportRequest( this.id, historyId, settings );
+        String fileId = this.client.getScansApi().exportRequest( this.id, historyId, settings );
         String status = this.client.getScansApi().exportStatus( this.id, fileId );
         while( !status.equals( this.client.getScanHelper().STATUS_EXPORT_READY ) ) {
             try {

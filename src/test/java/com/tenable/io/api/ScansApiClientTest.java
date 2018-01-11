@@ -160,7 +160,7 @@ public class ScansApiClientTest extends TestBase {
         settings.setChapters( "vuln_hosts_summary;vuln_by_host;compliance_exec;remediations;vuln_by_plugin;compliance" );
         settings.setFormat( FileFormat.NESSUS );
 
-        int fileId = apiClient.getScansApi().exportRequest( result.getScans().get( 0 ).getId(), details.getHistories().get( 0 ).getHistoryId(), settings );
+        String fileId = apiClient.getScansApi().exportRequest( result.getScans().get( 0 ).getId(), details.getHistories().get( 0 ).getHistoryId(), settings );
         String status = apiClient.getScansApi().exportStatus( result.getScans().get( 0 ).getId(), fileId );
         while( !status.equals( "ready" ) ) {
             Thread.sleep( 5000 );
