@@ -1,18 +1,16 @@
 package com.tenable.io.api;
 
 
-import com.tenable.io.api.folders.models.Folder;
+import com.tenable.io.api.editors.models.Template;
 import com.tenable.io.api.permissions.models.Permission;
 import com.tenable.io.api.policies.models.Policy;
 import com.tenable.io.api.scanners.models.Scanner;
 import com.tenable.io.api.scans.models.*;
-import com.tenable.io.api.editors.models.Template;
 import com.tenable.io.core.exceptions.TenableIoException;
-
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -151,7 +149,6 @@ public class ScansApiClientTest extends TestBase {
         apiClient.getFoldersApi().delete( folderId );
     }
 
-    @Ignore("CI-16726")
     @Test
     public void testDownload() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();
@@ -163,12 +160,11 @@ public class ScansApiClientTest extends TestBase {
         settings.setChapters( "vuln_hosts_summary;vuln_by_host;compliance_exec;remediations;vuln_by_plugin;compliance" );
         settings.setFormat( FileFormat.NESSUS );
 
-        int fileId = apiClient.getScansApi().exportRequest( result.getScans().get( 0 ).getId(), details.getHistories().get( 0 ).getHistoryId(), settings );
+        String fileId = apiClient.getScansApi().exportRequest( result.getScans().get( 0 ).getId(), details.getHistories().get( 0 ).getHistoryId(), settings );
         String status = apiClient.getScansApi().exportStatus( result.getScans().get( 0 ).getId(), fileId );
         while( !status.equals( "ready" ) ) {
             Thread.sleep( 5000 );
             status = apiClient.getScansApi().exportStatus( result.getScans().get( 0 ).getId(), fileId );
-            System.out.println( status );
         }
         apiClient.getScansApi().exportDownload( result.getScans().get( 0 ).getId(), fileId, new File( "src/test/resources/scan_export.nessus" ) );
     }
@@ -271,7 +267,7 @@ public class ScansApiClientTest extends TestBase {
         apiClient.getFoldersApi().delete( folderId );
     }
 
-    @Ignore("CI-16726")
+    @Ignore("501 - delete-history not implemented")
     @Test
     public void testDeleteHistory() throws Exception {
         TenableIoClient apiClient = new TenableIoClient();

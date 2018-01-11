@@ -30,7 +30,7 @@ public class WorkbenchesApiClientTest extends TestBase {
         List<ScanVulnerability> result = apiClient.getWorkbenchesApi().vulnerabilities( new ExtendedFilteringOptions() );
         if(result != null && result.size() > 0) {
             assertNotNull(result.get(0));
-            assertTrue(result.get(0).getPluginId() > 0);
+            assertNotNull(result.get(0).getPluginId() );
             assertTrue(result.get(0).getSeverity() > 0);
         }
 
@@ -38,7 +38,7 @@ public class WorkbenchesApiClientTest extends TestBase {
         if(result != null && result.size() > 0) {
             assertTrue(result.size() > 0);
             assertNotNull(result.get(0));
-            assertTrue(result.get(0).getPluginId() > 0);
+            assertNotNull(result.get(0).getPluginId() );
             assertTrue(result.get(0).getSeverity() == 4);
 
             WbVulnerabilityInfo info = apiClient.getWorkbenchesApi().vulnerabilityInfo(result.get(0).getPluginId(), new FilteringOptions());
