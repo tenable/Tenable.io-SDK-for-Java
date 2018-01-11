@@ -234,7 +234,7 @@ public class ScansApi extends ApiWrapperBase {
      * @param destinationFile the file object to return
      * @throws TenableIoException the tenable IO exception
      */
-    public void exportDownload( int scanId, int fileId, File destinationFile ) throws TenableIoException {
+    public void exportDownload( int scanId, String fileId, File destinationFile ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGetDownload( createBaseUriBuilder( "/scans/" + scanId +
                 "/export/" + fileId + "/download" ).build(), destinationFile );
         httpFuture.get();
@@ -248,14 +248,14 @@ public class ScansApi extends ApiWrapperBase {
      * @param scanId    the scan id
      * @param historyId the history id
      * @param settings  the ExportScanSettings
-     * @return the int
+     * @return the String
      * @throws TenableIoException the tenable IO exception
      */
-    public int exportRequest( int scanId, int historyId, ExportScanSettings settings )
+    public String exportRequest( int scanId, int historyId, ExportScanSettings settings )
             throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans/" + scanId + "/export" ).
                 addParameter( "history_id", ( (Integer) historyId ).toString() ).build(), settings );
-        return httpFuture.getAsType( int.class, "file" );
+        return httpFuture.getAsType( String.class, "file" );
     }
 
 
@@ -265,14 +265,14 @@ public class ScansApi extends ApiWrapperBase {
      *
      * @param scanId   the scan id
      * @param settings the ExportScanSettings
-     * @return the int
+     * @return the String
      * @throws TenableIoException the tenable IO exception
      */
-    public int exportRequest( int scanId, ExportScanSettings settings )
+    public String exportRequest( int scanId, ExportScanSettings settings )
             throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans/" + scanId + "/export" )
                 .build(), settings );
-        return httpFuture.getAsType( int.class, "file" );
+        return httpFuture.getAsType( String.class, "file" );
     }
 
 
@@ -286,7 +286,7 @@ public class ScansApi extends ApiWrapperBase {
      * @return the status string
      * @throws TenableIoException the tenable IO exception
      */
-    public String exportStatus( int scanId, int fileId ) throws TenableIoException {
+    public String exportStatus( int scanId, String fileId ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scans/" + scanId + "/export/" +
                 fileId + "/status" ).build() );
         return httpFuture.getAsType( String.class, "status" );
