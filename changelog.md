@@ -1,5 +1,4 @@
-=========
-CHANGELOG
+CHANGE LOG
 =========
 
 1.0.0
