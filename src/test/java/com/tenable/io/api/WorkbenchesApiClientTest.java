@@ -67,11 +67,11 @@ public class WorkbenchesApiClientTest extends TestBase {
         Scan imported = apiClient.getScansApi().importFile( filename, "test", "1");
         assertNotNull( imported );
 
-        Filter isLicensedFilter = new Filter()
-                .withFilter("is_licensed")
+        Filter ipFilter = new Filter()
+                .withFilter("ipv4")
                 .withQuality(FilterOperator.EQUAL)
-                .withValue("true");
-        FilteringOptions filterOptions = new FilteringOptions().withFilters(Arrays.asList(isLicensedFilter));
+                .withValue("10.10.10.1");
+        FilteringOptions filterOptions = new FilteringOptions().withFilters(Arrays.asList(ipFilter));
         List<WbVulnerabilityAsset> assets = apiClient.getWorkbenchesApi().assets(filterOptions);
         
         // wait for assets in scan results to be processed
