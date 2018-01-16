@@ -113,7 +113,6 @@ public class WorkbenchesApiClientTest extends TestBase {
 
             // wait for vulnerability output details to be ready
             tries = 0;
-            maxTries = 3;
             while (assetVulnerabilityOutput.size() == 0) {
                 Thread.sleep(10000);
                 assetVulnerabilityOutput = apiClient.getWorkbenchesApi()
@@ -159,9 +158,14 @@ public class WorkbenchesApiClientTest extends TestBase {
                 .withFilters(filters));
 
 
+        int tries = 0;
+        int maxTries = 10;
         while( !"ready".equals( apiClient.getWorkbenchesApi().exportStatus( fileId ) ) ) {
             try {
                 Thread.sleep( 5000 );
+                if (tries++ == maxTries) {
+                    fail("Export did not reach a \"ready\" state");
+                }
             } catch( InterruptedException e ) {}
         }
 
