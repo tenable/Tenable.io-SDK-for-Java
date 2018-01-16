@@ -86,9 +86,14 @@ public class WorkbenchesApiClientTest extends TestBase {
                     assets.get(0).getId(), new FilteringOptions());
             
             // wait for vulnerability details in scan results to be processed
+            int tries = 0;
+            int maxTries = 3;
             while (vulnerabilities.size() == 0) {
                 Thread.sleep(10000);
                 vulnerabilities = apiClient.getWorkbenchesApi().assetVulnerabilities(assets.get(0).getId(), new FilteringOptions());
+                if (tries++ == maxTries) {
+                    fail("Could not retrieve vulnerabilities using assetVulnerabilities");
+                }
             }
             assertNotNull(vulnerabilities);
             assertTrue( vulnerabilities.size() > 0 );
@@ -107,11 +112,16 @@ public class WorkbenchesApiClientTest extends TestBase {
                             new FilteringOptions());
 
             // wait for vulnerability output details to be ready
+            tries = 0;
+            maxTries = 3;
             while (assetVulnerabilityOutput.size() == 0) {
                 Thread.sleep(10000);
                 assetVulnerabilityOutput = apiClient.getWorkbenchesApi()
                     .assetVulnerabilityOutput(assets.get(0).getId(), vulnerabilities.get(0).getPluginId(),
                             new FilteringOptions());
+                if (tries++ == maxTries) {
+                    fail("Could not retrieve vulnerabilities using assetVulnerabilityOutput");
+                }
             }
             assertNotNull(assetVulnerabilityOutput);
             assertTrue(assetVulnerabilityOutput.size() > 0);
