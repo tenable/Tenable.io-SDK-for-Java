@@ -20,8 +20,6 @@ import static org.junit.Assert.*;
 public class UsersApiClientTest extends TestBase {
     @Test
     public void testCreateAndDelete() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         User user = createTestUser( apiClient );
 
         assertNotNull( user );
@@ -41,7 +39,6 @@ public class UsersApiClientTest extends TestBase {
 
     @Test
     public void testUserDetails() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         List<User> users = apiClient.getUsersApi().list();
 
         assertTrue( users.size() > 0 );
@@ -59,8 +56,6 @@ public class UsersApiClientTest extends TestBase {
 
     @Test
     public void testEditUser() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         User user = createTestUser( apiClient );
 
         assertNotNull( user );
@@ -85,8 +80,6 @@ public class UsersApiClientTest extends TestBase {
 
     @Test
     public void testImpersonateUser() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         List<User> users = apiClient.getUsersApi().list();
 
         assertTrue( users.size() > 0 );
@@ -101,8 +94,6 @@ public class UsersApiClientTest extends TestBase {
 
     @Test
     public void testChangePassword() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         User user = createTestUser( apiClient );
 
         assertNotNull( user );
@@ -117,8 +108,6 @@ public class UsersApiClientTest extends TestBase {
 
     @Test
     public void testUserKeys() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         User user = createTestUser( apiClient );
 
         assertNotNull( user );
@@ -137,7 +126,6 @@ public class UsersApiClientTest extends TestBase {
 
     @Test
     public void testEnableDisabledUser() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         User user = createTestUser( apiClient );
         assertNotNull( user );
         int userId = user.getId();
@@ -156,7 +144,6 @@ public class UsersApiClientTest extends TestBase {
 
     @Test
     public void testTwoFactor() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         User user = createTestUser( apiClient );
         assertNotNull( user );
         int userId = user.getId();

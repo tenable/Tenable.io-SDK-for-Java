@@ -23,7 +23,6 @@ public class ScannersApiClientTest extends TestBase {
     @Ignore("CI-16038")
     @Test
     public void testScanners() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         List<Scanner> scanners = apiClient.getScannersApi().list();
 
         assertNotNull( scanners );
@@ -55,7 +54,6 @@ public class ScannersApiClientTest extends TestBase {
 
     @Test
     public void testGetScans() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         List<Scanner> scanners = apiClient.getScannersApi().list();
 
         assertNotNull( scanners );
@@ -72,7 +70,6 @@ public class ScannersApiClientTest extends TestBase {
     @Ignore("CI-16726")
     @Test
     public void testControlScans() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         List<Scanner> scanners = apiClient.getScannersApi().list();
         assertNotNull( scanners );
 
@@ -131,8 +128,6 @@ public class ScannersApiClientTest extends TestBase {
     @Before
     @After
     public void cleanup() throws TenableIoException {
-        TenableIoClient apiClient = new TenableIoClient();
-
         // No longer needed on temporary test containers
         // deleteTestScans( apiClient );
     }

@@ -26,7 +26,6 @@ import static org.junit.Assert.*;
 public class ScansApiClientTest extends TestBase {
     @Test
     public void testTimeZones() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         TimezonesResult result = apiClient.getScansApi().timezones();
 
         assertNotNull( result );
@@ -36,7 +35,6 @@ public class ScansApiClientTest extends TestBase {
 
     @Test
     public void testCreateAndLaunch() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
         ScanResult result = createScan( apiClient, folderId );
 
@@ -55,7 +53,6 @@ public class ScansApiClientTest extends TestBase {
 
     @Test
     public void testScansList() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         ScanListResult result = apiClient.getScansApi().list();
         ScanDetails details = apiClient.getScansApi().details( result.getScans().get( 0 ).getId() );
         assertNotNull( result );
@@ -64,7 +61,6 @@ public class ScansApiClientTest extends TestBase {
 
     @Test
     public void testPauseAndResume() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
         ScanResult result = createScan( apiClient, folderId );
         //launch the scan
@@ -90,7 +86,6 @@ public class ScansApiClientTest extends TestBase {
 
     @Test
     public void testStopAndCancel() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
         ScanResult result = createScan( apiClient, folderId );
 
@@ -112,7 +107,6 @@ public class ScansApiClientTest extends TestBase {
 
     @Test
     public void testSchedule() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
         ScanResult result = createScan( apiClient, folderId );
 
@@ -151,7 +145,6 @@ public class ScansApiClientTest extends TestBase {
 
     @Test
     public void testDownload() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         ScanListResult result = apiClient.getScansApi().list();
         ScanDetails details = apiClient.getScansApi().details( result.getScans().get( 0 ).getId() );
 
@@ -172,7 +165,6 @@ public class ScansApiClientTest extends TestBase {
 
     @Test
     public void testCopyScan() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
         ScanResult newScan = createScan( apiClient, folderId );
         assertNotNull( newScan );
@@ -189,7 +181,6 @@ public class ScansApiClientTest extends TestBase {
 
     @Test
     public void testImportScan() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         String filename = apiClient.getFileApi().upload( new File( "src/test/resources/sdk_import_test.nessus" ) );
         assertNotNull( filename );
         //password must be the same used when exporting the scan
@@ -202,7 +193,6 @@ public class ScansApiClientTest extends TestBase {
 
     @Test
     public void testConfigure() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
         ScanResult newScan = createScan( apiClient, folderId );
         assertNotNull( newScan );
@@ -270,7 +260,6 @@ public class ScansApiClientTest extends TestBase {
     @Ignore("501 - delete-history not implemented")
     @Test
     public void testDeleteHistory() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
         ScanResult newScan = createScan( apiClient, folderId );
         assertNotNull( newScan );
@@ -351,8 +340,6 @@ public class ScansApiClientTest extends TestBase {
     @Before
     @After
     public void cleanup() throws TenableIoException {
-        TenableIoClient apiClient = new TenableIoClient();
-
         deleteTestFolders( apiClient );
     }
 }

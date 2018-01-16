@@ -38,7 +38,7 @@ public class TestBase {
     protected static final String TEST_SCANNER_GROUP_NAME_PREFIX = "tioTestScannerGroup_";
 
 
-
+    protected TenableIoClient apiClient = new TenableIoClient();
     private static final String testUsernameBase = "tioTestUsername";
     private Set<String> testUsernames = new HashSet<>();
 
@@ -53,11 +53,6 @@ public class TestBase {
     // Name of template to create a policy with.
     private String policyTemplateName = System.getProperty( "policyTemplateName" );
 
-
-    @Before
-    public void preChecksBase() throws TenableIoException {
-        deleteTestData();
-    }
 
     @After
     public void cleanupBase() throws TenableIoException {
@@ -117,8 +112,6 @@ public class TestBase {
 
 
     private void deleteTestData() throws TenableIoException {
-        TenableIoClient apiClient = new TenableIoClient();
-
         //delete potential test users
         List<User> users = apiClient.getUsersApi().list();
         if( users != null ) {
@@ -136,6 +129,12 @@ public class TestBase {
                     apiClient.getUsersApi().delete( user.getId() );
                 }
             }
+        }
+
+        try {
+            apiClient.close();
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
