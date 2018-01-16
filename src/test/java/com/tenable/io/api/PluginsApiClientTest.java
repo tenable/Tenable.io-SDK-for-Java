@@ -20,7 +20,6 @@ public class PluginsApiClientTest extends TestBase {
 
     @Test
     public void testPlugins() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         List<PluginFamily> pluginFamilies = apiClient.getPluginsApi().families();
 
         assertNotNull( pluginFamilies );

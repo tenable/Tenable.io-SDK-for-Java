@@ -16,12 +16,10 @@ import static org.junit.Assert.*;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class BulkAgentApiClientTest extends TestBase {
-    private TenableIoClient apiClient;
     private Scanner scanner;
 
     @Before
     public void setUp() throws Exception {
-        apiClient = new TenableIoClient();
         List<Scanner> scanners = apiClient.getScannersApi().list();
         assertNotNull( scanners );
 

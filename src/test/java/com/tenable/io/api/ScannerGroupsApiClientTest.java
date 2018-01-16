@@ -22,8 +22,6 @@ import static org.junit.Assert.*;
 public class ScannerGroupsApiClientTest extends TestBase {
     @Test
     public void testScannerGroups() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         //create scanner group
         String name = getNewTestScannerGroupName();
         ScannerGroup createdGroup = apiClient.getScannerGroupsApi().create( name, ScannerGroupType.LOAD_BALANCING );
@@ -78,8 +76,6 @@ public class ScannerGroupsApiClientTest extends TestBase {
     @Before
     @After
     public void cleanup() throws TenableIoException {
-        TenableIoClient apiClient = new TenableIoClient();
-
         deleteTestScannerGroups( apiClient );
     }
 }

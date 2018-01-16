@@ -15,7 +15,6 @@ import static org.junit.Assert.assertNotNull;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class AssetImportApiClientTest extends TestBase {
-    private TenableIoClient apiClient = new TenableIoClient();
     private String path = "src/test/resources/mock_assets.json";
 
      @Test

@@ -24,7 +24,6 @@ import static org.junit.Assert.*;
 public class PoliciesApiClientTest extends TestBase {
     @Test
     public void testList() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         List<Policy> result = apiClient.getPoliciesApi().list();
 
         assertNotNull( result );
@@ -33,7 +32,6 @@ public class PoliciesApiClientTest extends TestBase {
 
     @Test
     public void testCreateAndDelete() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         // makes sure user exists
         User user = createTestUser( apiClient, 0 );
         PolicyCreateResponse response = createPolicy( apiClient, user );
@@ -46,7 +44,6 @@ public class PoliciesApiClientTest extends TestBase {
 
     @Test
     public void testCreateAndCopyAndDelete() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         // makes sure user exists
         User user = createTestUser( apiClient, 0 );
         PolicyCreateResponse response = createPolicy( apiClient, user );
@@ -64,8 +61,6 @@ public class PoliciesApiClientTest extends TestBase {
 
     @Test
     public void testDetails() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         // makes sure user exists
         User user = createTestUser( apiClient, 0 );
         PolicyCreateResponse response = createPolicy( apiClient, user );
@@ -83,8 +78,6 @@ public class PoliciesApiClientTest extends TestBase {
 
     @Test
     public void testConfigure() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         // makes sure user exists
         User user = createTestUser( apiClient, 0 );
         //create
@@ -112,8 +105,6 @@ public class PoliciesApiClientTest extends TestBase {
 
     @Test
     public void testExportPolicy() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         // makes sure user exists
         User user = createTestUser( apiClient, 0 );
         //makes sure we have at least one policy
@@ -137,8 +128,6 @@ public class PoliciesApiClientTest extends TestBase {
 
     @Test
     public void testImportPolicy() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         String filename = apiClient.getFileApi().upload( new File( "src/test/resources/nessus_policy_test.nessus" ) );
         Policy imported = apiClient.getPoliciesApi().importPolicy( filename );
         assertNotNull( imported );
@@ -238,8 +227,6 @@ public class PoliciesApiClientTest extends TestBase {
     @Before
     @After
     public void cleanup() throws TenableIoException {
-        TenableIoClient apiClient = new TenableIoClient();
-
         deleteTestPolicies( apiClient );
     }
 }

@@ -25,8 +25,6 @@ public class WorkbenchesApiClientTest extends TestBase {
 
     @Test
     public void testVulnerabilities() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         List<ScanVulnerability> result = apiClient.getWorkbenchesApi().vulnerabilities( new ExtendedFilteringOptions() );
         if(result != null && result.size() > 0) {
             assertNotNull(result.get(0));
@@ -63,8 +61,6 @@ public class WorkbenchesApiClientTest extends TestBase {
 
     @Test
     public void testAssets() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         // Assets need to be imported prior to running this otherwise asset count will be 0
         String filename = apiClient.getFileApi().upload( new File( "src/test/resources/sdk_import_test.nessus" ) );
         assertNotNull( filename );
@@ -137,8 +133,6 @@ public class WorkbenchesApiClientTest extends TestBase {
 
     @Test
     public void testWorkbenchExport() throws Exception {
-
-        TenableIoClient apiClient = new TenableIoClient();
 
         File destinationFile = new File("src/test/resources/workbenchTest.nessus");
 
@@ -213,7 +207,6 @@ public class WorkbenchesApiClientTest extends TestBase {
     }
 
     private int getPluginId() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         List<PluginFamily> pluginFamilies = apiClient.getPluginsApi().families();
         PluginFamilyDetail familyDetails = apiClient.getPluginsApi().familyDetails( pluginFamilies.get( 0 ).getId() );
         PluginDetail pluginDetails = apiClient.getPluginsApi().pluginDetails( familyDetails.getPlugins().get( 0 ).getId() );
