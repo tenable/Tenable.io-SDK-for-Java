@@ -77,7 +77,7 @@ public class WorkbenchesApiClientTest extends TestBase {
         // wait for assets in scan results to be processed
         while (assets.size() == 0) {
             Thread.sleep(10000);
-            assets = apiClient.getWorkbenchesApi().assets(new FilteringOptions());
+            assets = apiClient.getWorkbenchesApi().assets(filterOptions);
         }
 
         if(assets != null && assets.size() > 0) {
