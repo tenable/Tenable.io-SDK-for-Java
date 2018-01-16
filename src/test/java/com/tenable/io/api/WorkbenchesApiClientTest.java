@@ -66,7 +66,13 @@ public class WorkbenchesApiClientTest extends TestBase {
         assertNotNull( filename );
         Scan imported = apiClient.getScansApi().importFile( filename, "test", "1");
         assertNotNull( imported );
-        List<WbVulnerabilityAsset> assets = apiClient.getWorkbenchesApi().assets(new FilteringOptions());
+
+        Filter isLicensedFilter = new Filter()
+                .withFilter("is_licensed")
+                .withQuality(FilterOperator.EQUAL)
+                .withValue("true");
+        FilteringOptions filterOptions = new FilteringOptions().withFilters(Arrays.asList(isLicensedFilter));
+        List<WbVulnerabilityAsset> assets = apiClient.getWorkbenchesApi().assets(filterOptions);
         
         // wait for assets in scan results to be processed
         while (assets.size() == 0) {
@@ -87,7 +93,7 @@ public class WorkbenchesApiClientTest extends TestBase {
             
             // wait for vulnerability details in scan results to be processed
             int tries = 0;
-            int maxTries = 3;
+            int maxTries = 6;
             while (vulnerabilities.size() == 0) {
                 Thread.sleep(10000);
                 vulnerabilities = apiClient.getWorkbenchesApi().assetVulnerabilities(assets.get(0).getId(), new FilteringOptions());
