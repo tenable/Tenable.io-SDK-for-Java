@@ -54,9 +54,15 @@ public class TestBase {
     private String policyTemplateName = System.getProperty( "policyTemplateName" );
 
 
+    @Before
+    public void preChecksBase() throws TenableIoException {
+        deleteTestData();
+    }
+
     @After
     public void cleanupBase() throws TenableIoException {
         deleteTestData();
+        closeClient();
     }
 
 
@@ -110,6 +116,13 @@ public class TestBase {
         return user;
     }
 
+    private void closeClient() {
+        try {
+            apiClient.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
     private void deleteTestData() throws TenableIoException {
         //delete potential test users
@@ -129,12 +142,6 @@ public class TestBase {
                     apiClient.getUsersApi().delete( user.getId() );
                 }
             }
-        }
-
-        try {
-            apiClient.close();
-        } catch (Exception e) {
-            System.out.println(e);
         }
     }
 
