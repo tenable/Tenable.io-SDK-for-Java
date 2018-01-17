@@ -61,8 +61,11 @@ public class TestBase {
 
     @After
     public void cleanupBase() throws TenableIoException {
-        deleteTestData();
-        closeClient();
+        try {
+            deleteTestData();
+        } finally {
+            closeClient();
+        }
     }
 
 
