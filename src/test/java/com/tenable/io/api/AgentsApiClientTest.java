@@ -18,7 +18,6 @@ import static org.junit.Assert.*;
  */
 public class AgentsApiClientTest extends TestBase {
     private final String limit = "50";
-    private TenableIoClient apiClient = new TenableIoClient();
     private AgentFilterOptions filterOptions;
     private List<Agent> agents;
 

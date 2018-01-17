@@ -25,8 +25,6 @@ public class WorkbenchesApiClientTest extends TestBase {
 
     @Test
     public void testVulnerabilities() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         List<ScanVulnerability> result = apiClient.getWorkbenchesApi().vulnerabilities( new ExtendedFilteringOptions() );
         if(result != null && result.size() > 0) {
             assertNotNull(result.get(0));
@@ -63,19 +61,23 @@ public class WorkbenchesApiClientTest extends TestBase {
 
     @Test
     public void testAssets() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         // Assets need to be imported prior to running this otherwise asset count will be 0
         String filename = apiClient.getFileApi().upload( new File( "src/test/resources/sdk_import_test.nessus" ) );
         assertNotNull( filename );
         Scan imported = apiClient.getScansApi().importFile( filename, "test", "1");
         assertNotNull( imported );
-        List<WbVulnerabilityAsset> assets = apiClient.getWorkbenchesApi().assets(new FilteringOptions());
+
+        Filter ipFilter = new Filter()
+                .withFilter("ipv4")
+                .withQuality(FilterOperator.EQUAL)
+                .withValue("10.10.10.1");
+        FilteringOptions filterOptions = new FilteringOptions().withFilters(Arrays.asList(ipFilter));
+        List<WbVulnerabilityAsset> assets = apiClient.getWorkbenchesApi().assets(filterOptions);
         
         // wait for assets in scan results to be processed
         while (assets.size() == 0) {
             Thread.sleep(10000);
-            assets = apiClient.getWorkbenchesApi().assets(new FilteringOptions());
+            assets = apiClient.getWorkbenchesApi().assets(filterOptions);
         }
 
         if(assets != null && assets.size() > 0) {
@@ -90,9 +92,14 @@ public class WorkbenchesApiClientTest extends TestBase {
                     assets.get(0).getId(), new FilteringOptions());
             
             // wait for vulnerability details in scan results to be processed
+            int tries = 0;
+            int maxTries = 6;
             while (vulnerabilities.size() == 0) {
                 Thread.sleep(10000);
                 vulnerabilities = apiClient.getWorkbenchesApi().assetVulnerabilities(assets.get(0).getId(), new FilteringOptions());
+                if (tries++ == maxTries) {
+                    fail("Could not retrieve vulnerabilities using assetVulnerabilities");
+                }
             }
             assertNotNull(vulnerabilities);
             assertTrue( vulnerabilities.size() > 0 );
@@ -111,11 +118,15 @@ public class WorkbenchesApiClientTest extends TestBase {
                             new FilteringOptions());
 
             // wait for vulnerability output details to be ready
+            tries = 0;
             while (assetVulnerabilityOutput.size() == 0) {
                 Thread.sleep(10000);
                 assetVulnerabilityOutput = apiClient.getWorkbenchesApi()
                     .assetVulnerabilityOutput(assets.get(0).getId(), vulnerabilities.get(0).getPluginId(),
                             new FilteringOptions());
+                if (tries++ == maxTries) {
+                    fail("Could not retrieve vulnerabilities using assetVulnerabilityOutput");
+                }
             }
             assertNotNull(assetVulnerabilityOutput);
             assertTrue(assetVulnerabilityOutput.size() > 0);
@@ -138,8 +149,6 @@ public class WorkbenchesApiClientTest extends TestBase {
     @Test
     public void testWorkbenchExport() throws Exception {
 
-        TenableIoClient apiClient = new TenableIoClient();
-
         File destinationFile = new File("src/test/resources/workbenchTest.nessus");
 
         List<Filter> filters = new ArrayList<Filter>();
@@ -155,9 +164,14 @@ public class WorkbenchesApiClientTest extends TestBase {
                 .withFilters(filters));
 
 
+        int tries = 0;
+        int maxTries = 10;
         while( !"ready".equals( apiClient.getWorkbenchesApi().exportStatus( fileId ) ) ) {
             try {
                 Thread.sleep( 5000 );
+                if (tries++ == maxTries) {
+                    fail("Export did not reach a \"ready\" state");
+                }
             } catch( InterruptedException e ) {}
         }
 
@@ -213,7 +227,6 @@ public class WorkbenchesApiClientTest extends TestBase {
     }
 
     private int getPluginId() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         List<PluginFamily> pluginFamilies = apiClient.getPluginsApi().families();
         PluginFamilyDetail familyDetails = apiClient.getPluginsApi().familyDetails( pluginFamilies.get( 0 ).getId() );
         PluginDetail pluginDetails = apiClient.getPluginsApi().pluginDetails( familyDetails.getPlugins().get( 0 ).getId() );

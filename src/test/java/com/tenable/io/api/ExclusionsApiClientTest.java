@@ -23,7 +23,6 @@ public class ExclusionsApiClientTest extends TestBase {
     @Test
     public void testExclusions() throws Exception {
 
-        TenableIoClient apiClient = new TenableIoClient();
         //list
         List<Exclusion> result = apiClient.getExclusionsApi().list();
         assertNotNull( result );
@@ -74,8 +73,6 @@ public class ExclusionsApiClientTest extends TestBase {
     @Before
     @After
     public void cleanup() throws TenableIoException {
-        TenableIoClient apiClient = new TenableIoClient();
-
         deleteTestExclusions( apiClient );
     }
 }

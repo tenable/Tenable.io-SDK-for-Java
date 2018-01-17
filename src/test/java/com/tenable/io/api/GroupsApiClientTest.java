@@ -26,7 +26,6 @@ public class GroupsApiClientTest extends TestBase {
 
     @Test
     public void testGroup() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         //create new group
         String testGroupsName = getNewTestGroupName();
         apiClient.getUserGroupsApi().create( testGroupsName );
@@ -95,7 +94,6 @@ public class GroupsApiClientTest extends TestBase {
 
     @Test
     public void testGroupEdit() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         //create new group
         String testGroupsName = getNewTestGroupName();
         apiClient.getUserGroupsApi().create( testGroupsName );
@@ -153,8 +151,6 @@ public class GroupsApiClientTest extends TestBase {
 
 
     private void deleteTestData() throws TenableIoException {
-        TenableIoClient apiClient = new TenableIoClient();
-
         deleteTestGroups( apiClient );
     }
 }

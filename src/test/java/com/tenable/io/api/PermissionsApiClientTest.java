@@ -22,8 +22,6 @@ import static org.junit.Assert.*;
 public class PermissionsApiClientTest extends TestBase {
     @Test
     public void testPermission() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         //create an asset list with custom permission
         Permission permission = new Permission().withType( "default" ).withPermissions( 64 );
         List<Permission> acls = new ArrayList<Permission>();
@@ -70,8 +68,6 @@ public class PermissionsApiClientTest extends TestBase {
     @Before
     @After
     public void cleanup() throws TenableIoException {
-        TenableIoClient apiClient = new TenableIoClient();
-
         deleteTestTargetGroups( apiClient );
     }
 }

@@ -15,7 +15,6 @@ import static org.junit.Assert.*;
 public class ServerApiClientTest extends TestBase {
     @Test
     public void testServer() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         ServerStatus status = apiClient.getServerApi().status();
         assertNotNull( status );
 
