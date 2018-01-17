@@ -18,7 +18,6 @@ public class FiltersApiClientTest extends TestBase {
 
     @Test
     public void testFilters() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         List<Filter> filters = apiClient.getFiltersApi().workbenchesVulnerabilities();
         assertNotNull( filters );
 

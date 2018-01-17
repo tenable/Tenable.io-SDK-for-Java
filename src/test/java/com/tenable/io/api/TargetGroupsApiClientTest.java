@@ -23,8 +23,6 @@ import static org.junit.Assert.assertTrue;
 public class TargetGroupsApiClientTest extends TestBase {
     @Test
     public void testTargetGroups() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         //create asset list
         User user = createTestUser( apiClient, 0 );
 
@@ -83,8 +81,6 @@ public class TargetGroupsApiClientTest extends TestBase {
     @Before
     @After
     public void cleanup() throws TenableIoException {
-        TenableIoClient apiClient = new TenableIoClient();
-
         deleteTestTargetGroups( apiClient );
     }
 }

@@ -38,7 +38,7 @@ public class TestBase {
     protected static final String TEST_SCANNER_GROUP_NAME_PREFIX = "tioTestScannerGroup_";
 
 
-
+    protected TenableIoClient apiClient = new TenableIoClient();
     private static final String testUsernameBase = "tioTestUsername";
     private Set<String> testUsernames = new HashSet<>();
 
@@ -61,7 +61,11 @@ public class TestBase {
 
     @After
     public void cleanupBase() throws TenableIoException {
-        deleteTestData();
+        try {
+            deleteTestData();
+        } finally {
+            closeClient();
+        }
     }
 
 
@@ -115,10 +119,15 @@ public class TestBase {
         return user;
     }
 
+    private void closeClient() {
+        try {
+            apiClient.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
     private void deleteTestData() throws TenableIoException {
-        TenableIoClient apiClient = new TenableIoClient();
-
         //delete potential test users
         List<User> users = apiClient.getUsersApi().list();
         if( users != null ) {

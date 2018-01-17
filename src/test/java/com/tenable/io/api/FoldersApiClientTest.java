@@ -21,7 +21,6 @@ import static org.junit.Assert.*;
 public class FoldersApiClientTest extends TestBase {
     @Test
     public void testCreateAndDelete() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         int folderId = createFolder( apiClient );
 
         apiClient.getFoldersApi().delete( folderId );
@@ -30,7 +29,6 @@ public class FoldersApiClientTest extends TestBase {
 
     @Test
     public void testListFolders() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         int folderId = createFolder( apiClient );
 
         List<Folder> folders = apiClient.getFoldersApi().list();
@@ -44,7 +42,6 @@ public class FoldersApiClientTest extends TestBase {
 
     @Test
     public void testEditFolder() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         int folderId = createFolder( apiClient );
 
         apiClient.getFoldersApi().edit( folderId, "newName" );
@@ -80,8 +77,6 @@ public class FoldersApiClientTest extends TestBase {
     @Before
     @After
     public void cleanup() throws TenableIoException {
-        TenableIoClient apiClient = new TenableIoClient();
-
         deleteTestFolders( apiClient );
     }
 }

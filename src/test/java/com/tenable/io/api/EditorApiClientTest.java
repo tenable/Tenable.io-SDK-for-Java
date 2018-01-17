@@ -24,7 +24,6 @@ public class EditorApiClientTest extends TestBase {
 
     @Test
     public void testList() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         List<Template> policyTemplates = apiClient.getEditorApi().list( TemplateType.POLICY );
         assertNotNull( policyTemplates );
         assertTrue( policyTemplates.size() > 0 );
@@ -37,7 +36,6 @@ public class EditorApiClientTest extends TestBase {
 
     @Test
     public void testDetails() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         List<Template> policyTemplates = apiClient.getEditorApi().list( TemplateType.POLICY );
         assertNotNull( policyTemplates );
         assertTrue( policyTemplates.size() > 0 );
@@ -53,7 +51,6 @@ public class EditorApiClientTest extends TestBase {
 
     @Test
     public void testAgent() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         List<Template> policyTemplates = apiClient.getEditorApi().list( TemplateType.POLICY );
         assertNotNull( policyTemplates );
         assertTrue( policyTemplates.size() > 0 );
@@ -75,8 +72,6 @@ public class EditorApiClientTest extends TestBase {
 
     @Test
     public void testPluginDescription() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
-
         // import a policy to be used in test
         String filename = apiClient.getFileApi().upload( new File( "src/test/resources/nessus_policy_test.nessus" ) );
         Policy imported = apiClient.getPoliciesApi().importPolicy( filename );
