@@ -20,7 +20,6 @@ import static org.junit.Assert.*;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class AgentGroupsApiClientTest extends TestBase {
-    private TenableIoClient apiClient = new TenableIoClient();
 
     @Test
     public void testAgentGroups() throws Exception {
@@ -95,8 +94,6 @@ public class AgentGroupsApiClientTest extends TestBase {
     @Before
     @After
     public void cleanup() throws TenableIoException {
-        TenableIoClient apiClient = new TenableIoClient();
-
         deleteTestAgentGroups(apiClient);
     }
 }

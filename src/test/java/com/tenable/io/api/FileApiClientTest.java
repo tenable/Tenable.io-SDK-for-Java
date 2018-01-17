@@ -14,7 +14,6 @@ import static org.junit.Assert.*;
 public class FileApiClientTest extends TestBase {
     @Test
     public void testFileUpload() throws Exception {
-        TenableIoClient apiClient = new TenableIoClient();
         String filename = apiClient.getFileApi().upload( new File( "src/test/resources/targets.txt" ) );
 
         assertNotNull( filename );
