@@ -13,15 +13,18 @@ properties(projectProperties)
 
 import com.tenable.jenkins.Slack
 import com.tenable.jenkins.common.Common
+import com.tenable.jenkins.builds.*
 import com.tenable.jenkins.Constants
 
+Common common = new Common(this)
+BuildsCommon buildsCommon = new BuildsCommon(this)
 Slack slack  = new Slack()
 def fmt = slack.helper()
 def auser = ''
 
 try {
     node(Constants.DOCKERNODE) {
-        common.cleanup()
+        buildsCommon.cleanup()
 
         // Pull the automation framework from develop
         stage('scm auto') {
@@ -35,7 +38,7 @@ try {
             docker.image('ci-vulnautomation-base:1.0.9').inside('-u root') {
                 stage('build auto') {
                     timeout(time: 10, unit: 'MINUTES') {
-                        common.prepareGit()
+                        buildsCommon.prepareGit()
 
                         sshagent([Constants.BITBUCKETUSER]) {
                             sh """
@@ -64,7 +67,7 @@ chmod -R 777 ../tenableio-sdk
             }
         }
 
-        common.cleanup()
+        buildsCommon.cleanup()
         deleteDir()
 
         stage('scm java') {
@@ -99,11 +102,11 @@ chmod +x gradlew
     }
 }
 catch (exc) {
-    if (currentBuild.result == null || currentBuild.result == 'ANORTED') {
+    if (currentBuild.result == null || currentBuild.result == 'ABORTED') {
         // Try to detect if the build was aborted
-        if (common.wasAborted(this)) {
+        if (common.wasAborted()) {
             currentBuild.result = 'ABORTED'
-            auser = common.jenkinsAbortUser()
+            auser = common.getAbortingUsername()
 
             if (auser) {
                auser = '\nAborted by ' + auser
