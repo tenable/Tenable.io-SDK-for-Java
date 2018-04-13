@@ -15,14 +15,13 @@ import com.tenable.jenkins.Slack
 import com.tenable.jenkins.common.Common
 import com.tenable.jenkins.Constants
 
-Constants global = new Constants()
 Common common = new Common()
 Slack slack  = new Slack()
 def fmt = slack.helper()
 def auser = ''
 
 try {
-    node(global.DOCKERNODE) {
+    node(Constants.DOCKERNODE) {
         common.cleanup()
 
         // Pull the automation framework from develop
@@ -33,13 +32,13 @@ try {
            }
         }
 
-        docker.withRegistry(global.AWS_DOCKER_REGISTRY) {
+        docker.withRegistry(Constants.AWS_DOCKER_REGISTRY) {
             docker.image('ci-vulnautomation-base:1.0.9').inside('-u root') {
                 stage('build auto') {
                     timeout(time: 10, unit: 'MINUTES') {
                         common.prepareGit()
 
-                        sshagent([global.BITBUCKETUSER]) {
+                        sshagent([Constants.BITBUCKETUSER]) {
                             sh """
 cd automation
 export JENKINS_NODE_COOKIE=
@@ -74,7 +73,7 @@ chmod -R 777 ../tenableio-sdk
             unstash 'Config'
         }
 
-        docker.withRegistry(global.AWS_DOCKER_REGISTRY) {
+        docker.withRegistry(Constants.AWS_DOCKER_REGISTRY) {
             docker.image('ci-java-base:2.0.18').inside {
                 stage('build java') {
                     try {
