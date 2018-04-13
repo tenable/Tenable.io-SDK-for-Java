@@ -62,7 +62,7 @@ public class AsyncHttpService implements AutoCloseable {
      * @param defaultHeaders Optional, can be null. the default headers
      */
     public AsyncHttpService( List<Header> defaultHeaders ) {
-        this( null, null, null, defaultHeaders );
+        this( null, null, null, defaultHeaders, null );
     }
 
     /**
@@ -74,7 +74,7 @@ public class AsyncHttpService implements AutoCloseable {
      * @param secretKey the secret key
      */
     public AsyncHttpService( String accessKey, String secretKey ) {
-        this( accessKey, secretKey, null, null );
+        this( accessKey, secretKey, null, null, null );
     }
 
     /**
@@ -87,7 +87,7 @@ public class AsyncHttpService implements AutoCloseable {
      * @param impersonateUsername the impersonate username
      */
     public AsyncHttpService( String accessKey, String secretKey, String impersonateUsername ) {
-        this( accessKey, secretKey, impersonateUsername, null );
+        this( accessKey, secretKey, impersonateUsername, null, null );
     }
 
     /**
@@ -100,14 +100,14 @@ public class AsyncHttpService implements AutoCloseable {
      * @param impersonateUsername the username of the user to impersonate
      * @param defaultHeaders Optional, can be null. the default headers
      */
-    public AsyncHttpService( String accessKey, String secretKey, String impersonateUsername, List<Header> defaultHeaders ) {
+    public AsyncHttpService( String accessKey, String secretKey, String impersonateUsername, List<Header> defaultHeaders, String userAgent ) {
         String proxyHost = System.getProperty( "proxyHost" );
         String proxyPort = System.getProperty( "proxyPort" );
         // if a proxy is set, uses it
         if( proxyHost != null && proxyPort != null )
-            initClient( accessKey, secretKey, defaultHeaders, CONNECTION_REQUEST_TIMEOUT, CONNECTION_TIMEOUT, SOCKET_TIMEOUT, new HttpHost( proxyHost, Integer.parseInt( proxyPort ) ), true, impersonateUsername );
+            initClient( accessKey, secretKey, defaultHeaders, userAgent, CONNECTION_REQUEST_TIMEOUT, CONNECTION_TIMEOUT, SOCKET_TIMEOUT, new HttpHost( proxyHost, Integer.parseInt( proxyPort ) ), true, impersonateUsername );
         else
-            initClient( accessKey, secretKey, defaultHeaders, CONNECTION_REQUEST_TIMEOUT, CONNECTION_TIMEOUT, SOCKET_TIMEOUT, null, impersonateUsername );
+            initClient( accessKey, secretKey, defaultHeaders, userAgent, CONNECTION_REQUEST_TIMEOUT, CONNECTION_TIMEOUT, SOCKET_TIMEOUT, null, impersonateUsername );
 
         jsonHelper = new JsonHelper();
     }
@@ -342,11 +342,11 @@ public class AsyncHttpService implements AutoCloseable {
         return responseConsumer == null ? asyncClient.execute( httpUriRequest, null ) : asyncClient.execute( HttpAsyncMethods.create( httpUriRequest ), responseConsumer, null, null );
     }
 
-    private void initClient( String accessKey, String secretKey, List<Header> defaultHeaders, int connectionRequestTimeout, int connectionTimeout, int socketTimeout, HttpHost proxy, String impersonateUsername ) {
-        initClient( accessKey, secretKey, defaultHeaders, connectionRequestTimeout, connectionTimeout, socketTimeout, proxy, false, impersonateUsername );
+    private void initClient( String accessKey, String secretKey, List<Header> defaultHeaders, String userAgent, int connectionRequestTimeout, int connectionTimeout, int socketTimeout, HttpHost proxy, String impersonateUsername ) {
+        initClient( accessKey, secretKey, defaultHeaders, userAgent, connectionRequestTimeout, connectionTimeout, socketTimeout, proxy, false, impersonateUsername );
     }
 
-    private void initClient( String accessKey, String secretKey, List<Header> defaultHeadersOverride, int connectionRequestTimeout, int connectionTimeout, int socketTimeout, HttpHost proxy, boolean noSslValidation, String impersonateUsername ) {
+    private void initClient( String accessKey, String secretKey, List<Header> defaultHeadersOverride, String userAgent, int connectionRequestTimeout, int connectionTimeout, int socketTimeout, HttpHost proxy, boolean noSslValidation, String impersonateUsername ) {
         RequestConfig.Builder requestConfigBuilder = RequestConfig.custom();
 
         requestConfigBuilder.setConnectionRequestTimeout( connectionRequestTimeout ).setConnectTimeout( connectionTimeout ).setSocketTimeout( socketTimeout );
@@ -372,9 +372,13 @@ public class AsyncHttpService implements AutoCloseable {
         Map<String, String> systemProperties = ManagementFactory.getRuntimeMXBean().getSystemProperties();
 
         if ( defaultHeadersOverride == null ) {
+            if ( userAgent == null ) {
+                userAgent = String.format( "TenableIOSDK Java/%s %s/%s/%s", systemProperties.get( "java.runtime.version" ), systemProperties.get( "os.name" ), systemProperties.get( "os.version" ), systemProperties.get( "os.arch" ) );
+            }
+
             defaultHeaders = new ArrayList<>( 3 );
             defaultHeaders.add( new BasicHeader( "X-ApiKeys", String.format( "accessKey=%s; secretKey=%s", accessKey, secretKey ) ) );
-            defaultHeaders.add( new BasicHeader( "User-Agent", String.format( "TenableIOSDK Java/%s %s/%s/%s", systemProperties.get( "java.runtime.version" ), systemProperties.get( "os.name" ), systemProperties.get( "os.version" ), systemProperties.get( "os.arch" ) ) ) );
+            defaultHeaders.add( new BasicHeader( "User-Agent", userAgent ) );
             defaultHeaders.add( new BasicHeader( "Accept", "*/*" ) );
 
             if ( impersonateUsername != null ) {
