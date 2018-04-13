@@ -15,7 +15,6 @@ import com.tenable.jenkins.Slack
 import com.tenable.jenkins.common.Common
 import com.tenable.jenkins.Constants
 
-Common common = new Common()
 Slack slack  = new Slack()
 def fmt = slack.helper()
 def auser = ''
