@@ -119,8 +119,8 @@ catch (exc) {
     throw exc
 }
 finally {
-    String tests = common.jenkinsTestResults()
-    String took  = '\nTook: ' + common.jenkinsDuration()
+    String tests = common.getTestResults()
+    String took  = '\nTook: ' + common.getDuration()
 
     currentBuild.result = currentBuild.result ?: 'FAILURE'
 
