@@ -610,6 +610,19 @@ public class ScansApi extends ApiWrapperBase {
     }
 
 
+    /**
+     * Gets a scan latest status.
+     *
+     * @param scanId The id of scan for which to retreive status
+     * @return the scan latest status
+     * @throws TenableIoException the tenable IO exception
+     */
+    public ScanStatus latestStatus( int scanId ) throws TenableIoException {
+        HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scans/" + scanId  + "/latest-status").build() );
+        return ScanStatus.forValue( httpFuture.getAsJson().get( "status" ).textValue() );
+    }
+
+
     @JsonInclude( JsonInclude.Include.NON_DEFAULT )
     private class CopyRequest {
         private int folderId;
