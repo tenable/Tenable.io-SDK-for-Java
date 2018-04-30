@@ -76,7 +76,7 @@ public class WorkbenchesApiClientTest extends TestBase {
         
         // wait for assets in scan results to be processed
         while (assets.size() == 0) {
-            Thread.sleep(10000);
+            Thread.sleep(15000);
             assets = apiClient.getWorkbenchesApi().assets(filterOptions);
         }
 
@@ -85,7 +85,7 @@ public class WorkbenchesApiClientTest extends TestBase {
             assertNotNull(assets.get(0).getId());
             assertNotNull(assets.get(0).getLastSeen());
 
-            Thread.sleep(15000); // sleep another 15 seconds to be safe before requesting asset info
+            Thread.sleep(20000); // sleep another 20 seconds to be safe before requesting asset info
             WbAssetInfo assetInfo = apiClient.getWorkbenchesApi().assetInfo(assets.get(0).getId(), new FilteringOptions());
             assertNotNull(assetInfo);
             List<ScanVulnerability> vulnerabilities = apiClient.getWorkbenchesApi().assetVulnerabilities(
