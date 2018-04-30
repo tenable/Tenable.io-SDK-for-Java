@@ -13,17 +13,18 @@ properties(projectProperties)
 
 import com.tenable.jenkins.Slack
 import com.tenable.jenkins.common.Common
+import com.tenable.jenkins.builds.*
 import com.tenable.jenkins.Constants
 
-Constants global = new Constants()
-Common common = new Common()
+Common common = new Common(this)
+BuildsCommon buildsCommon = new BuildsCommon(this)
 Slack slack  = new Slack()
 def fmt = slack.helper()
 def auser = ''
 
 try {
-    node(global.DOCKERNODE) {
-        common.cleanup()
+    node(Constants.DOCKERNODE) {
+        buildsCommon.cleanup()
 
         // Pull the automation framework from develop
         stage('scm auto') {
@@ -33,13 +34,13 @@ try {
            }
         }
 
-        docker.withRegistry(global.AWS_DOCKER_REGISTRY) {
+        docker.withRegistry(Constants.AWS_DOCKER_REGISTRY) {
             docker.image('ci-vulnautomation-base:1.0.9').inside('-u root') {
                 stage('build auto') {
                     timeout(time: 10, unit: 'MINUTES') {
-                        common.prepareGit()
+                        buildsCommon.prepareGit()
 
-                        sshagent([global.BITBUCKETUSER]) {
+                        sshagent([Constants.BITBUCKETUSER]) {
                             sh """
 cd automation
 export JENKINS_NODE_COOKIE=
@@ -66,7 +67,7 @@ chmod -R 777 ../tenableio-sdk
             }
         }
 
-        common.cleanup()
+        buildsCommon.cleanup()
         deleteDir()
 
         stage('scm java') {
@@ -74,7 +75,7 @@ chmod -R 777 ../tenableio-sdk
             unstash 'Config'
         }
 
-        docker.withRegistry(global.AWS_DOCKER_REGISTRY) {
+        docker.withRegistry(Constants.AWS_DOCKER_REGISTRY) {
             docker.image('ci-java-base:2.0.18').inside {
                 stage('build java') {
                     try {
@@ -101,11 +102,11 @@ chmod +x gradlew
     }
 }
 catch (exc) {
-    if (currentBuild.result == null || currentBuild.result == 'ANORTED') {
+    if (currentBuild.result == null || currentBuild.result == 'ABORTED') {
         // Try to detect if the build was aborted
-        if (common.wasAborted(this)) {
+        if (common.wasAborted()) {
             currentBuild.result = 'ABORTED'
-            auser = common.jenkinsAbortUser()
+            auser = common.getAbortingUsername()
 
             if (auser) {
                auser = '\nAborted by ' + auser
@@ -121,8 +122,8 @@ catch (exc) {
     throw exc
 }
 finally {
-    String tests = common.jenkinsTestResults()
-    String took  = '\nTook: ' + common.jenkinsDuration()
+    String tests = common.getTestResults()
+    String took  = '\nTook: ' + common.getDuration()
 
     currentBuild.result = currentBuild.result ?: 'FAILURE'
 
