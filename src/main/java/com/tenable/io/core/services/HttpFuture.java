@@ -364,7 +364,7 @@ public class HttpFuture {
                     Thread.sleep( sleepTimes != null ? sleepTimes[numRetry - 1] : 1500 );
                 } catch( InterruptedException e1 ) {}
 
-                httpResponseFuture = asyncHttpService.retryOperation( httpUriRequest, responseConsumer );
+                httpResponseFuture = asyncHttpService.retryOperation( httpUriRequest, responseConsumer, numRetry );
                 return getResponse();
             }
             else logEvent( response, "", e.getMessage(), e, numRetry + 1, true );
