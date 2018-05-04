@@ -336,9 +336,11 @@ public class AsyncHttpService implements AutoCloseable {
      *
      * @param httpUriRequest the HttpUriRequest to retry
      * @param responseConsumer the response consumer
+     * @param numRetry The retry count
      * @return the resulting Future<HttpResponse> instance
      */
-    Future<HttpResponse> retryOperation( HttpUriRequest httpUriRequest, HttpAsyncResponseConsumer<HttpResponse> responseConsumer ) {
+    Future<HttpResponse> retryOperation( HttpUriRequest httpUriRequest, HttpAsyncResponseConsumer<HttpResponse> responseConsumer, int numRetry ) {
+        httpUriRequest.setHeader( "X-Tio-Retry-Count", Integer.toString( numRetry ) );
         return responseConsumer == null ? asyncClient.execute( httpUriRequest, null ) : asyncClient.execute( HttpAsyncMethods.create( httpUriRequest ), responseConsumer, null, null );
     }
 
