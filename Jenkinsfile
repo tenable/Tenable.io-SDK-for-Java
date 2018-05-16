@@ -1,6 +1,5 @@
 @Library('tenable.common@v1.0.0')
 import com.tenable.jenkins.*
-import com.tenable.jenkins.audit.parsers.DockerProperties
 import com.tenable.jenkins.builds.*
 import com.tenable.jenkins.builds.checkmarx.*
 import com.tenable.jenkins.builds.nexusiq.*
@@ -18,6 +17,7 @@ def projectProperties = [
 ]
 
 properties(projectProperties)
+
 Common common = new Common(this)
 BuildsCommon buildsCommon = new BuildsCommon(this)
 
@@ -36,9 +36,9 @@ try {
         }
 
         docker.withRegistry(Constants.AWS_DOCKER_REGISTRY) {
-            docker.image('ci-vulnautomation-base:1.1.6').inside('-u root') {
+            docker.image(Constants.DOCKER_CI_VULNAUTOMATION_BASE).inside('-u root') {
                 stage('build auto') {
-                    timeout(time: 10, unit: 'MINUTES') {
+                    timeout(time: 24, unit: Constants.HOURS) {
                         buildsCommon.prepareGit()
 
                         sshagent([Constants.BITBUCKETUSER]) {
@@ -77,10 +77,10 @@ try {
         }
 
         docker.withRegistry(Constants.AWS_DOCKER_REGISTRY) {
-            docker.image('ci-java-base:2.1.11').inside {
+            docker.image(Constants.DOCKER_CI_JAVA_BASE).inside {
                 stage('build java') {
                     try {
-                        timeout(time: 120, unit: 'MINUTES') {
+                        timeout(time: 24, unit: Constants.HOURS) {
                             sh '''
                             find .
                             cat ./tenableio-sdk/tio_config.txt | sed 's/^/systemProp./g' > gradle.properties
