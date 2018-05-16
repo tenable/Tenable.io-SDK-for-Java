@@ -20,7 +20,6 @@ def projectProperties = [
 properties(projectProperties)
 Common common = new Common(this)
 BuildsCommon buildsCommon = new BuildsCommon(this)
-Slack slack = new Slack(this)
 
 try {
     node(Constants.DOCKERNODE) {
