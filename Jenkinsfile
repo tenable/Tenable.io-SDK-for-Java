@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-@Library('tenable.common')
+@Library('tenable.common@v0.9.3')
 
 def projectProperties = [
     [$class: 'BuildDiscarderProperty',strategy: [$class: 'LogRotator', numToKeepStr: '5']],
