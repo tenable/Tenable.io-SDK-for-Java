@@ -473,7 +473,7 @@ public class ScanRef implements RunnableScan, RunningScan {
      * @throws TenableIoException the Tenable IO exception
      */
     public ScanStatus getStatus() throws TenableIoException {
-        return getStatus( null );
+        return this.client.getScansApi().latestStatus( this.id );
     }
 
 
