@@ -13,6 +13,7 @@ import com.tenable.io.api.containerSecurity.CsPolicyApi;
 import com.tenable.io.api.containerSecurity.CsReportsApi;
 import com.tenable.io.api.editors.EditorApi;
 import com.tenable.io.api.exlusions.ExclusionsApi;
+import com.tenable.io.api.exports.ExportsApi;
 import com.tenable.io.api.file.FileApi;
 import com.tenable.io.api.filters.FiltersApi;
 import com.tenable.io.api.folders.FolderHelper;
@@ -75,6 +76,7 @@ public class TenableIoClient implements AutoCloseable {
     private AgentExclusionsApi agentExclusionsApi = null;
     private AgentConfigApi agentConfigApi = null;
     private AssetImportApi assetImportApi = null;
+    private ExportsApi exportsApi = null;
 
     /**
      * Instantiates a new Tenable IO client from environment variables.
@@ -544,6 +546,19 @@ public class TenableIoClient implements AutoCloseable {
             assetImportApi = new AssetImportApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return assetImportApi;
+    }
+
+
+    /**
+     * Gets exports api.
+     *
+     * @return the exports api
+     */
+    synchronized public ExportsApi getExportsApi() {
+        if( exportsApi == null )
+            exportsApi = new ExportsApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
+
+        return exportsApi;
     }
 
 
