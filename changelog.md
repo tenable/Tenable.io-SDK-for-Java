@@ -1,6 +1,15 @@
 CHANGE LOG
 =========
 
+1.1.0
+==========
+
+* Added: Support for new Vuln Export API
+* Added: Support for new Asset Export API
+* Added: Route to get a scan's latest status (/latest-status).
+* Added: X-Tio-Retry-Count header sent with each retry.
+* Added: User-Agent header is customizable.
+
 1.0.0
 ==========
 
