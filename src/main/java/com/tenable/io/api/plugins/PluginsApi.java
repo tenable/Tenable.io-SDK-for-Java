@@ -41,6 +41,18 @@ public class PluginsApi extends ApiWrapperBase {
         return httpFuture.getAsType( new TypeReference<List<PluginFamily>>() {}, "families" );
     }
 
+    /**
+     * Returns the list of plugin families.
+     *
+     * @param includeAll Whether or not to include all plugins. Defaults to be less inclusive.
+     * @return the list of plugin families.
+     * @throws TenableIoException the tenable IO exception
+     */
+    public List<PluginFamily> families( Boolean includeAll ) throws TenableIoException {
+        HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder("/plugins/families").addParameter( "all", includeAll.toString() ).build() );
+        return httpFuture.getAsType( new TypeReference<List<PluginFamily>>() {}, "families" );
+    }
+
 
     /**
      * Returns the list of plugins in a family
