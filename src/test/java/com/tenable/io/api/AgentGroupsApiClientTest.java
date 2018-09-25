@@ -60,8 +60,10 @@ public class AgentGroupsApiClientTest extends TestBase {
         for ( Agent ag : agents ) {
             apiClient.getAgentGroupsApi().addAgent( createdGroup.getId(), ag.getId() );
         }
+
         createdGroup = apiClient.getAgentGroupsApi().details( createdGroup.getId() );
-        assertEquals( createdGroup.getAgentsCount(), agents.size() );
+        // check on the size of the agents array rather than the agent_counts property, the latter seems to be eventually consistent but the former is immediate 
+        assertEquals( createdGroup.getAgents().size(), agents.size() );
 
         // Test agent group details pagination
         for ( int i = 0; i < createdGroup.getAgentsCount(); i += 10 ) {
