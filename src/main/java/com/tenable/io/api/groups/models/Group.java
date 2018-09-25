@@ -2,7 +2,7 @@ package com.tenable.io.api.groups.models;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import java.util.UUID;
 
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
@@ -12,6 +12,7 @@ public class Group {
     private String name;
     private int permissions;
     private int userCount;
+    private UUID uuid;
 
 
     /**
@@ -73,6 +74,23 @@ public class Group {
         this.permissions = permissions;
     }
 
+    /**
+     * Gets the uuid for the group.
+     *
+     * @return the uuid for the group.
+     */
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    /**
+     * Sets the unique uuid of the group.
+     *
+     * @param uuid the unique uuid of the group.
+     */
+    public void setUuid( UUID uuid ) {
+        this.uuid = uuid;
+    }
 
     /**
      * Gets the number of users in the group.

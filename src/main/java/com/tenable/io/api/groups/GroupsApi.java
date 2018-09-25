@@ -12,7 +12,6 @@ import com.tenable.io.core.services.HttpFuture;
 
 import java.util.List;
 
-
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
@@ -48,11 +47,11 @@ public class GroupsApi extends ApiWrapperBase {
      * @param name the name of the group
      * @throws TenableIoException the tenable IO exception
      */
-    public void create( String name ) throws TenableIoException {
+    public Group create( String name ) throws TenableIoException {
         GroupRequest request = new GroupRequest();
         request.setName( name );
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/groups" ).build(), request );
-        httpFuture.get();
+        return httpFuture.getAsType( Group.class );
     }
 
 
