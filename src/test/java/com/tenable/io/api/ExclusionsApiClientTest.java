@@ -1,17 +1,15 @@
 package com.tenable.io.api;
 
 
-import com.tenable.io.api.exlusions.models.Exclusion;
-import com.tenable.io.api.exlusions.models.ExclusionRequest;
+import com.tenable.io.api.exclusions.models.Exclusion;
+import com.tenable.io.api.exclusions.models.ExclusionRequest;
 
 import com.tenable.io.core.exceptions.TenableIoException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.Assert.*;
 
