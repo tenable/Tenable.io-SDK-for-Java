@@ -2,7 +2,7 @@ package com.tenable.io.api;
 
 
 import com.tenable.io.api.agentGroups.models.AgentGroup;
-import com.tenable.io.api.exlusions.models.Exclusion;
+import com.tenable.io.api.exclusions.models.Exclusion;
 import com.tenable.io.api.folders.models.Folder;
 import com.tenable.io.api.groups.models.Group;
 import com.tenable.io.api.policies.models.Policy;
@@ -11,6 +11,7 @@ import com.tenable.io.api.scans.models.Scan;
 import com.tenable.io.api.scans.models.ScanDetails;
 import com.tenable.io.api.scans.models.ScanListResult;
 import com.tenable.io.api.scans.models.ScanStatus;
+import com.tenable.io.api.tags.models.TagCategory;
 import com.tenable.io.api.targetGroups.models.TargetGroup;
 import com.tenable.io.api.users.models.User;
 import com.tenable.io.api.users.models.UserRole;
@@ -36,6 +37,7 @@ public class TestBase {
     protected static final String TEST_GROUP_NAME_PREFIX = "tioTestGroup_";
     protected static final String TEST_POLICY_NAME_PREFIX = "tioTestPolicy_";
     protected static final String TEST_SCANNER_GROUP_NAME_PREFIX = "tioTestScannerGroup_";
+    protected static final String TEST_TAG_NAME_PREFIX = "tioTestTag_";
 
 
     protected TenableIoClient apiClient = new TenableIoClient();
@@ -288,6 +290,23 @@ public class TestBase {
 
     protected String getNewTestScannerGroupName() {
         return getNewTestName( TEST_SCANNER_GROUP_NAME_PREFIX );
+    }
+
+
+    protected void deleteTestTags() throws TenableIoException {
+        // delete potential test tags
+        TagCategory[] tagCategories = apiClient.getTagsApi().listTagCategories().getCategories();
+        if( tagCategories != null ) {
+            for( TagCategory tag : tagCategories) {
+                if( tag.getName().toLowerCase().startsWith( TEST_TAG_NAME_PREFIX.toLowerCase() ) ) {
+                    apiClient.getTagsApi().deleteCategory( tag.getUuid() );
+                }
+            }
+        }
+    }
+
+    protected String getNewTestTagName() {
+        return getNewTestName( TEST_TAG_NAME_PREFIX );
     }
 
 
