@@ -1,5 +1,9 @@
 package com.tenable.io.api.tags.models;
 
+
+/**
+ * Copyright (c) 2018 Tenable Network Security, Inc.
+ */
 public class ValueBulkRequest {
     private String[] values;
 

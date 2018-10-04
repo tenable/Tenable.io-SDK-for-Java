@@ -10,6 +10,10 @@ import com.tenable.io.core.services.HttpFuture;
 
 import java.util.List;
 
+
+/**
+ * Copyright (c) 2018 Tenable Network Security, Inc.
+ */
 public class TagsApi extends ApiWrapperBase {
 
     /**

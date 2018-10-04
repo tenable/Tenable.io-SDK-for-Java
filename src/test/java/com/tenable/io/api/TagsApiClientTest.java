@@ -1,6 +1,6 @@
 package com.tenable.io.api;
 
-import com.tenable.io.api.assetImport.AssetImportApi;
+
 import com.tenable.io.api.tags.models.*;
 
 import com.tenable.io.core.exceptions.TenableIoException;
@@ -11,6 +11,10 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+
+/**
+ * Copyright (c) 2018 Tenable Network Security, Inc.
+ */
 public class TagsApiClientTest extends TestBase{
     @Before
     public void preChecks() throws TenableIoException {

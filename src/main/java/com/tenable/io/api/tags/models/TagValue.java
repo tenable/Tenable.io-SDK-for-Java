@@ -2,6 +2,10 @@ package com.tenable.io.api.tags.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
+/**
+ * Copyright (c) 2018 Tenable Network Security, Inc.
+ */
 public class TagValue {
     private String uuid;
     private String value;

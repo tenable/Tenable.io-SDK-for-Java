@@ -1,15 +1,17 @@
 package com.tenable.io.api.tags.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tenable.io.api.editors.models.Filter;
 
+
+/**
+ * Copyright (c) 2018 Tenable Network Security, Inc.
+ */
 public class TagValueRequest {
     private String value;
     private String description;
     private String categoryUuid;
     private String categoryName;
     private String categoryDescription;
-    private Filter filters;
 
     /**
      * Gets the value of the tag.
@@ -168,37 +170,6 @@ public class TagValueRequest {
      */
     public TagValueRequest withCategoryDescription( String categoryDescription ) {
         this.categoryDescription = categoryDescription;
-        return this;
-    }
-
-
-    /**
-     * Gets the filters of the tag.
-     *
-     * @return the filters of the tag.
-     */
-    public Filter getFilters() {
-        return filters;
-    }
-
-
-    /**
-     * Sets the filters of the tag.
-     *
-     * @param filters the filters of the tag.
-     */
-    public void setFilters( Filter filters ) {
-        this.filters = filters;
-    }
-
-
-    /**
-     * Sets the filters of the tag.
-     *
-     * @param filters the filters of the tag.
-     */
-    public TagValueRequest withFilters( Filter filters ) {
-        this.filters = filters;
         return this;
     }
 }

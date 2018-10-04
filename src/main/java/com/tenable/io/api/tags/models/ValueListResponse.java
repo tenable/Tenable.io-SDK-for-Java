@@ -2,6 +2,10 @@ package com.tenable.io.api.tags.models;
 
 import com.tenable.io.api.agents.models.AgentPagination;
 
+
+/**
+ * Copyright (c) 2018 Tenable Network Security, Inc.
+ */
 public class ValueListResponse {
     private TagValue[] values;
     private AgentPagination pagination;
