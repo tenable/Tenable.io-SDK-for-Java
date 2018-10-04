@@ -2,6 +2,10 @@ package com.tenable.io.api.tags.models;
 
 import java.util.Map;
 
+
+/**
+ * Copyright (c) 2018 Tenable Network Security, Inc.
+ */
 public class AssignmentCounts {
     private boolean hasAssignments;
     private Map counts;
