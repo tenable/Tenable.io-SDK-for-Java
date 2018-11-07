@@ -2,7 +2,7 @@ package com.tenable.io.api;
 
 
 import com.tenable.io.api.tags.models.*;
-
+import com.tenable.io.api.workbenches.models.WbVulnerabilityAsset;
 import com.tenable.io.core.exceptions.TenableIoException;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,8 +45,6 @@ public class TagsApiClientTest extends TestBase{
         assertNotNull( result );
         assertTrue( list.getPagination().getTotal() == result.length);
 
-
-
         // details
         TagValue details1 = apiClient.getTagsApi().valueDetails( value1.getUuid() );
         TagValue details2 = apiClient.getTagsApi().valueDetails( value2.getUuid() );
@@ -69,11 +67,13 @@ public class TagsApiClientTest extends TestBase{
         assertTrue( details5.getValue().equals( valueUpdate.getValue() ) );
 
         // assign tag to asset
-        String[] assets = { apiClient.getAssetImportApi().getAssets().get(0).getId() };
+        List<WbVulnerabilityAsset> assets = apiClient.getWorkbenchesApi().assets( null );
+        System.out.println( assets );
+        String[] asset = { assets.get(0).getId() };
         String[] valueUuids = { value1.getUuid() };
         AssetAssignmentUpdate update = new AssetAssignmentUpdate();
         update.setAction( "add" );
-        update.setAssets( assets );
+        update.setAssets( asset );
         update.setValueUuids( valueUuids );
         apiClient.getTagsApi().createAssignment( update );
 
@@ -202,7 +202,7 @@ public class TagsApiClientTest extends TestBase{
     public void testAssets() throws Exception{
 
         // Asset tags given asset Id
-        List<AssetAssignment> details = apiClient.getTagsApi().assetTagAssignments( apiClient.getAssetImportApi().getAssets().get(0).getId() );
+        List<AssetAssignment> details = apiClient.getTagsApi().assetTagAssignments( apiClient.getWorkbenchesApi().assets( null ).get(0).getId() );
         assertNotNull( details );
     }
 }
