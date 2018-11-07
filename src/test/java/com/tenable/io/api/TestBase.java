@@ -2,6 +2,8 @@ package com.tenable.io.api;
 
 
 import com.tenable.io.api.agentGroups.models.AgentGroup;
+import com.tenable.io.api.assetImport.models.AssetImport;
+import com.tenable.io.api.assetImport.models.AssetImportRequest;
 import com.tenable.io.api.exclusions.models.Exclusion;
 import com.tenable.io.api.folders.models.Folder;
 import com.tenable.io.api.groups.models.Group;
@@ -19,6 +21,7 @@ import com.tenable.io.core.exceptions.TenableIoException;
 import org.junit.After;
 import org.junit.Before;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -61,6 +64,7 @@ public class TestBase {
         deleteTestData();
     }
 
+
     @After
     public void cleanupBase() throws TenableIoException {
         try {
@@ -69,7 +73,6 @@ public class TestBase {
             closeClient();
         }
     }
-
 
 
     public String getTestDomain() {
@@ -120,6 +123,7 @@ public class TestBase {
 
         return user;
     }
+
 
     private void closeClient() {
         try {
@@ -186,6 +190,7 @@ public class TestBase {
         }
     }
 
+
     protected String getNewTestFolderName() {
         return getNewTestName( TEST_FOLDER_NAME_PREFIX );
     }
@@ -203,6 +208,7 @@ public class TestBase {
         }
     }
 
+
     protected String getNewTestAgentGroupName() {
         return getNewTestName( TEST_AGENT_GROUP_NAME_PREFIX );
     }
@@ -219,6 +225,7 @@ public class TestBase {
             }
         }
     }
+
 
     protected String getNewTestTargetGroupName() {
         return getNewTestName( TEST_TARGET_GROUP_PREFIX );
@@ -253,6 +260,7 @@ public class TestBase {
             }
         }
     }
+
 
     protected String getNewTestGroupName() {
         return getNewTestName( TEST_GROUP_NAME_PREFIX );
@@ -328,6 +336,32 @@ public class TestBase {
         }
 
         return curStatus;
+    }
+
+
+    protected void importTestAsset() throws TenableIoException {
+        // Imports an asset via the asset import API to power other tests
+        AssetImport assetToImport = new AssetImport();
+        assetToImport.setIpv4( Arrays.asList( "192.168.0.97" ) );
+        assetToImport.setOperatingSystem( Arrays.asList( "Linux" ) );
+        AssetImportRequest importRequestPayload = new AssetImportRequest().withAssets( Arrays.asList( assetToImport ) ).withSource( "TEST" );
+        String import_job = apiClient.getAssetImportApi().importAssets( importRequestPayload );
+        waitUntilJobReady( import_job);
+        // Add an additional wait for Assets to become available
+        try {
+                Thread.sleep( 30000 );
+            } catch( InterruptedException e ) {
+        }
+    }
+
+    private void waitUntilJobReady( String jobId ) throws TenableIoException {
+
+        while( !"COMPLETE".equals( apiClient.getAssetImportApi().getAssetImportJob( jobId ).getStatus() ) ) {
+            try {
+                Thread.sleep( 5000 );
+            } catch( InterruptedException e ) {
+            }
+        }
     }
 }
 
