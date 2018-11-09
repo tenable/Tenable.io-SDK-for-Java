@@ -1,4 +1,4 @@
-package com.tenable.io.api.exlusions.models;
+package com.tenable.io.api.exclusions.models;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
