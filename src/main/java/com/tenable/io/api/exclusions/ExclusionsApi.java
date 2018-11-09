@@ -1,10 +1,10 @@
-package com.tenable.io.api.exlusions;
+package com.tenable.io.api.exclusions;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tenable.io.api.ApiWrapperBase;
-import com.tenable.io.api.exlusions.models.Exclusion;
-import com.tenable.io.api.exlusions.models.ExclusionRequest;
+import com.tenable.io.api.exclusions.models.Exclusion;
+import com.tenable.io.api.exclusions.models.ExclusionRequest;
 import com.tenable.io.core.exceptions.TenableIoException;
 import com.tenable.io.core.services.AsyncHttpService;
 import com.tenable.io.core.services.HttpFuture;

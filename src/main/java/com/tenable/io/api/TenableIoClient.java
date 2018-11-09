@@ -12,7 +12,7 @@ import com.tenable.io.api.containerSecurity.CsImagesApi;
 import com.tenable.io.api.containerSecurity.CsPolicyApi;
 import com.tenable.io.api.containerSecurity.CsReportsApi;
 import com.tenable.io.api.editors.EditorApi;
-import com.tenable.io.api.exlusions.ExclusionsApi;
+import com.tenable.io.api.exclusions.ExclusionsApi;
 import com.tenable.io.api.exports.ExportsApi;
 import com.tenable.io.api.file.FileApi;
 import com.tenable.io.api.filters.FiltersApi;
@@ -27,6 +27,7 @@ import com.tenable.io.api.scanners.ScannersApi;
 import com.tenable.io.api.scans.ScanHelper;
 import com.tenable.io.api.scans.ScansApi;
 import com.tenable.io.api.server.ServerApi;
+import com.tenable.io.api.tags.TagsApi;
 import com.tenable.io.api.targetGroups.TargetGroupsApi;
 import com.tenable.io.api.users.UsersApi;
 import com.tenable.io.api.workbenches.WorkbenchHelper;
@@ -64,6 +65,7 @@ public class TenableIoClient implements AutoCloseable {
     private TargetGroupsApi targetGroupsApi = null;
     private PermissionsApi permissionsApi = null;
     private ServerApi serverApi = null;
+    private TagsApi tagsApi = null;
     private WorkbenchesApi workbenchesApi = null;
     private ScanHelper scanHelper = null;
     private WorkbenchHelper workbenchHelper = null;
@@ -481,6 +483,19 @@ public class TenableIoClient implements AutoCloseable {
             serverApi = new ServerApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
 
         return serverApi;
+    }
+
+
+    /**
+     * Gets tags api.
+     *
+     * @return the tags api
+     */
+    synchronized public TagsApi getTagsApi() {
+        if( tagsApi == null )
+            tagsApi = new TagsApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
+
+        return tagsApi;
     }
 
 
