@@ -75,7 +75,7 @@ test {
     exclude '**/containerSecurity/**'   
     exclude '**/examples/**'
 
-    afterTest { desc, result -> 
+    afterTest { desc, result ->
         logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
     }
 }
