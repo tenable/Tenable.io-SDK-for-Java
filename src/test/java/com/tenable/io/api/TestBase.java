@@ -1,9 +1,10 @@
 package com.tenable.io.api;
 
 
-import com.tenable.io.api.agentGroups.models.AgentGroup;
+import com.tenable.io.api.accessGroups.models.AccessGroup;
 import com.tenable.io.api.assetImport.models.AssetImport;
 import com.tenable.io.api.assetImport.models.AssetImportRequest;
+import com.tenable.io.api.agentGroups.models.AgentGroup;
 import com.tenable.io.api.exclusions.models.Exclusion;
 import com.tenable.io.api.folders.models.Folder;
 import com.tenable.io.api.groups.models.Group;
@@ -41,6 +42,7 @@ public class TestBase {
     protected static final String TEST_POLICY_NAME_PREFIX = "tioTestPolicy_";
     protected static final String TEST_SCANNER_GROUP_NAME_PREFIX = "tioTestScannerGroup_";
     protected static final String TEST_TAG_NAME_PREFIX = "tioTestTag_";
+    protected static final String TEST_ACCESS_GROUP_NAME_PREFIX = "tioTestAccessGroup_";
 
 
     protected TenableIoClient apiClient = new TenableIoClient();
@@ -134,7 +136,7 @@ public class TestBase {
     }
 
     private void deleteTestData() throws TenableIoException {
-        //delete potential test users
+        // delete potential test users
         List<User> users = apiClient.getUsersApi().list();
         if( users != null ) {
             for( User user : users ) {
@@ -156,7 +158,7 @@ public class TestBase {
 
 
     protected void deleteTestScans( TenableIoClient apiClient ) throws TenableIoException {
-        //delete potential test policies
+        // delete potential test policies
         ScanListResult scanListResult = apiClient.getScansApi().list();
         if( scanListResult != null ) {
             for( Scan scan : scanListResult.getScans() ) {
@@ -179,7 +181,7 @@ public class TestBase {
 
 
     protected void deleteTestFolders( TenableIoClient apiClient ) throws TenableIoException {
-        //delete potential test folders
+        // delete potential test folders
         List<Folder> folderList = apiClient.getFoldersApi().list();
         if( folderList != null ) {
             for( Folder folder : folderList ) {
@@ -197,7 +199,7 @@ public class TestBase {
 
 
     protected void deleteTestAgentGroups( TenableIoClient apiClient ) throws TenableIoException {
-        //delete potential test agent groups
+        // delete potential test agent groups
         List<AgentGroup> groups = apiClient.getAgentGroupsApi().list();
         if( groups != null ) {
             for( AgentGroup group : groups ) {
@@ -215,7 +217,7 @@ public class TestBase {
 
 
     protected void deleteTestTargetGroups( TenableIoClient apiClient ) throws TenableIoException {
-        //delete potential test asset lists
+        // delete potential test asset lists
         List<TargetGroup> targetGroups = apiClient.getTargetGroupsApi().list();
         if( targetGroups != null ) {
             for( TargetGroup targetGroup : targetGroups ) {
@@ -233,7 +235,7 @@ public class TestBase {
 
 
     protected void deleteTestExclusions( TenableIoClient apiClient ) throws TenableIoException {
-        //delete potential exclusions
+        // delete potential exclusions
         List<Exclusion> exclusionList = apiClient.getExclusionsApi().list();
         if( exclusionList != null ) {
             for( Exclusion exclusion : exclusionList ) {
@@ -250,7 +252,7 @@ public class TestBase {
 
 
     protected void deleteTestGroups( TenableIoClient apiClient ) throws TenableIoException {
-        //delete potential test policies
+        // delete potential test policies
         List<Group> groups = apiClient.getUserGroupsApi().list();
         if( groups != null ) {
             for( Group group : groups ) {
@@ -268,7 +270,7 @@ public class TestBase {
 
 
     protected void deleteTestPolicies( TenableIoClient apiClient ) throws TenableIoException {
-        //delete potential test policies
+        // delete potential test policies
         List<Policy> policies = apiClient.getPoliciesApi().list();
         if( policies != null ) {
             for( Policy policy : policies ) {
@@ -285,7 +287,7 @@ public class TestBase {
 
 
     protected void deleteTestScannerGroups( TenableIoClient apiClient ) throws TenableIoException {
-        //delete potential test policies
+        // delete potential test policies
         List<ScannerGroup> scannerGroups = apiClient.getScannerGroupsApi().list();
         if( scannerGroups != null ) {
             for( ScannerGroup scannerGroup : scannerGroups ) {
@@ -315,6 +317,23 @@ public class TestBase {
 
     protected String getNewTestTagName() {
         return getNewTestName( TEST_TAG_NAME_PREFIX );
+    }
+
+
+    protected void deleteTestAccessGroups() throws TenableIoException {
+        // delete potential test access groups
+        AccessGroup[] accessGroups = apiClient.getAccessGroupsApi().listAccessGroups().getAccessGroups();
+        if( accessGroups != null ) {
+            for( AccessGroup ag : accessGroups) {
+                if( ag.getName().toLowerCase().startsWith( TEST_ACCESS_GROUP_NAME_PREFIX.toLowerCase() ) ) {
+                    apiClient.getAccessGroupsApi().deleteAccessGroup( ag.getId() );
+                }
+            }
+        }
+    }
+
+    protected String getNewTestAccessGroupName() {
+        return getNewTestName( TEST_ACCESS_GROUP_NAME_PREFIX );
     }
 
 
@@ -349,8 +368,8 @@ public class TestBase {
         waitUntilJobReady( import_job);
         // Add an additional wait for Assets to become available
         try {
-                Thread.sleep( 30000 );
-            } catch( InterruptedException e ) {
+            Thread.sleep( 30000 );
+        } catch( InterruptedException e ) {
         }
     }
 
