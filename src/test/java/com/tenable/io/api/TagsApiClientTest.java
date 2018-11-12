@@ -56,10 +56,10 @@ public class TagsApiClientTest extends TestBase{
         // modify value
         TagValueRequest valueUpdate = new TagValueRequest();
         valueUpdate.withValue( "13" ).withDescription( "changed value to 13" );
-        apiClient.getTagsApi().editTagValue( value1.getUuid(), valueUpdate );
+        value1 = apiClient.getTagsApi().editTagValue( value1.getUuid(), valueUpdate );
         details1 = apiClient.getTagsApi().valueDetails( value1.getUuid() );
         assertNotNull( details1 );
-        assertTrue( details1.getCategoryName().equals( value1.getCategoryName() ) );
+        assertTrue( details1.getValue().equals( value1.getValue() ) );
 
         // details by uuid of category and value
         TagValue details5 = apiClient.getTagsApi().detailsByUuids( value1.getCategoryUuid(), value1.getUuid() );
@@ -175,9 +175,9 @@ public class TagsApiClientTest extends TestBase{
         TagValue b = apiClient.getTagsApi().createValue( request3 );
         request3.withValue( "12" );
         TagValue c = apiClient.getTagsApi().createValue( request3 );
-        List<TagValue> listValues = apiClient.getTagsApi().listCategoryValues( category1.getUuid() );
+        ValueListResponse listValues = apiClient.getTagsApi().listCategoryValues( category1.getUuid() );
         assertNotNull( listValues );
-        assertTrue( listValues.size() == 3 );
+        assertTrue( listValues.getPagination().getTotal() == 3 );
 
         // counts
         AssignmentCounts count = apiClient.getTagsApi().countCategoryAssets( category1.getUuid() );
