@@ -1,16 +1,17 @@
 package com.tenable.io.api;
 
 
-import com.tenable.io.api.agentExclusions.AgentExclusionsApi;
+import com.tenable.io.api.accessGroups.AccessGroupsApi;
 import com.tenable.io.api.agentConfig.AgentConfigApi;
+import com.tenable.io.api.agentExclusions.AgentExclusionsApi;
 import com.tenable.io.api.agentGroups.AgentGroupsApi;
 import com.tenable.io.api.agents.AgentsApi;
 import com.tenable.io.api.assetImport.AssetImportApi;
 import com.tenable.io.api.bulkOperations.BulkAgentApi;
-import com.tenable.io.api.containerSecurity.CsTestJobsApi;
 import com.tenable.io.api.containerSecurity.CsImagesApi;
 import com.tenable.io.api.containerSecurity.CsPolicyApi;
 import com.tenable.io.api.containerSecurity.CsReportsApi;
+import com.tenable.io.api.containerSecurity.CsTestJobsApi;
 import com.tenable.io.api.editors.EditorApi;
 import com.tenable.io.api.exclusions.ExclusionsApi;
 import com.tenable.io.api.exports.ExportsApi;
@@ -66,6 +67,7 @@ public class TenableIoClient implements AutoCloseable {
     private PermissionsApi permissionsApi = null;
     private ServerApi serverApi = null;
     private TagsApi tagsApi = null;
+    private AccessGroupsApi accessGroupsApi = null;
     private WorkbenchesApi workbenchesApi = null;
     private ScanHelper scanHelper = null;
     private WorkbenchHelper workbenchHelper = null;
@@ -498,6 +500,18 @@ public class TenableIoClient implements AutoCloseable {
         return tagsApi;
     }
 
+
+    /**
+     * Gets access groups api.
+     *
+     * @return the access groups api
+     */
+    synchronized public AccessGroupsApi getAccessGroupsApi() {
+        if( accessGroupsApi == null )
+            accessGroupsApi = new AccessGroupsApi( asyncHttpService, getTenableIoScheme(), getTenableIoHost() );
+
+        return accessGroupsApi;
+    }
 
     /**
      * Gets workbenches api.
