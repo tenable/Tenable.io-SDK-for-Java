@@ -1,7 +1,6 @@
 package com.tenable.io.api;
 
 
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.tenable.io.api.models.*;
 import com.tenable.io.api.workbenches.WorkbenchNessusFileParser;
 import com.tenable.io.api.workbenches.models.nessus.Report;
@@ -10,10 +9,8 @@ import com.tenable.io.core.utilities.DateHelper;
 import com.tenable.io.core.utilities.MacAddressHelper;
 import org.junit.Test;
 
-import javax.print.attribute.standard.DateTimeAtCompleted;
 import java.io.File;
 import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 

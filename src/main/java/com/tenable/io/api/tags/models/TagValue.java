@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Copyright (c) 2018 Tenable Network Security, Inc.
  */
 public class TagValue {
+    private String containerUuid;
     private String uuid;
     private String value;
     private String description;
@@ -15,11 +16,30 @@ public class TagValue {
     private String categoryDescription;
     private String creationDate;
     private String owner;
-    private String lastModificationDate;
-    private String lastModifiedBy;
+    private String lastUpdateDate;
+    private String lastUpdatedBy;
     private String type;
     private String modelName;
 
+
+    /**
+     * Gets the container uuid of value.
+     *
+     * @return the container uuid of value.
+     */
+    public String getContainerUuid() {
+        return containerUuid;
+    }
+
+
+    /**
+     * Sets the container uuid value.
+     *
+     * @param containerUuid the container uuid of value.
+     */
+    public void setContainerUuid( String containerUuid ) {
+        this.containerUuid = containerUuid;
+    }
 
     /**
      * Gets the uuid of value.
@@ -193,46 +213,46 @@ public class TagValue {
 
 
     /**
-     * Gets the last modification date of value.
+     * Gets the last update date of value.
      *
-     * @return the last modification date of value.
+     * @return the last update date of value.
      */
-    @JsonProperty( "modified_at" )
-    public String getLastModificationDate() {
-        return lastModificationDate;
+    @JsonProperty( "updated_at" )
+    public String getLastUpdateDate() {
+        return lastUpdateDate;
     }
 
 
     /**
-     * Sets the last modification date of value.
+     * Sets the last update date of value.
      *
-     * @param lastModificationDate the last modification date of value.
+     * @param lastUpdateDate the last update date of value.
      */
-    @JsonProperty( "modified_at" )
-    public void setLastModificationDate( String lastModificationDate ) {
-        this.lastModificationDate = lastModificationDate;
+    @JsonProperty( "updated_at" )
+    public void setLastUpdateDate( String lastUpdateDate ) {
+        this.lastUpdateDate = lastUpdateDate;
     }
 
 
     /**
-     * Gets the last user who modified value.
+     * Gets the last user who updated value.
      *
-     * @return the last user who modified value.
+     * @return the last user who updated value.
      */
-    @JsonProperty( "modified_by" )
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
+    @JsonProperty( "updated_by" )
+    public String getLastUpdatedBy() {
+        return lastUpdatedBy;
     }
 
 
     /**
-     * Sets the user who last modified value.
+     * Sets the user who last updated value.
      *
-     * @param lastModifiedBy the last user who modified value.
+     * @param lastUpdatedBy the last user who updated value.
      */
-    @JsonProperty( "modified_by" )
-    public void setLastModifiedBy( String lastModifiedBy ) {
-        this.lastModifiedBy = lastModifiedBy;
+    @JsonProperty( "updated_by" )
+    public void setLastUpdatedBy( String lastUpdatedBy ) {
+        this.lastUpdatedBy = lastUpdatedBy;
     }
 
 
