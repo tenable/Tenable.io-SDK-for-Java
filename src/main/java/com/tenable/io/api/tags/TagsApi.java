@@ -7,7 +7,6 @@ import com.tenable.io.core.exceptions.TenableIoException;
 import com.tenable.io.core.services.AsyncHttpService;
 import com.tenable.io.core.services.HttpFuture;
 
-
 import java.util.List;
 
 
@@ -187,9 +186,9 @@ public class TagsApi extends ApiWrapperBase {
      * @param categoryId the category id
      * @throws TenableIoException the tenable IO exception
      */
-    public List<TagValue> listCategoryValues( String categoryId ) throws TenableIoException {
+    public ValueListResponse listCategoryValues( String categoryId ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/tags/categories/" + categoryId + "/values" ).build() );
-        return httpFuture.getAsType( new TypeReference<List<TagValue>>() {}, "values" );
+        return httpFuture.getAsType( ValueListResponse.class );
     }
 
 
