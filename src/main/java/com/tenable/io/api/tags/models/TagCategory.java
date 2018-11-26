@@ -13,8 +13,8 @@ public class TagCategory {
     private String description;
     private String creationDate;
     private String owner;
-    private String lastModificationDate;
-    private String lastModifiedBy;
+    private String lastUpdateDate;
+    private String lastUpdatedBy;
     private boolean reserved = true;
     private String modelName;
 
@@ -145,46 +145,46 @@ public class TagCategory {
 
 
     /**
-     * Gets the last modification date of category.
+     * Gets the last update date of category.
      *
-     * @return the last modification date of category.
+     * @return the last update date of category.
      */
-    @JsonProperty( "modified_at" )
-    public String getLastModificationDate() {
-        return lastModificationDate;
+    @JsonProperty( "updated_at" )
+    public String getLastUpdateDate() {
+        return lastUpdateDate;
     }
 
 
     /**
-     * Sets the last modification date of category.
+     * Sets the last update date of category.
      *
-     * @param lastModificationDate the last modification date of category.
+     * @param lastUpdateDate the last update date of category.
      */
-    @JsonProperty( "modified_at" )
-    public void setLastModificationDate( String lastModificationDate) {
-        this.lastModificationDate = lastModificationDate;
+    @JsonProperty( "updated_at" )
+    public void setLastUpdateDate( String lastUpdateDate ) {
+        this.lastUpdateDate = lastUpdateDate;
     }
 
 
     /**
-     * Gets the last user who modified category.
+     * Gets the last user who updated category.
      *
-     * @return the last user who modified category.
+     * @return the last user who updated category.
      */
-    @JsonProperty( "modified_by" )
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
+    @JsonProperty( "updated_by" )
+    public String getLastUpdatedBy() {
+        return lastUpdatedBy;
     }
 
 
     /**
-     * Sets the last user who modified category.
+     * Sets the user who last updated category.
      *
-     * @param lastModifiedBy the last user who modified category.
+     * @param lastUpdatedBy the last user who updated category.
      */
-    @JsonProperty( "modified_by" )
-    public void setLastModifiedBy( String lastModifiedBy ) {
-        this.lastModifiedBy = lastModifiedBy;
+    @JsonProperty( "updated_by" )
+    public void setLastUpdatedBy( String lastUpdatedBy ) {
+        this.lastUpdatedBy = lastUpdatedBy;
     }
 
 
