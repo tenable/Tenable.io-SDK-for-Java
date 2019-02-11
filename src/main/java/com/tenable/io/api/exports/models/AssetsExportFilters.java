@@ -2,13 +2,17 @@ package com.tenable.io.api.exports.models;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tenable.io.api.assetImport.models.Source;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Copyright (c) 2018 Tenable Network Security, Inc.
  */
+@JsonInclude( JsonInclude.Include.NON_DEFAULT )
 public class AssetsExportFilters {
     private long createdAt;
     private long updatedAt;
@@ -20,7 +24,7 @@ public class AssetsExportFilters {
     private boolean servicenowSysid;
     private List<Source> sources;
     private boolean hasPluginResults;
-
+    private Map<String, String[]> tags;
 
     /**
      * Setting this filter will return all assets created later than this date.
@@ -180,6 +184,7 @@ public class AssetsExportFilters {
      *
      * @param sources
      */
+    @JsonProperty( "sources" )
     public void setSources( List<Source> sources ) { this.sources = sources; }
 
 
@@ -188,6 +193,7 @@ public class AssetsExportFilters {
      *
      * @return the sources filter
      */
+    @JsonProperty( "sources" )
     public List<Source> getSources() { return sources; }
 
 
@@ -206,5 +212,21 @@ public class AssetsExportFilters {
      *
      * @return the has plugin results filter
      */
+    @JsonProperty( "has_plugin_results" )
     public boolean getHasPluginResults() { return hasPluginResults; }
+
+    /**
+     * Setting this filter will return all assets that have been assigned the specified tags.
+     *
+     * @param tags the asset tags
+     */
+    public void setTags( Map<String, String[]> tags ) { this.tags = tags; }
+
+
+    /**
+     * Gets the asset tags filter.
+     *
+     * @return the asset tags
+     */
+    public Map<String, String[]> getTags() { return tags; }
 }
