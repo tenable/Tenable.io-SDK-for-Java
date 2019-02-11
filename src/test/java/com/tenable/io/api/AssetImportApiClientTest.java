@@ -17,7 +17,7 @@ import static org.junit.Assert.assertNotNull;
 public class AssetImportApiClientTest extends TestBase {
     private String path = "src/test/resources/mock_assets.json";
 
-     @Test
+    @Test
     public void importAssetsTest() throws Exception {
         // import json from file
         ObjectMapper mapper = new ObjectMapper();

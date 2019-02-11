@@ -1,6 +1,14 @@
 CHANGE LOG
 =========
 
+1.3.0
+==========
+
+* Added: Support for tagging API.
+* Added: Support for Access-Groups API.
+* Added: Support for new Export API filters.
+* Fixed: Bug where group object was not returned upon new group creation.
+
 1.2.0
 ==========
 

@@ -2,6 +2,9 @@ package com.tenable.io.api.exports.models;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.Map;
 
 /**
  * Copyright (c) 2018 Tenable Network Security, Inc.
@@ -83,7 +86,7 @@ public class AssetsExportRequest {
     /**
      * Sets the filters for the assets export
      *
-     * @param AssetsExportFilters the assets export filets
+     * @param AssetsExportFilters the assets export filters
      */
     public void setFilters( AssetsExportFilters filters ) { this.filters = filters; }
 
@@ -91,8 +94,23 @@ public class AssetsExportRequest {
     /**
      * Gets the assets export filters
      *
-     * @return the AssetsExportFilters
+     * @return a Map of all filters included in AssetsExportFilters and formatted tag filters
      */
-    public AssetsExportFilters getFilters() { return this.filters; }
+    public Map getFilters() {
+
+        if (this.filters == null) {
+            return null;
+        }
+        final ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> filterMap = mapper.convertValue(this.filters, Map.class);
+        if (this.filters.getTags().size() > 0) {
+            filterMap.remove("tags");
+            for (Map.Entry<String, String[]> tags : this.filters.getTags().entrySet()) {
+                filterMap.put("tag."+tags.getKey(), tags.getValue());
+            }
+
+        }
+        return filterMap;
+    }
 
 }
