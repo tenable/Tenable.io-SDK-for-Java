@@ -224,7 +224,7 @@ public class AssetsExportFilters {
 
 
     /**
-     * gets the asset tags
+     * Gets the asset tags filter.
      *
      * @return the asset tags
      */
