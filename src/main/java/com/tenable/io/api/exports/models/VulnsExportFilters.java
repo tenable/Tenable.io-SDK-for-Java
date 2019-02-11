@@ -1,6 +1,7 @@
 package com.tenable.io.api.exports.models;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tenable.io.api.models.SeverityLevel;
 import com.tenable.io.api.models.VulnerabilityState;
@@ -11,6 +12,7 @@ import java.util.Map;
 /**
  * Copyright (c) 2018 Tenable Network Security, Inc.
  */
+@JsonInclude( JsonInclude.Include.NON_DEFAULT )
 public class VulnsExportFilters {
     private List<SeverityLevel> severity;
     private List<VulnerabilityState> state;
