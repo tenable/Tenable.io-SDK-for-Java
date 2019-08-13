@@ -189,7 +189,7 @@ public class HttpFuture {
      * @return an object of type A
      * @throws TenableIoException Thrown if the HTTP call errors out
      */
-    public <A> A getAsType( TypeReference valueTypeRef ) throws TenableIoException {
+    public <A> A getAsType( TypeReference<A> valueTypeRef ) throws TenableIoException {
         return asyncHttpService.getJsonHelper().fromJson( getAsString(), valueTypeRef );
     }
 
@@ -207,7 +207,7 @@ public class HttpFuture {
      * @return an object of type A
      * @throws TenableIoException Thrown if the HTTP call errors out
      */
-    public <A> A getAsType( TypeReference valueTypeRef, String root ) throws TenableIoException {
+    public <A> A getAsType( TypeReference<A> valueTypeRef, String root ) throws TenableIoException {
         return asyncHttpService.getJsonHelper().fromJson( getAsJson().get( root ), valueTypeRef );
     }
 
