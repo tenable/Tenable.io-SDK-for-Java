@@ -10,7 +10,7 @@ import java.util.List;
 public class ScanHostDetails {
     private ScanHostDetailsInfo info;
     private List<ScanHostCompliance> compliance;
-    private ScanHostVulnerability vulnerabilities;
+    private List<ScanHostVulnerability> vulnerabilities;
 
 
     /**
@@ -58,7 +58,7 @@ public class ScanHostDetails {
      *
      * @return the vulnerabilities list
      */
-    public ScanHostVulnerability getVulnerabilities() {
+    public List<ScanHostVulnerability> getVulnerabilities() {
         return vulnerabilities;
     }
 
@@ -68,7 +68,7 @@ public class ScanHostDetails {
      *
      * @param vulnerabilities the list of host vulnerabilities
      */
-    public void setVulnerabilities( ScanHostVulnerability vulnerabilities ) {
+    public void setVulnerabilities( List<ScanHostVulnerability> vulnerabilities ) {
         this.vulnerabilities = vulnerabilities;
     }
 }
