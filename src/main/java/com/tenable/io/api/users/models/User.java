@@ -317,8 +317,8 @@ public class User {
      * @param lastLogin the last login for the user in unixtime
      */
     @JsonProperty( "lastlogin" )
-    public void setLastLogin( long lastLogin ) {
-        this.lastLogin = lastLogin;
+    public void setLastLogin( String lastLogin ) {
+        this.lastLogin = Long.parseLong(lastLogin);
     }
 
 

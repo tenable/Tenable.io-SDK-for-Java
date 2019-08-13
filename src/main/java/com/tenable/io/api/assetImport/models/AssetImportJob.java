@@ -34,7 +34,9 @@ public class AssetImportJob {
      * @param lastUpdateTime the last update time
      */
     @JsonProperty( "last_update_time" )
-    public void setLastUpdateTime( long lastUpdateTime ) { this.lastUpdateTime = lastUpdateTime; }
+    public void setLastUpdateTime( String lastUpdateTime ) {
+        this.lastUpdateTime = Long.parseLong(lastUpdateTime);
+    }
 
 
     /**
@@ -138,7 +140,9 @@ public class AssetImportJob {
      * @param startTime the start time
      */
     @JsonProperty( "start_time" )
-    public void setStartTime( long startTime ) { this.startTime = startTime; }
+    public void setStartTime( String startTime ) {
+        this.startTime = Long.parseLong(startTime);
+    }
 
 
     /**
@@ -156,7 +160,9 @@ public class AssetImportJob {
      * @param endTime the end time
      */
     @JsonProperty( "end_time" )
-    public void setEndTime( long endTime ) { this.endTime =endTime; }
+    public void setEndTime( String endTime ) {
+        this.endTime = Long.parseLong(endTime);
+    }
 
 
     /**
