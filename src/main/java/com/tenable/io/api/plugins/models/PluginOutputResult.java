@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class PluginOutputResult {
     private PluginOutputInfo info;
-    private List<PluginOutput> outputs;
+    private List<PluginOutput> output;
 
 
     /**
@@ -37,17 +37,17 @@ public class PluginOutputResult {
      *
      * @return the plugin output lis
      */
-    public List<PluginOutput> getOutputs() {
-        return outputs;
+    public List<PluginOutput> getOutput() {
+        return output;
     }
 
 
     /**
      * Sets the plugin output list.
      *
-     * @param outputs the plugin output list
+     * @param output the plugin output list
      */
-    public void setOutputs(List<PluginOutput> outputs) {
-        this.outputs = outputs;
+    public void setOutput(List<PluginOutput> output) {
+        this.output = output;
     }
 }
