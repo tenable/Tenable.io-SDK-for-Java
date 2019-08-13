@@ -105,7 +105,7 @@ public class ScanDetails {
         ObjectMapper mapper = new ObjectMapper();
 
         try {
-            this.notes = mapper.readValue(notes.toString(), new TypeReference<NotesRoot>() {} ).getNote();
+            this.notes = mapper.readValue( notes.toString(), new TypeReference<NotesRoot>() {} ).getNote();
         } catch( Exception e ) {
             this.notes = notes;
         }
