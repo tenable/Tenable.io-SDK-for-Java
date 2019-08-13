@@ -295,13 +295,13 @@ public class ScansApiClientTest extends TestBase {
         assertNotNull( scans );
 
         int scanId = scans.get(0).getId();
-        ScanDetails details = apiClient.getScansApi().details(scanId);
+        ScanDetails details = apiClient.getScansApi().details( scanId );
         assertNotNull( details );
 
         List<ScanHost> hosts = details.getHosts();
         assertNotNull( hosts );
 
-        ScanHostDetails hostDetails = apiClient.getScansApi().hostDetails(scanId, hosts.get(0).getHostId());
+        ScanHostDetails hostDetails = apiClient.getScansApi().hostDetails( scanId, hosts.get(0).getHostId() );
         assertNotNull( hostDetails );
         assertNotNull( hostDetails.getVulnerabilities() );
         assertNotNull( hostDetails.getInfo().getOperatingSystem() );
