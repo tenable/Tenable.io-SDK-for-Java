@@ -47,7 +47,7 @@ public class PluginOutputResult {
      *
      * @param output the plugin output list
      */
-    public void setOutput(List<PluginOutput> output) {
+    public void setOutput( List<PluginOutput> output ) {
         this.output = output;
     }
 }
