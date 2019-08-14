@@ -1,6 +1,12 @@
 CHANGE LOG
 =========
 
+1.3.1
+==========
+
+* Fixed: Compile issues for Jackson.core 2.10.x
+* Fixed: MismatchedInputException for ScanHostDetails and ScanHostDetailsInfo
+
 1.3.0
 ==========
 
