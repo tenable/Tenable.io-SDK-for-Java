@@ -88,7 +88,7 @@ public class JsonHelper {
      * @param valueTypeRef Expected Java value type.
      * @return the deserialized Java model
      */
-    public <A> A fromJson( JsonNode json, TypeReference valueTypeRef ) {
+    public <A> A fromJson( JsonNode json, TypeReference<A> valueTypeRef ) {
         try {
             return objectMapper.readValue( json.traverse(), valueTypeRef );
         } catch( Exception e ) {
@@ -123,7 +123,7 @@ public class JsonHelper {
      * @param valueTypeRef Expected Java value type.
      * @return the deserialized Java model
      */
-    public <A> A fromJson( String json, TypeReference valueTypeRef ) {
+    public <A> A fromJson( String json, TypeReference<A> valueTypeRef ) {
         try {
             return objectMapper.readValue( json, valueTypeRef );
         } catch( Exception e ) {

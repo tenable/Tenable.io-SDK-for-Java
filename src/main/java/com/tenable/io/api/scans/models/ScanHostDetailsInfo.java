@@ -3,6 +3,8 @@ package com.tenable.io.api.scans.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
@@ -12,7 +14,7 @@ public class ScanHostDetailsInfo {
     private String macAddress;
     private String hostFqdn;
     private String hostEnd;
-    private String operatingSystem;
+    private List<String> operatingSystem;
     private String hostIp;
 
 
@@ -110,7 +112,7 @@ public class ScanHostDetailsInfo {
      * @return the operating system
      */
     @JsonProperty( "operating-system" )
-    public String getOperatingSystem() {
+    public List<String> getOperatingSystem() {
         return operatingSystem;
     }
 
@@ -121,7 +123,7 @@ public class ScanHostDetailsInfo {
      * @param operatingSystem the operating system
      */
     @JsonProperty( "operating-system" )
-    public void setOperatingSystem( String operatingSystem ) {
+    public void setOperatingSystem( List<String> operatingSystem ) {
         this.operatingSystem = operatingSystem;
     }
 

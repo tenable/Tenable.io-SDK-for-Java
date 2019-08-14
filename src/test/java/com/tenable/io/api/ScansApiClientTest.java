@@ -4,7 +4,9 @@ package com.tenable.io.api;
 import com.tenable.io.api.editors.models.Template;
 import com.tenable.io.api.permissions.models.Permission;
 import com.tenable.io.api.policies.models.Policy;
+import com.tenable.io.api.scanners.models.ScanDetail;
 import com.tenable.io.api.scanners.models.Scanner;
+import com.tenable.io.api.scans.ScansApi;
 import com.tenable.io.api.scans.models.*;
 import com.tenable.io.core.exceptions.TenableIoException;
 import org.junit.After;
@@ -284,6 +286,25 @@ public class ScansApiClientTest extends TestBase {
 
         apiClient.getScansApi().delete( newScan.getId() );
         apiClient.getFoldersApi().delete( folderId );
+    }
+
+
+    @Test
+    public void testScanHostDetails() throws Exception {
+        List<Scan> scans = apiClient.getScansApi().list().getScans();
+        assertNotNull( scans );
+
+        int scanId = scans.get(0).getId();
+        ScanDetails details = apiClient.getScansApi().details( scanId );
+        assertNotNull( details );
+
+        List<ScanHost> hosts = details.getHosts();
+        assertNotNull( hosts );
+
+        ScanHostDetails hostDetails = apiClient.getScansApi().hostDetails( scanId, hosts.get(0).getHostId() );
+        assertNotNull( hostDetails );
+        assertNotNull( hostDetails.getVulnerabilities() );
+        assertNotNull( hostDetails.getInfo().getOperatingSystem() );
     }
 
 
