@@ -1,7 +1,7 @@
 package com.tenable.io.api.workbenches.models;
 
 
-import java.util.List;
+import com.fasterxml.jackson.databind.JsonNode;
 
 
 /**
@@ -11,7 +11,7 @@ public class Reference {
     private String ext;
     private String name;
     private String url;
-    private List<String> values;
+    private JsonNode values;
 
 
     /**
@@ -79,7 +79,7 @@ public class Reference {
      *
      * @return the values
      */
-    public List<String> getValues() {
+    public JsonNode getValues() {
         return values;
     }
 
@@ -89,7 +89,7 @@ public class Reference {
      *
      * @param values the values
      */
-    public void setValues( List<String> values ) {
+    public void setValues( JsonNode values ) {
         this.values = values;
     }
 }
