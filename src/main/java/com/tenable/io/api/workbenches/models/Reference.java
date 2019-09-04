@@ -11,7 +11,7 @@ public class Reference {
     private String ext;
     private String name;
     private String url;
-    private List<String> values;
+    private List<ReferenceValue> values;
 
 
     /**
@@ -79,7 +79,7 @@ public class Reference {
      *
      * @return the values
      */
-    public List<String> getValues() {
+    public List<ReferenceValue> getValues() {
         return values;
     }
 
@@ -89,7 +89,7 @@ public class Reference {
      *
      * @param values the values
      */
-    public void setValues( List<String> values ) {
+    public void setValues( List<ReferenceValue> values ) {
         this.values = values;
     }
 }
