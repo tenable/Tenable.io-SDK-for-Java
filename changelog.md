@@ -1,6 +1,11 @@
 CHANGE LOG
 =========
 
+1.3.2
+==========
+
+* Fixed: MismatchedInputException for pluginOutput
+
 1.3.1
 ==========
 
