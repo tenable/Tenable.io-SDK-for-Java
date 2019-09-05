@@ -46,7 +46,7 @@ public class TestBase {
 
 
     protected TenableIoClient apiClient = new TenableIoClient();
-    private static final String testUsernameBase = "tioTestUsername";
+    private static final String testUsernameBase = "tioTestUsername-automation";
     private Set<String> testUsernames = new HashSet<>();
 
     // A valid domain name for username

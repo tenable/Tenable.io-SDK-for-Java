@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ScanHostCompliance {
     private int hostId;
     private String hostname;
-    private int pluginId;
+    private String pluginId;
     private String pluginName;
     private String pluginFamily;
     private int count;
@@ -66,7 +66,7 @@ public class ScanHostCompliance {
      * @return the unique id of the vulnerability plugin.
      */
     @JsonProperty( "plugin_id" )
-    public int getPluginId() {
+    public String getPluginId() {
         return pluginId;
     }
 
@@ -77,7 +77,7 @@ public class ScanHostCompliance {
      * @param pluginId the unique id of the vulnerability plugin.
      */
     @JsonProperty( "plugin_id" )
-    public void setPluginId( int pluginId ) {
+    public void setPluginId( String pluginId ) {
         this.pluginId = pluginId;
     }
 
