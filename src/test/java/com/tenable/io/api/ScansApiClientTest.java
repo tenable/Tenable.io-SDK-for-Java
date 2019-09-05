@@ -3,6 +3,7 @@ package com.tenable.io.api;
 
 import com.tenable.io.api.editors.models.Template;
 import com.tenable.io.api.permissions.models.Permission;
+import com.tenable.io.api.plugins.models.PluginOutputResult;
 import com.tenable.io.api.policies.models.Policy;
 import com.tenable.io.api.scanners.models.ScanDetail;
 import com.tenable.io.api.scanners.models.Scanner;
@@ -305,6 +306,33 @@ public class ScansApiClientTest extends TestBase {
         assertNotNull( hostDetails );
         assertNotNull( hostDetails.getVulnerabilities() );
         assertNotNull( hostDetails.getInfo().getOperatingSystem() );
+    }
+
+    @Test
+    public void testScanHostPluginDetails() throws Exception {
+        List<Scan> scans = apiClient.getScansApi().list().getScans();
+        assertNotNull( scans );
+
+        int scanId = scans.get(0).getId();
+        ScanDetails details = apiClient.getScansApi().details( scanId );
+        assertNotNull( details );
+
+        List<ScanHost> hosts = details.getHosts();
+        assertNotNull( hosts );
+
+        ScanHostDetails hostDetails = apiClient.getScansApi().hostDetails( scanId, hosts.get(0).getHostId() );
+        assertNotNull( hostDetails );
+        assertNotNull( hostDetails.getVulnerabilities() );
+
+        for (ScanHostVulnerability vulnerability : hostDetails.getVulnerabilities() ) {
+            int pluginId = vulnerability.getPluginId();
+            assertNotNull( pluginId );
+            PluginOutputResult pluginOutputResult = apiClient.getScansApi().pluginOutput( scanId, hosts.get(0).getHostId(), pluginId );
+            assertNotNull( pluginOutputResult );
+            if ( pluginOutputResult.getInfo().getPluginDescription().getPluginAttributes().getRefInformation() != null ) {
+                assertNotNull(pluginOutputResult.getInfo().getPluginDescription().getPluginAttributes().getRefInformation().getRef().get(0).getValues().get(0).getValue());
+            }
+        }
     }
 
 
