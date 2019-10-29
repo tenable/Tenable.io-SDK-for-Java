@@ -18,7 +18,7 @@ public class User {
     private long lastLogin;
     private String type;
     private int loginFailCount;
-    private int lastLoginAttempt;
+    private long lastLoginAttempt;
     private UUID uuid;
     private boolean aggregate;
     private int containerId;
@@ -370,7 +370,7 @@ public class User {
      * @return the timestamp of the last failed login attempt for the user
      */
     @JsonProperty( "last_login_attempt" )
-    public int getLastLoginAttempt() {
+    public long getLastLoginAttempt() {
         return lastLoginAttempt;
     }
 
@@ -381,7 +381,7 @@ public class User {
      * @param lastLoginAttempt the timestamp of the last failed login attempt for the user
      */
     @JsonProperty( "last_login_attempt" )
-    public void setLastLoginAttempt( int lastLoginAttempt ) {
+    public void setLastLoginAttempt( long lastLoginAttempt ) {
         this.lastLoginAttempt = lastLoginAttempt;
     }
 
