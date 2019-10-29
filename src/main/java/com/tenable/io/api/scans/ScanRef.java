@@ -99,6 +99,36 @@ public class ScanRef implements RunnableScan, RunningScan {
      *
      * @param destinationFile The file to save the report to.
      * @param format          The report format.
+     * @param chapters        The report chapters to download. multiple chapters can be separated by semi-colon
+     * @return the scan ref
+     * @throws TenableIoException the Tenable IO exception
+     */
+    public RunnableScan download( File destinationFile, FileFormat format, String chapters ) throws TenableIoException {
+        waitUntilStopped();
+        ExportScanSettings settings = new ExportScanSettings();
+        settings.setFormat( format );
+        settings.setChapters( chapters );
+
+        String fileId = this.client.getScansApi().exportRequest( this.id, settings );
+        String status = this.client.getScansApi().exportStatus( this.id, fileId );
+        while( !status.equals( this.client.getScanHelper().STATUS_EXPORT_READY ) ) {
+            try {
+                Thread.sleep( this.client.getScanHelper().getSleepInterval() );
+            } catch( InterruptedException e ) {
+            }
+            status = this.client.getScansApi().exportStatus( this.id, fileId );
+        }
+        this.client.getScansApi().exportDownload( this.id, fileId, destinationFile );
+
+        return this;
+    }
+
+    /**
+     * Download a scan report
+     * Defaults to only download the vuln_hosts_summary chapter
+     *
+     * @param destinationFile The file to save the report to.
+     * @param format          The report format.
      * @return the scan ref
      * @throws TenableIoException the Tenable IO exception
      */
@@ -106,6 +136,7 @@ public class ScanRef implements RunnableScan, RunningScan {
         waitUntilStopped();
         ExportScanSettings settings = new ExportScanSettings();
         settings.setFormat( format );
+        settings.setChapters( "vuln_hosts_summary" );
 
         String fileId = this.client.getScansApi().exportRequest( this.id, settings );
         String status = this.client.getScansApi().exportStatus( this.id, fileId );
@@ -198,7 +229,14 @@ public class ScanRef implements RunnableScan, RunningScan {
         if( histories.size() == 0 ) {
             return null;
         }
-        return histories.get( histories.size() - 1 );
+
+        Collections.sort(histories, new Comparator<History>() {
+            @Override
+            public int compare(History h1, History h2) {
+                return Integer.compare( h2.getLastModificationDate(), h1.getLastModificationDate() );
+            }
+        });
+        return histories.get( 0 );
     }
 
 
