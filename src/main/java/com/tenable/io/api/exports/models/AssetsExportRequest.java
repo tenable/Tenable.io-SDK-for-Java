@@ -103,7 +103,7 @@ public class AssetsExportRequest {
         }
         final ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> filterMap = mapper.convertValue(this.filters, Map.class);
-        if (this.filters.getTags().size() > 0) {
+        if (this.filters.getTags() != null && this.filters.getTags().size() > 0) {
             filterMap.remove("tags");
             for (Map.Entry<String, String[]> tags : this.filters.getTags().entrySet()) {
                 filterMap.put("tag."+tags.getKey(), tags.getValue());

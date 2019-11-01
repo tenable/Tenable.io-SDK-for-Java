@@ -1,6 +1,14 @@
 CHANGE LOG
 =========
 
+1.3.3
+==========
+
+* Fixed: Chapters were not included in ScanRef download requests which caused empty exports
+* Fixed: ScanRef getLastHistory method was returning the oldest history rather than the most recent
+* Fixed: NPE could occur when doing asset/vuln exports without tags
+* Added: Scan Manager and Scan Operator roles added to UserRole
+
 1.3.2
 ==========
 
