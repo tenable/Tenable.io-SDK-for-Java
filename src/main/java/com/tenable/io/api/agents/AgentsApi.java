@@ -32,7 +32,7 @@ public class AgentsApi extends ApiWrapperBase {
     }
 
     /**
-     * List list.
+     * Returns the agent list for the default scanner with no filtering or sorting.
      *
      * @return the list
      * @throws TenableIoException the tenable io exception
@@ -42,9 +42,9 @@ public class AgentsApi extends ApiWrapperBase {
     }
 
     /**
-     * Returns the agent list for the default scanner
+     * Returns the agent list for the default scanner and accepting filtering, sorting, or limiting parameters.
      *
-     * @param filtering the filtering
+     * @param filtering A List of named values used for filtering, sorting, or limiting results. See https://developer.tenable.com/reference#agents
      * @return the agent list for the default scanner
      * @throws TenableIoException the tenable IO exception
      */
@@ -54,10 +54,10 @@ public class AgentsApi extends ApiWrapperBase {
 
 
     /**
-     * Returns the agent list for the given scanner
+     * Returns the agent list for the given scanner and accepting filtering, sorting, or limiting parameters.
      *
      * @param scannerId The id of the scanner to query for agents
-     * @param filtering the filtering
+     * @param filtering A List of named values used for filtering, sorting, or limiting results. See https://developer.tenable.com/reference#agents
      * @return the agent list for the given scanner
      * @throws TenableIoException the tenable IO exception
      */
