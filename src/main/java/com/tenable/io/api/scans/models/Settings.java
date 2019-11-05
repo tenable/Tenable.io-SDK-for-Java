@@ -28,6 +28,7 @@ public class Settings {
     private String emails;
     private List<Permission> acls;
     private String providedCredsOnly;
+    private List<String> agentGroupId;
 
     /**
      * Gets the name of the scan.
@@ -350,6 +351,33 @@ public class Settings {
     }
 
 
+    @JsonProperty( "provided_creds_only" )
+    public String getProvidedCredsOnly() {
+        return providedCredsOnly;
+    }
+
+    @JsonProperty( "provided_creds_only" )
+    public void setProvidedCredsOnly(String providedCredsOnly) {
+        this.providedCredsOnly = providedCredsOnly;
+    }
+
+    /**
+     * Get an array of the agent groups ids used for the scan
+     *
+     * @return an array containing agent groups id to apply to the scan
+     */
+    @JsonProperty( "agent_group_id" )
+    public List<String> getAgentGroupId() { return agentGroupId; }
+
+    /**
+     * Sets an array of the agent groups ids used for the scan
+     *
+     * @param agentGroupId an array containing agent groups id to apply to the scan
+     */
+    @JsonProperty( "agent_group_id" )
+    public void setAgentGroupId(List<String> agentGroupId) { this.agentGroupId = agentGroupId; }
+
+
     /**
      * Sets the name of the scan.
      *
@@ -507,15 +535,13 @@ public class Settings {
         return this;
     }
 
-
-    @JsonProperty( "provided_creds_only" )
-    public String getProvidedCredsOnly() {
-        return providedCredsOnly;
+    /**
+     * Sets agent group ids for the scan
+     *
+     * @param agentGroupId an array containing agent groups id to apply to the scan.
+     */
+    public Settings withAgentGroupId(List<String> agentGroupId) {
+        this.agentGroupId = agentGroupId;
+        return this;
     }
-
-    @JsonProperty( "provided_creds_only" )
-    public void setProvidedCredsOnly(String providedCredsOnly) {
-        this.providedCredsOnly = providedCredsOnly;
-    }
-
 }
