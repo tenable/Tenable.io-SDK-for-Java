@@ -16,7 +16,7 @@ public class Input {
     private String hint;
     private String name;
     private boolean required;
-    private String defaultValue;
+    private Object defaultValue;
     private List<Option> options;
 
 
@@ -146,7 +146,7 @@ public class Input {
      * @return the default value for the input.
      */
     @JsonProperty( "default" )
-    public String getDefaultValue() {
+    public Object getDefaultValue() {
         return defaultValue;
     }
 
@@ -157,7 +157,7 @@ public class Input {
      * @param defaultValue the default value for the input.
      */
     @JsonProperty( "default" )
-    public void setDefaultValue( String defaultValue ) {
+    public void setDefaultValue( Object defaultValue ) {
         this.defaultValue = defaultValue;
     }
 
