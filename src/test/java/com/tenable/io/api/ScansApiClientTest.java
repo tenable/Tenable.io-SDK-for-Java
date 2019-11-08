@@ -1,7 +1,11 @@
 package com.tenable.io.api;
 
 
+import com.tenable.io.api.agentGroups.models.AgentGroup;
+import com.tenable.io.api.editors.models.EditorDetail;
+import com.tenable.io.api.editors.models.Input;
 import com.tenable.io.api.editors.models.Template;
+import com.tenable.io.api.editors.models.TemplateType;
 import com.tenable.io.api.permissions.models.Permission;
 import com.tenable.io.api.plugins.models.PluginOutputResult;
 import com.tenable.io.api.policies.models.Policy;
@@ -329,6 +333,45 @@ public class ScansApiClientTest extends TestBase {
             assertNotNull( pluginOutputResult );
             if ( pluginOutputResult.getInfo().getPluginDescription().getPluginAttributes().getRefInformation() != null ) {
                 assertNotNull(pluginOutputResult.getInfo().getPluginDescription().getPluginAttributes().getRefInformation().getRef().get(0).getValues().get(0).getValue());
+            }
+        }
+    }
+
+    @Test
+    public void testCreateAgentScan() throws Exception {
+        int folderId = apiClient.getFoldersApi().create( getNewTestFolderName() );
+
+        AgentGroup agentGroup = apiClient.getAgentGroupsApi().create( getNewTestAgentGroupName() );
+        List<String> agentGroupIds = new ArrayList<>();
+        agentGroupIds.add(agentGroup.getUuid());
+
+        Settings settings = new Settings();
+        settings.setEnabled( true );
+        settings.setTextTargets(  getScanTextTargets() );
+        String scanName = getNewTestScanName();
+        settings.setName( scanName );
+        settings.setDescription( "agent scan description" );
+        settings.setFolderId( folderId );
+        settings.setLaunch( LaunchFrequency.ON_DEMAND );
+        settings.setStartTime( "20161220110500" );
+        settings.setAgentGroupId( agentGroupIds );
+
+        Template scanTemplateUuid = apiClient.getScanHelper().getTemplateByName( "agent_basic" );
+
+        ScanResult scan = apiClient.getScansApi().create( scanTemplateUuid.getUuid(), settings );
+        assertNotNull( scan );
+        assertTrue( scan.isEnabled() );
+        assertTrue( scan.getName().equals( scanName ) );
+
+        EditorDetail configure = apiClient.getEditorApi().edit(TemplateType.SCAN, scan.getId() );
+        assertNotNull( configure );
+        assertTrue( configure.isAgent() );
+        for (Input input : configure.getSettings().getBasic().getInputs() ) {
+            if (input.getId().equals("agent_group_id")) {
+                List<String> values = (List<String>) input.getDefaultValue();
+                assertNotNull( values );
+                assertEquals(1, values.size());
+                assertEquals(agentGroup.getUuid(), values.get(0));
             }
         }
     }
