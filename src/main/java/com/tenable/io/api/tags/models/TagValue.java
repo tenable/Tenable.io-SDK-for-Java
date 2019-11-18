@@ -1,7 +1,9 @@
 package com.tenable.io.api.tags.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Copyright (c) 2018 Tenable Network Security, Inc.
@@ -20,6 +22,7 @@ public class TagValue {
     private String lastUpdatedBy;
     private String type;
     private String modelName;
+    private TagFilters filters;
 
 
     /**
@@ -296,6 +299,33 @@ public class TagValue {
     public void setModelName( String modelName ) {
         this.modelName = modelName;
     }
+
+
+    /**
+     * Gets the tag value filters.
+     *
+     * @return the tag value filters.
+     */
+    @JsonProperty( "filters" )
+    public TagFilters getFilters() { return filters; }
+
+
+    /**
+     * Sets the tag value filters.
+     *
+     * @param filters tag value filters.
+     */
+    @JsonProperty( "filters" )
+    public void setFilters( Map<String, String> filters) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            this.filters = mapper.readValue(filters.get("asset"), TagFilters.class);
+        } catch( Exception e ) {
+            this.filters = new TagFilters();
+        }
+    }
+
 }
 
 
