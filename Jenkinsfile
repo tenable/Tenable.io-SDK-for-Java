@@ -1,4 +1,4 @@
-@Library('tenable.common@v1.0.0')
+@Library('tenable.common')
 import com.tenable.jenkins.*
 import com.tenable.jenkins.builds.*
 import com.tenable.jenkins.builds.checkmarx.*
@@ -10,10 +10,10 @@ import com.tenable.jenkins.msg.*
 import com.tenable.jenkins.slack2.Slack
 
 def projectProperties = [
-    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '5']],
-    disableConcurrentBuilds(),
-    [$class: 'ParametersDefinitionProperty', parameterDefinitions: 
-       [[$class: 'StringParameterDefinition', defaultValue: 'qa-milestone', description: '', name: 'CAT_SITE']]]
+        [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '5']],
+        disableConcurrentBuilds(),
+        [$class: 'ParametersDefinitionProperty', parameterDefinitions:
+                [[$class: 'StringParameterDefinition', defaultValue: 'qa-milestone', description: '', name: 'CAT_SITE']]]
 ]
 
 properties(projectProperties)
@@ -27,12 +27,12 @@ try {
 
         stage('scm auto') {
             dir('automation') {
-                git(branch:'develop',
-                   changelog:false,
-                   credentialsId:'bitbucket-checkout',
-                   poll:false,
-                   url:'ssh://git@stash.corp.tenablesecurity.com:7999/aut/automation-tenableio.git')
-           }
+                git(branch:'master',
+                        changelog:false,
+                        credentialsId:'githubkey',
+                        poll:false,
+                        url: 'git@github.eng.tenable.com:Product/catium-tenableio.git')
+            }
         }
 
         docker.withRegistry(Constants.AWS_DOCKER_REGISTRY) {
@@ -41,7 +41,7 @@ try {
                     timeout(time: 24, unit: Constants.HOURS) {
                         buildsCommon.prepareGit()
 
-                        sshagent([Constants.BITBUCKETUSER]) {
+                        sshagent([Constants.GITHUBKEY]) {
                             sh """
                             cd automation
                             export JENKINS_NODE_COOKIE=
@@ -116,8 +116,8 @@ finally {
     Slack slack = new Slack(this)
 
     messageAttachment = slack.helper.getDecoratedFinishMsg(
-        'Tenable SDK Java build finished with result: ',
-        "Built off branch ${env.BRANCH_NAME}" + tests + took + auser)
+            'Tenable SDK Java build finished with result: ',
+            "Built off branch ${env.BRANCH_NAME}" + tests + took + auser)
     messageAttachment.channel = '#sdk'
 
     slack.postMessage(messageAttachment)
