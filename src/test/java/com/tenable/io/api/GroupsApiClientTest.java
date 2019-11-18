@@ -47,7 +47,7 @@ public class GroupsApiClientTest extends TestBase {
         assertNotNull( myGroup );
 
         //create new user
-        User newUser = apiClient.getUsersApi().create( getTestUsername(0 ), "password#1",
+        User newUser = apiClient.getUsersApi().create( getTestUsername(0 ), "Password#12345",
                 UserRole.BASIC, "Tenableio Test", getTestUsername(0 ), "local" );
 
         assertNotNull( newUser );
