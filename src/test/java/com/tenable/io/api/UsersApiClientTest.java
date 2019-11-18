@@ -100,7 +100,7 @@ public class UsersApiClientTest extends TestBase {
 
         int userId = user.getId();
 
-        apiClient.getUsersApi().password( userId, "password#1", "password#2" );
+        apiClient.getUsersApi().password( userId, "Password#12345", "Password#23456" );
 
         apiClient.getUsersApi().delete( ( userId ) );
     }
