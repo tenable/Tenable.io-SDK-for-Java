@@ -69,30 +69,31 @@ public class TagsApiClientTest extends TestBase {
 
         // assign tag to asset
         List<Asset> assets = apiClient.getAssetImportApi().getAssets();
-        System.out.println( assets );
-        String[] asset = { assets.get(0).getId() };
-        String[] valueUuids = { value1.getUuid() };
-        AssetAssignmentUpdate update = new AssetAssignmentUpdate();
-        update.setAction( "add" );
-        update.setAssets( asset );
-        update.setValueUuids( valueUuids );
-        apiClient.getTagsApi().createAssignment( update );
+        if ( assets.size() > 0 ) {
+            String[] asset = {assets.get(0).getId()};
+            String[] valueUuids = {value1.getUuid()};
+            AssetAssignmentUpdate update = new AssetAssignmentUpdate();
+            update.setAction("add");
+            update.setAssets(asset);
+            update.setValueUuids(valueUuids);
+            apiClient.getTagsApi().createAssignment(update);
 
-        // counts (should be true and 1)
-        AssignmentCounts count = apiClient.getTagsApi().countValueAssets( value1.getUuid() );
-        assertNotNull( count );
-        assertTrue( count.isHasAssignments() );
-        assertTrue( count.getCounts().size() == 1 );
+            // counts (should be true and 1)
+            AssignmentCounts count = apiClient.getTagsApi().countValueAssets(value1.getUuid());
+            assertNotNull(count);
+            assertTrue(count.isHasAssignments());
+            assertTrue(count.getCounts().size() == 1);
 
-        // remove tag from asset
-        update.setAction( "remove" );
-        apiClient.getTagsApi().createAssignment( update );
+            // remove tag from asset
+            update.setAction("remove");
+            apiClient.getTagsApi().createAssignment(update);
 
-        // counts (should be false and 0)
-        count = apiClient.getTagsApi().countValueAssets( value1.getUuid() );
-        assertNotNull( count );
-        assertFalse( count.isHasAssignments() );
-        assertTrue( count.getCounts().size() == 0 );
+            // counts (should be false and 0)
+            count = apiClient.getTagsApi().countValueAssets(value1.getUuid());
+            assertNotNull(count);
+            assertFalse(count.isHasAssignments());
+            assertTrue(count.getCounts().size() == 0);
+        }
 
 
         // delete
