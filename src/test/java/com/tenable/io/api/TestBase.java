@@ -120,7 +120,7 @@ public class TestBase {
 
 
     protected User createTestUser( TenableIoClient apiClient, int userNumber ) throws Exception {
-        User user = apiClient.getUsersApi().create( getTestUsername( userNumber ), "password#1",
+        User user = apiClient.getUsersApi().create( getTestUsername( userNumber ), "Password#12345",
                 UserRole.BASIC, "test tenable", getTestUsername( userNumber ), "local" );
 
         return user;
