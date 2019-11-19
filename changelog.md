@@ -1,6 +1,13 @@
 CHANGE LOG
 =========
 
+1.4.0
+==========
+
+* Added: Support for dynamic tagging.
+* Fixed: Can not set agent_group_id during scan creation/update.
+* Fixed: Updated Editor Input defaultValue property to be type Object due to value variability.
+
 1.3.3
 ==========
 
