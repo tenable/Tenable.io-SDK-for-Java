@@ -1,5 +1,9 @@
 package com.tenable.io.api.tags.models;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
@@ -12,6 +16,7 @@ public class TagValueRequest {
     private String categoryUuid;
     private String categoryName;
     private String categoryDescription;
+    private Map<String, TagFilters> filters;
 
     /**
      * Gets the value of the tag.
@@ -170,6 +175,43 @@ public class TagValueRequest {
      */
     public TagValueRequest withCategoryDescription( String categoryDescription ) {
         this.categoryDescription = categoryDescription;
+        return this;
+    }
+
+
+    /**
+     * Gets the filters for a value
+     *
+     * @return the filters of value.
+     */
+    @JsonProperty( "filters" )
+    public Map<String, TagFilters> getFilters() {
+        return filters;
+    }
+
+
+    /**
+     * Sets the filters of value.
+     *
+     * @param filters filters for applying a tag dynamically
+     */
+    @JsonProperty( "filters" )
+    public void setFilters( final TagFilterOperator operator, final List<TagFilter> filters ) {
+        this.filters = new HashMap(){{
+            put("asset", new HashMap() {{
+                put(operator, filters);
+            }});
+        }};
+    }
+
+
+    /**
+     * Sets the filters of the value.
+     *
+     * @param filters the filters of the value.
+     */
+    public TagValueRequest withFilters( final TagFilterOperator operator, final List<TagFilter> filters ) {
+        this.setFilters( operator, filters );
         return this;
     }
 }

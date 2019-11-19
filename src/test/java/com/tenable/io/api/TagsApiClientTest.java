@@ -2,19 +2,20 @@ package com.tenable.io.api;
 
 import com.tenable.io.api.assetImport.models.Asset;
 import com.tenable.io.api.tags.models.*;
+import com.tenable.io.api.workbenches.models.FilterOperator;
 import com.tenable.io.core.exceptions.TenableIoException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-
 /**
  * Copyright (c) 2018 Tenable Network Security, Inc.
  */
-public class TagsApiClientTest extends TestBase{
+public class TagsApiClientTest extends TestBase {
     @Before
     public void preChecks() throws TenableIoException {
         deleteTestTags();
@@ -22,7 +23,7 @@ public class TagsApiClientTest extends TestBase{
     }
 
     @Test
-    public void testTags() throws Exception{
+    public void testTags() throws Exception {
         // create
         String testTagName = getNewTestTagName();
         TagValueRequest request1 = new TagValueRequest();
@@ -68,30 +69,31 @@ public class TagsApiClientTest extends TestBase{
 
         // assign tag to asset
         List<Asset> assets = apiClient.getAssetImportApi().getAssets();
-        System.out.println( assets );
-        String[] asset = { assets.get(0).getId() };
-        String[] valueUuids = { value1.getUuid() };
-        AssetAssignmentUpdate update = new AssetAssignmentUpdate();
-        update.setAction( "add" );
-        update.setAssets( asset );
-        update.setValueUuids( valueUuids );
-        apiClient.getTagsApi().createAssignment( update );
+        if ( assets.size() > 0 ) {
+            String[] asset = {assets.get(0).getId()};
+            String[] valueUuids = {value1.getUuid()};
+            AssetAssignmentUpdate update = new AssetAssignmentUpdate();
+            update.setAction("add");
+            update.setAssets(asset);
+            update.setValueUuids(valueUuids);
+            apiClient.getTagsApi().createAssignment(update);
 
-        // counts (should be true and 1)
-        AssignmentCounts count = apiClient.getTagsApi().countValueAssets( value1.getUuid() );
-        assertNotNull( count );
-        assertTrue( count.isHasAssignments() );
-        assertTrue( count.getCounts().size() == 1 );
+            // counts (should be true and 1)
+            AssignmentCounts count = apiClient.getTagsApi().countValueAssets(value1.getUuid());
+            assertNotNull(count);
+            assertTrue(count.isHasAssignments());
+            assertTrue(count.getCounts().size() == 1);
 
-        // remove tag from asset
-        update.setAction( "remove" );
-        apiClient.getTagsApi().createAssignment( update );
+            // remove tag from asset
+            update.setAction("remove");
+            apiClient.getTagsApi().createAssignment(update);
 
-        // counts (should be false and 0)
-        count = apiClient.getTagsApi().countValueAssets( value1.getUuid() );
-        assertNotNull( count );
-        assertFalse( count.isHasAssignments() );
-        assertTrue( count.getCounts().size() == 0 );
+            // counts (should be false and 0)
+            count = apiClient.getTagsApi().countValueAssets(value1.getUuid());
+            assertNotNull(count);
+            assertFalse(count.isHasAssignments());
+            assertTrue(count.getCounts().size() == 0);
+        }
 
 
         // delete
@@ -204,5 +206,43 @@ public class TagsApiClientTest extends TestBase{
         // Asset tags given asset Id
         List<AssetAssignment> details = apiClient.getTagsApi().assetTagAssignments( apiClient.getAssetImportApi().getAssets().get(0).getId() );
         assertNotNull( details );
+    }
+
+    @Test
+    public void testDynamicTags() throws Exception {
+        // create
+        String testTagName = getNewTestTagName();
+        TagFilter filter = new TagFilter("ipv4", FilterOperator.EQUAL, "10.10.10.10");
+
+        TagValueRequest request1 = new TagValueRequest();
+        request1.withValue( "ipv4==10.10.10.10" )
+                .withCategoryName( testTagName )
+                .withCategoryDescription( "Test dynamic tag" )
+                .withDescription( "testing with dynamic tag" )
+                .withFilters(TagFilterOperator.AND, Collections.singletonList(filter));
+        TagValue value = apiClient.getTagsApi().createValue( request1 );
+        assertTrue( value.getType().equals("dynamic") );
+        assertNotNull( value.getFilters() );
+
+        // verify as HashMap
+        assertTrue( value.getFilters().containsKey( TagFilterOperator.AND) );
+        assertTrue( value.getFilters().get( TagFilterOperator.AND ).get( 0 ).getField().equals( "ipv4" ) );
+        assertTrue( value.getFilters().get( TagFilterOperator.AND ).get( 0 ).getValue().equals( "10.10.10.10" ) );
+        assertTrue( value.getFilters().get(TagFilterOperator.AND).get(0).getOperator().equals(FilterOperator.EQUAL) );
+
+        // verify using getters
+        assertTrue( value.getFilters().getOperator().equals(TagFilterOperator.AND) );
+        assertTrue( value.getFilters().getFilters().get(0).getField().equals("ipv4") );
+        assertTrue( value.getFilters().getFilters().get(0).getValue().equals("10.10.10.10") );
+        assertTrue( value.getFilters().getFilters().get(0).getOperator().equals(FilterOperator.EQUAL) );
+
+        // verify updating TagFilters Object
+        TagFilter filter2 = new TagFilter("fqdn", FilterOperator.EQUAL, "tenable.com");
+        value.getFilters().setFilters( Collections.singletonList( filter2 ) );
+        assertTrue( value.getFilters().getFilters().get( 0 ).getField().equals( "fqdn" ) );
+        assertTrue( value.getFilters().get( TagFilterOperator.AND ).get( 0 ).getField().equals( "fqdn" ) );
+        value.getFilters().setOperator( TagFilterOperator.OR );
+        assertTrue( value.getFilters().getOperator().equals(TagFilterOperator.OR) );
+        assertTrue( value.getFilters().containsKey( TagFilterOperator.OR) );
     }
 }
