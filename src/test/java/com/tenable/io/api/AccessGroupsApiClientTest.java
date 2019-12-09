@@ -2,15 +2,17 @@ package com.tenable.io.api;
 
 import com.tenable.io.api.accessGroups.models.*;
 import com.tenable.io.api.editors.models.Filter;
+import com.tenable.io.api.users.models.User;
 import com.tenable.io.core.exceptions.TenableIoException;
 import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -28,15 +30,26 @@ public class AccessGroupsApiClientTest extends TestBase{
         // create
         String testAccessGroupName = getNewTestAccessGroupName();
         AccessGroupRequest request1 = new AccessGroupRequest();
+
         AssetRule rule = new AssetRule();
         rule.setType( "ipv4" );
         rule.setOperator( "eq" );
         String[] terms = { "10.10.7.130" };
         rule.setTerms( terms );
         AssetRule[] rules = { rule } ;
-        request1.withName( testAccessGroupName ).withRules( rules );
+
+        AssetRulePrincipal principal = new AssetRulePrincipal();
+        principal.setType( AccessGroupPrincipalType.USER );
+        User user = apiClient.getUsersApi().list().get( 0 );
+        principal.setId( user.getUuid().toString() );
+        principal.setName( user.getName() );
+        principal.setPermissions( Collections.singletonList( AccessGroupPrincipalPermission.CAN_VIEW ) );
+        AssetRulePrincipal[] principals = new AssetRulePrincipal[1];
+
+        request1.withName( testAccessGroupName ).withRules( rules ).withAccessGroupType( AccessGroupType.MANAGE_ASSETS ).withPrincipals( Collections.singletonList( principal ).toArray(principals) );
         AccessGroup ag1 = apiClient.getAccessGroupsApi().createAccessGroup( request1 );
         assertNotNull ( ag1 );
+        assertEquals(2, ag1.getPrincipals().length );
 
         // list and verify creation
         AccessGroupListResponse list = apiClient.getAccessGroupsApi().listAccessGroups();
@@ -44,6 +57,9 @@ public class AccessGroupsApiClientTest extends TestBase{
         boolean created = false;
         for( AccessGroup a : list.getAccessGroups() ){
             if( a.getName().equals( testAccessGroupName ) ){
+                assertEquals(2, a.getPrincipals().length);
+                assertEquals( 1, a.getPrincipals()[1].getPermissions().size() );
+                assertEquals(AccessGroupType.MANAGE_ASSETS, a.getAccessGroupType());
                 created = true;
             }
         }

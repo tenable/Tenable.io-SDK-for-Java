@@ -1,15 +1,18 @@
 package com.tenable.io.api.accessGroups.models;
 
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Copyright (c) 2018 Tenable Network Security, Inc.
  */
 public class AssetRulePrincipal {
-    private String type;
+    private AccessGroupPrincipalType type;
     private String id;
     private String name;
+    private List<AccessGroupPrincipalPermission> permissions;
 
 
     /**
@@ -18,17 +21,20 @@ public class AssetRulePrincipal {
      * @return the type of principal.
      */
     public String getType() {
-        return type;
+        return type.getValue();
     }
-
 
     /**
      * Sets the type of principal (user or group).
      *
      * @param type the type of principal.
      */
-    public void setType( String type ) {
-        this.type = type;
+    public void setType( Object type ) {
+        if (type instanceof AccessGroupPrincipalType) {
+            this.type = (AccessGroupPrincipalType) type;
+        } else {
+            this.type = AccessGroupPrincipalType.valueOf( type.toString().toUpperCase() );
+        }
     }
 
 
@@ -72,5 +78,27 @@ public class AssetRulePrincipal {
     @JsonProperty( "principal_name" )
     public void setName( String name ) {
         this.name = name;
+    }
+
+
+    /**
+     * Gets the permissions for the access-group.
+     *
+     * @return the permissions for the access-group.
+     */
+    @JsonProperty( "permissions" )
+    public List<AccessGroupPrincipalPermission> getPermissions() {
+        return permissions;
+    }
+
+
+    /**
+     * Sets the permissions for the access-group.
+     *
+     * @param permissions the permissions for the access-group.
+     */
+    @JsonProperty( "permissions" )
+    public void setPermissions( List<AccessGroupPrincipalPermission> permissions ) {
+        this.permissions = permissions;
     }
 }

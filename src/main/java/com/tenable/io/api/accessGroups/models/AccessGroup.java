@@ -23,6 +23,7 @@ public class AccessGroup {
     private String updatedByUuid;
     private String updatedByName;
     private int processingPercentComplete;
+    private AccessGroupType accessGroupType;
 
 
     /**
@@ -362,5 +363,27 @@ public class AccessGroup {
     @JsonProperty( "processing_percent_complete" )
     public void setProcessingPercentComplete( int processingPercentComplete ) {
         this.processingPercentComplete = processingPercentComplete;
+    }
+
+
+    /**
+     * Gets the type of the access group.
+     *
+     * @return the type of the access group.
+     */
+    @JsonProperty( "access_group_type" )
+    public AccessGroupType getAccessGroupType() {
+        return accessGroupType;
+    }
+
+
+    /**
+     * Sets the type of the access group.
+     *
+     * @param accessGroupType the type of the access group.
+     */
+    @JsonProperty( "access_group_type" )
+    public void setAccessGroupType( AccessGroupType accessGroupType ) {
+        this.accessGroupType = accessGroupType;
     }
 }
