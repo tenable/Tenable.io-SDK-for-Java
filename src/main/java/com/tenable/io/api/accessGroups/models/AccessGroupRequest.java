@@ -12,6 +12,7 @@ public class AccessGroupRequest {
     private boolean allUsers = false;
     private AssetRule[] rules;
     private AssetRulePrincipal[] principals;
+    private AccessGroupType accessGroupType;
 
 
     /**
@@ -168,6 +169,38 @@ public class AccessGroupRequest {
      */
     public AccessGroupRequest withPrincipals( AssetRulePrincipal[] principals ) {
         this.principals = principals;
+        return this;
+    }
+
+
+    /**
+     * Gets the access group type.
+     *
+     * @return the access group type.
+     */
+    public AccessGroupType getAccessGroupType() {
+        return accessGroupType;
+    }
+
+
+    /**
+     * Sets the access group type.
+     *
+     * @param accessGroupType the access group type.
+     */
+    @JsonProperty( "access_group_type" )
+    public void setAccessGroupType( AccessGroupType accessGroupType ) {
+        this.accessGroupType = accessGroupType;
+    }
+
+
+    /**
+     * Sets the access group type.
+     *
+     * @param accessGroupType the access group type.
+     */
+    public AccessGroupRequest withAccessGroupType( AccessGroupType accessGroupType ) {
+        this.accessGroupType = accessGroupType;
         return this;
     }
 }
