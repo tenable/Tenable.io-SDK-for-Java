@@ -1,29 +1,18 @@
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'signing'
 apply plugin: 'maven-publish'
 
 group = 'com.tenable'
 version = '1.4.0'
 
-description = """"""
+description = """Tenable.io SDK offers a scalable and safe way to integrate with the Tenable.io platform."""
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-
-
 repositories {
     mavenCentral()
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-
-            artifactId 'tenable-io'
-        }
-    }
 }
 
 dependencies {
@@ -35,6 +24,137 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.23'
     testCompile group: 'junit', name: 'junit', version:'4.12'
     testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.23'
+}
+
+allprojects {
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+ext.canPublish = hasProperty('deployMavenUsername') && hasProperty('deployMavenPassword')
+
+signing {
+    required { canPublish }
+    sign configurations.archives
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            customizePom(pom)
+
+            artifactId = 'api-sdk-core'
+            groupId = group
+            version = version
+
+            from components.java
+
+            artifact sourcesJar
+            artifact javadocJar
+
+            if (canPublish) {
+                pom.withXml {
+                    def pomFile = file("${project.buildDir}/generated-pom.xml")
+                    writeTo(pomFile)
+                    def pomAscFile = signing.sign(pomFile).signatureFiles[0]
+                    artifact(pomAscFile) {
+                        classifier = null
+                        extension = 'pom.asc'
+                    }
+                }
+
+                // create the signed artifacts
+                project.tasks.signArchives.signatureFiles.each {
+                    artifact(it) {
+                        def matcher = it.file =~ /-(sources|javadoc)\.jar\.asc$/
+                        if (matcher.find()) {
+                            classifier = matcher.group(1)
+                        } else {
+                            classifier = null
+                        }
+                        extension = 'jar.asc'
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+         maven {
+             url 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+             if (canPublish) {
+                 credentials {
+                     username = deployMavenUsername
+                     password = deployMavenPassword
+                 }
+             }
+         }
+    }
+}
+
+def customizePom(pom) {
+    pom.withXml {
+        def root = asNode()
+
+        root.children().last() + {
+            resolveStrategy = Closure.DELEGATE_FIRST
+
+            description 'Tenable.io SDK offers a scalable and safe way to integrate with the Tenable.io platform.'
+            name 'Tenable.io Java SDK'
+            url 'https://github.com/tenable/Tenable.io-SDK-for-Java'
+            organization {
+                name 'Tenable'
+                url 'https://www.tenable.com/'
+            }
+            issueManagement {
+                system 'GitHub'
+                url 'https://github.com/tenable/Tenable.io-SDK-for-Java/issues'
+            }
+            licenses {
+                license {
+                    name 'MIT License'
+                    url 'http://www.opensource.org/licenses/mit-license.php'
+                }
+            }
+            scm {
+                url 'https://github.com/tenable/Tenable.io-SDK-for-Java'
+                connection 'scm:git:git://github.com/tenable/Tenable.io-SDK-for-Java.git'
+                developerConnection 'scm:git:ssh://git@github.com:tenable/Tenable.io-SDK-for-Java.git'
+            }
+            developers {
+                developer {
+                    name 'Tenable'
+                }
+            }
+        }
+    }
+}
+
+model {
+    tasks.generatePomFileForMavenJavaPublication {
+        destination = file("$buildDir/generated-pom.xml")
+    }
+    tasks.publishMavenJavaPublicationToMavenLocal {
+        dependsOn project.tasks.signArchives
+    }
+    tasks.publishMavenJavaPublicationToMavenRepository {
+        dependsOn project.tasks.signArchives
+    }
 }
 
 // Configure this block to run the tests
