@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ScanHost {
     private int hostId;
+    private int assetId;
+    private String uuid;
     private String hostIndex;
     private String hostname;
     private String progress;
@@ -45,6 +47,44 @@ public class ScanHost {
         this.hostId = hostId;
     }
 
+    /**
+     * Gets the unique id of the asset.
+     *
+     * @return the unique id of the asset.
+     */
+    @JsonProperty( "asset_id" )
+    public int getAssetId() {
+        return assetId;
+    }
+
+    /**
+     * Sets the unique id of the asset.
+     *
+     * @param assetId the unique id of the asset.
+     */
+    @JsonProperty( "asset_id" )
+    public void setAssetId(int assetId) {
+        this.assetId = assetId;
+    }
+
+    /**
+     * Gets the universe unique id of the asset.
+     *
+     * @return the universe unique id of the asset.
+     */
+    @JsonProperty( "uuid" )
+    public String getUuid() {
+        return uuid;
+    }
+
+    /**
+     * Sets the unique asset uuid.
+     *
+     * @param uuid the universe unique id of the asset.
+     */
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     /**
      * Gets the index for the host.
