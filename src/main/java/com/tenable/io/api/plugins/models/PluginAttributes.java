@@ -1,11 +1,8 @@
 package com.tenable.io.api.plugins.models;
 
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tenable.io.api.workbenches.models.ReferenceInformation;
-import com.tenable.io.api.workbenches.models.WbVulnerabilityInfoDetail;
-
-import java.util.List;
 
 
 /**
@@ -23,9 +20,6 @@ public class PluginAttributes {
     private String osvdb;
     private RiskInformation riskInformation;
     private PluginInformation pluginInformation;
-    private WbVulnerabilityInfoDetail vulnInformation;
-    private ReferenceInformation refInformation;
-
 
     /**
      * Gets solution.
@@ -256,47 +250,4 @@ public class PluginAttributes {
         this.pluginInformation = pluginInformation;
     }
 
-
-    /**
-     * Gets vulnerability information.
-     *
-     * @return the vuln information
-     */
-    @JsonProperty( "vuln_information" )
-    public WbVulnerabilityInfoDetail getVulnInformation() {
-        return vulnInformation;
-    }
-
-
-    /**
-     * Sets vulnerability information.
-     *
-     * @param vulnInformation the vuln information
-     */
-    @JsonProperty( "vuln_information" )
-    public void setVulnInformation( WbVulnerabilityInfoDetail vulnInformation ) {
-        this.vulnInformation = vulnInformation;
-    }
-
-
-    /**
-     * Gets ref information.
-     *
-     * @return the ref information
-     */
-    @JsonProperty( "ref_information" )
-    public ReferenceInformation getRefInformation() {
-        return refInformation;
-    }
-
-
-    /**
-     * Sets ref information.
-     *
-     * @param refInformation the ref information
-     */
-    @JsonProperty( "ref_information" )
-    public void setRefInformation( ReferenceInformation refInformation ) {
-        this.refInformation = refInformation;
-    }
 }

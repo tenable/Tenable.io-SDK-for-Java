@@ -96,12 +96,13 @@ public class AssetsExportRequest {
      *
      * @return a Map of all filters included in AssetsExportFilters and formatted tag filters
      */
-    public Map getFilters() {
+    public Map<String, Object> getFilters() {
 
         if (this.filters == null) {
             return null;
         }
         final ObjectMapper mapper = new ObjectMapper();
+        @SuppressWarnings("unchecked")
         Map<String, Object> filterMap = mapper.convertValue(this.filters, Map.class);
         if (this.filters.getTags() != null && this.filters.getTags().size() > 0) {
             filterMap.remove("tags");

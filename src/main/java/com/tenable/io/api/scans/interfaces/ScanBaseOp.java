@@ -1,16 +1,14 @@
 package com.tenable.io.api.scans.interfaces;
 
+import java.io.File;
+import java.util.Date;
+import java.util.List;
 
-import com.tenable.io.api.folders.FolderRef;
 import com.tenable.io.api.scans.models.FileFormat;
 import com.tenable.io.api.scans.models.History;
 import com.tenable.io.api.scans.models.ScanDetails;
 import com.tenable.io.api.scans.models.ScanStatus;
 import com.tenable.io.core.exceptions.TenableIoException;
-
-import java.io.File;
-import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -150,23 +148,4 @@ public interface ScanBaseOp {
      * @throws TenableIoException the Tenable IO exception
      */
     boolean isStopped( int historyId ) throws TenableIoException;
-
-
-    /**
-     * Get the folder the scan is in.
-     *
-     * @return An instance of FolderRef.
-     * @throws TenableIoException the Tenable IO exception
-     */
-    FolderRef getFolder() throws TenableIoException;
-
-
-    /**
-     * Get the folder the scan is in.
-     *
-     * @param historyId The scan history to get folder for.
-     * @return An instance of FolderRef.
-     * @throws TenableIoException the Tenable IO exception
-     */
-    FolderRef getFolder( int historyId ) throws TenableIoException;
 }

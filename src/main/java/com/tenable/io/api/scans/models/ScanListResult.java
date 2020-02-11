@@ -1,8 +1,5 @@
 package com.tenable.io.api.scans.models;
 
-
-import com.tenable.io.api.folders.models.Folder;
-
 import java.util.List;
 
 
@@ -10,30 +7,8 @@ import java.util.List;
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class ScanListResult {
-    private List<Folder> folders;
     private List<Scan> scans;
     private int timestamp;
-
-
-    /**
-     * Get the list of folders.
-     *
-     * @return the list of folders
-     */
-    public List<Folder> getFolders() {
-        return folders;
-    }
-
-
-    /**
-     * Sets the list of folders.
-     *
-     * @param folders the list of folders
-     */
-    public void setFolders( List<Folder> folders ) {
-        this.folders = folders;
-    }
-
 
     /**
      * Get the list of scans.

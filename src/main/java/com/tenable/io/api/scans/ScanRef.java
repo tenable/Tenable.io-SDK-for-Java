@@ -1,17 +1,30 @@
 package com.tenable.io.api.scans;
 
-
-import com.tenable.io.api.TenableIoClient;
-import com.tenable.io.api.folders.FolderRef;
-import com.tenable.io.api.scans.interfaces.RunnableScan;
-import com.tenable.io.api.scans.interfaces.RunningScan;
-import com.tenable.io.core.exceptions.TenableIoErrorCode;
-import com.tenable.io.core.exceptions.TenableIoException;
-import com.tenable.io.api.scans.models.*;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.tenable.io.api.TenableIoClient;
+import com.tenable.io.api.scans.interfaces.RunnableScan;
+import com.tenable.io.api.scans.interfaces.RunningScan;
+import com.tenable.io.api.scans.models.ExportScanSettings;
+import com.tenable.io.api.scans.models.FileFormat;
+import com.tenable.io.api.scans.models.History;
+import com.tenable.io.api.scans.models.LaunchFrequency;
+import com.tenable.io.api.scans.models.RRules;
+import com.tenable.io.api.scans.models.Scan;
+import com.tenable.io.api.scans.models.ScanDetails;
+import com.tenable.io.api.scans.models.ScanStatus;
+import com.tenable.io.api.scans.models.Settings;
+import com.tenable.io.core.exceptions.TenableIoErrorCode;
+import com.tenable.io.core.exceptions.TenableIoException;
 
 
 /**
@@ -111,13 +124,7 @@ public class ScanRef implements RunnableScan, RunningScan {
 
         String fileId = this.client.getScansApi().exportRequest( this.id, settings );
         String status = this.client.getScansApi().exportStatus( this.id, fileId );
-        while( !status.equals( this.client.getScanHelper().STATUS_EXPORT_READY ) ) {
-            try {
-                Thread.sleep( this.client.getScanHelper().getSleepInterval() );
-            } catch( InterruptedException e ) {
-            }
-            status = this.client.getScansApi().exportStatus( this.id, fileId );
-        }
+        waitForExportToFinish(fileId, status);
         this.client.getScansApi().exportDownload( this.id, fileId, destinationFile );
 
         return this;
@@ -140,18 +147,21 @@ public class ScanRef implements RunnableScan, RunningScan {
 
         String fileId = this.client.getScansApi().exportRequest( this.id, settings );
         String status = this.client.getScansApi().exportStatus( this.id, fileId );
-        while( !status.equals( this.client.getScanHelper().STATUS_EXPORT_READY ) ) {
-            try {
-                Thread.sleep( this.client.getScanHelper().getSleepInterval() );
-            } catch( InterruptedException e ) {
-            }
-            status = this.client.getScansApi().exportStatus( this.id, fileId );
-        }
+        waitForExportToFinish(fileId, status);
         this.client.getScansApi().exportDownload( this.id, fileId, destinationFile );
 
         return this;
     }
 
+    private void waitForExportToFinish(String fileId, String status) throws TenableIoException {
+        while (!this.client.getScanHelper().STATUS_EXPORT_READY.equals(status)) {
+            try {
+                Thread.sleep(this.client.getScanHelper().getSleepInterval());
+            } catch (InterruptedException e) {
+            }
+            status = this.client.getScansApi().exportStatus(this.id, fileId);
+        }
+    }
 
     /**
      * Download a scan report
@@ -169,13 +179,7 @@ public class ScanRef implements RunnableScan, RunningScan {
 
         String fileId = this.client.getScansApi().exportRequest( this.id, historyId, settings );
         String status = this.client.getScansApi().exportStatus( this.id, fileId );
-        while( !status.equals( this.client.getScanHelper().STATUS_EXPORT_READY ) ) {
-            try {
-                Thread.sleep( this.client.getScanHelper().getSleepInterval() );
-            } catch( InterruptedException e ) {
-            }
-            status = this.client.getScansApi().exportStatus( this.id, fileId );
-        }
+        waitForExportToFinish(fileId, status);
         this.client.getScansApi().exportDownload( this.id, fileId, destinationFile );
 
         return this;
@@ -543,58 +547,6 @@ public class ScanRef implements RunnableScan, RunningScan {
 
         return this.client.getScansApi().getScanHistoryStatus( scheduleUuid, historyId == null ? scanUuid : historyIdToUuidLookup.get( historyId ) ).getStatus();
     }
-
-
-    /**
-     * Get the folder the scan is in.
-     *
-     * @return An instance of FolderRef.
-     * @throws TenableIoException the Tenable IO exception
-     */
-    public FolderRef getFolder() throws TenableIoException {
-        int folderId = this.getDetails().getInfo().getFolderId();
-        return new FolderRef( this.client, folderId );
-    }
-
-
-    /**
-     * Get the folder the scan is in.
-     *
-     * @param historyId The scan history to get folder for.
-     * @return An instance of FolderRef.
-     * @throws TenableIoException the Tenable IO exception
-     */
-    public FolderRef getFolder( int historyId ) throws TenableIoException {
-        int folderId = this.getDetails( historyId ).getInfo().getFolderId();
-        return new FolderRef( this.client, folderId );
-    }
-
-
-    /**
-     * Move the scan to a folder.
-     *
-     * @param folder An instance of FolderRef identifying the folder to move the scan to.
-     * @return The same ScanRef instance.
-     * @throws TenableIoException the Tenable IO exception
-     */
-    public RunnableScan moveTo( FolderRef folder ) throws TenableIoException {
-        this.client.getScansApi().folder( this.id, folder.getId() );
-        return this;
-    }
-
-
-    /**
-     * Move the scan into the trash folder.
-     *
-     * @return The same ScanRef instance.
-     * @throws TenableIoException the Tenable IO exception
-     */
-    public RunnableScan trash() throws TenableIoException {
-        FolderRef trash = this.client.getFolderHelper().trashFolder();
-        this.moveTo( trash );
-        return this;
-    }
-
 
     /**
      * Check if the scan is stopped.

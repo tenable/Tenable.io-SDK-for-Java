@@ -2,23 +2,24 @@ package com.tenable.io.core.utilities;
 
 
 import com.tenable.io.core.utilities.models.LogLevel;
-import org.slf4j.Logger;
 
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
+@Slf4j
 public class LoggerHelper {
-    public static LogLevel getLogLevel( Logger logger ) {
-        if( logger.isTraceEnabled() )
+    public static LogLevel getLogLevel() {
+        if( log.isTraceEnabled() )
             return LogLevel.TRACE;
-        else if( logger.isDebugEnabled() )
+        else if( log.isDebugEnabled() )
             return LogLevel.DEBUG;
-        else if( logger.isInfoEnabled() )
+        else if( log.isInfoEnabled() )
             return LogLevel.INFO;
-        else if( logger.isWarnEnabled() )
+        else if( log.isWarnEnabled() )
             return LogLevel.WARN;
-        else if( logger.isErrorEnabled() )
+        else if( log.isErrorEnabled() )
             return LogLevel.ERROR;
 
         return LogLevel.NONE;

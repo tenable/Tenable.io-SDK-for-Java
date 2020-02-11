@@ -208,7 +208,7 @@ public class ScansApi extends ApiWrapperBase {
      */
     public ScanDetails details( int scanId, int historyId ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scans/" + scanId ).
-                addParameter( "history_id", ( (Integer) historyId ).toString() ).build() );
+                addParameter( "history_id", Integer.toString(historyId)).build() );
         return httpFuture.getAsType( ScanDetails.class );
     }
 
@@ -254,7 +254,7 @@ public class ScansApi extends ApiWrapperBase {
     public String exportRequest( int scanId, int historyId, ExportScanSettings settings )
             throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doPost( createBaseUriBuilder( "/scans/" + scanId + "/export" ).
-                addParameter( "history_id", ( (Integer) historyId ).toString() ).build(), settings );
+                addParameter( "history_id", Integer.toString(historyId)).build(), settings );
         return httpFuture.getAsType( String.class, "file" );
     }
 
@@ -304,7 +304,7 @@ public class ScansApi extends ApiWrapperBase {
      */
     public ScanHostDetails hostDetails( int scanId, int hostId, int historyId ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scans/" + scanId + "/hosts/" +
-                hostId ).addParameter( "history_id", ( (Integer) historyId ).toString() ).build() );
+                hostId ).addParameter( "history_id", Integer.toString(historyId)).build() );
         return httpFuture.getAsType( ScanHostDetails.class );
     }
 
@@ -429,7 +429,7 @@ public class ScansApi extends ApiWrapperBase {
      */
     public ScanListResult list( int folderId ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scans" ).
-                addParameter( "folder_id", ( (Integer) folderId ).toString() ).build() );
+                addParameter( "folder_id", Integer.toString(folderId)).build() );
         return httpFuture.getAsType( ScanListResult.class );
     }
 
@@ -443,7 +443,7 @@ public class ScansApi extends ApiWrapperBase {
      */
     public ScanListResult listSince( int lastModificationDate ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scans" ).
-                addParameter( "last_modification_date", ( (Integer) lastModificationDate ).toString() ).build() );
+                addParameter( "last_modification_date", Integer.toString(lastModificationDate)).build() );
         return httpFuture.getAsType( ScanListResult.class );
     }
 
@@ -458,8 +458,8 @@ public class ScansApi extends ApiWrapperBase {
      */
     public ScanListResult list( int folderId, int lastModificationDate ) throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scans" ).
-                addParameter( "folder_id", ( (Integer) folderId ).toString() ).
-                addParameter( "last_modification_date", ( (Integer) lastModificationDate ).toString() ).build() );
+                addParameter( "folder_id", Integer.toString(folderId)).
+                addParameter( "last_modification_date", Integer.toString(lastModificationDate)).build() );
         return httpFuture.getAsType( ScanListResult.class );
     }
 
@@ -490,7 +490,7 @@ public class ScansApi extends ApiWrapperBase {
     public PluginOutputResult pluginOutput( int scanId, int hostId, int pluginId, int historyId )
             throws TenableIoException {
         HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/scans/" + scanId + "/hosts/" +
-                hostId + "/plugins/" + pluginId ).addParameter( "history_id", ( (Integer) historyId ).toString() ).build() );
+                hostId + "/plugins/" + pluginId ).addParameter( "history_id", Integer.toString(historyId)).build() );
         return httpFuture.getAsType( PluginOutputResult.class );
     }
 

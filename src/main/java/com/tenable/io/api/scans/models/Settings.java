@@ -1,10 +1,9 @@
 package com.tenable.io.api.scans.models;
 
-
-import com.fasterxml.jackson.annotation.*;
-import com.tenable.io.api.permissions.models.Permission;
-
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 /**
@@ -26,7 +25,6 @@ public class Settings {
     private String textTargets;
     private String fileTargets;
     private String emails;
-    private List<Permission> acls;
     private String providedCredsOnly;
     private List<String> agentGroupId;
 
@@ -330,27 +328,6 @@ public class Settings {
         this.emails = emails;
     }
 
-
-    /**
-     * Get an array containing permissions to apply to the scan
-     *
-     * @return an array containing permissions to apply to the scan
-     */
-    public List<Permission> getAcls() {
-        return acls;
-    }
-
-
-    /**
-     * Sets an array containing permissions to apply to the scan
-     *
-     * @param acls an array containing permissions to apply to the scan
-     */
-    public void setAcls( List<Permission> acls ) {
-        this.acls = acls;
-    }
-
-
     @JsonProperty( "provided_creds_only" )
     public String getProvidedCredsOnly() {
         return providedCredsOnly;
@@ -521,17 +498,6 @@ public class Settings {
      */
     public Settings withEmails(String emails) {
         this.emails = emails;
-        return this;
-    }
-
-
-    /**
-     * Sets an array containing permissions to apply to the scan
-     *
-     * @param acls an array containing permissions to apply to the scan
-     */
-    public Settings withAcls(List<Permission> acls) {
-        this.acls = acls;
         return this;
     }
 

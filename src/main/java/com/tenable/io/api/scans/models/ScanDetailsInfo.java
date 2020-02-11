@@ -2,16 +2,12 @@ package com.tenable.io.api.scans.models;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tenable.io.api.permissions.models.Permission;
-
-import java.util.List;
 
 
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
 public class ScanDetailsInfo {
-    private List<Permission> acls;
     private boolean editAllowed;
     private ScanStatus status;
     private String policy;
@@ -31,26 +27,6 @@ public class ScanDetailsInfo {
     private int userPermissions;
     private boolean control;
     private String scheduleUuid;
-
-
-    /**
-     * Gets the list of permissions.
-     *
-     * @return the list of permissions
-     */
-    public List<Permission> getAcls() {
-        return acls;
-    }
-
-
-    /**
-     * Sets the list of permissions.
-     *
-     * @param acls the list of permissions.
-     */
-    public void setAcls( List<Permission> acls ) {
-        this.acls = acls;
-    }
 
 
     /**

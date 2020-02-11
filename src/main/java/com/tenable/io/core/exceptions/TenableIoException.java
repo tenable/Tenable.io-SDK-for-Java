@@ -7,7 +7,7 @@ package com.tenable.io.core.exceptions;
 public class TenableIoException extends Exception {
     private final TenableIoErrorCode errorCode;
     private int extraInfo;
-
+    private static final long serialVersionUID = 1L;
 
     /**
      * Instantiates a new tenable IO exception.

@@ -1,37 +1,33 @@
 package com.tenable.io.core.services;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Future;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.tenable.io.api.ApiError;
-import com.tenable.io.api.TenableIoClient;
-import com.tenable.io.core.exceptions.TenableIoException;
-import com.tenable.io.core.exceptions.TenableIoErrorCode;
-import com.tenable.io.core.utilities.LoggerHelper;
-import com.tenable.io.core.utilities.models.LogInstance;
-import com.tenable.io.core.utilities.models.LogLevel;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.nio.protocol.HttpAsyncResponseConsumer;
 import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Future;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.tenable.io.api.ApiError;
+import com.tenable.io.core.exceptions.TenableIoErrorCode;
+import com.tenable.io.core.exceptions.TenableIoException;
+import com.tenable.io.core.utilities.LoggerHelper;
+import com.tenable.io.core.utilities.models.LogInstance;
+import com.tenable.io.core.utilities.models.LogLevel;
 
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
+@Slf4j
 public class HttpFuture {
-    private static Logger logger = LoggerFactory.getLogger( HttpFuture.class );
     private static final Map<TenableIoErrorCode, int[]> retrySteps;
     private static final int REQUEST_AND_RESPONSE_BODY_LOG_MAX_LENGTH = 100 * 1024;
     private static final int MAX_RETRY = 4;
@@ -67,7 +63,7 @@ public class HttpFuture {
         this.httpUriRequest = httpUriRequest;
         this.responseConsumer = null;
         this.numRetry = 0;
-        this.logLevel = LoggerHelper.getLogLevel( logger );
+        this.logLevel = LoggerHelper.getLogLevel();
         this.body = logLevel == LogLevel.TRACE ? body : null;
     }
 
@@ -402,16 +398,16 @@ public class HttpFuture {
             LogLevel actualLevel = ( error != null ) ? ( isFinal ? LogLevel.ERROR : LogLevel.WARN ) : logLevel;
             switch( actualLevel ) {
                 case ERROR:
-                    logger.error( message, exception != null ? exception : null );
+                    log.error( message, exception != null ? exception : null );
                     break;
                 case WARN:
-                    logger.warn( message, exception != null ? exception : null );
+                    log.warn( message, exception != null ? exception : null );
                     break;
                 case DEBUG:
-                    logger.debug( message, exception != null ? exception : null );
+                    log.debug( message, exception != null ? exception : null );
                     break;
                 case TRACE:
-                    logger.trace( message, exception != null ? exception : null );
+                    log.trace( message, exception != null ? exception : null );
                     break;
             }
         }
@@ -424,7 +420,9 @@ public class HttpFuture {
 
             // log request headers and body?
             for( Header header : response.getAllHeaders() ) {
-                if( logLevel == LogLevel.TRACE || header.getName().toLowerCase().equals( "x-gateway-site-id" ) || header.getName().toLowerCase().equals( "x-request-uuid" ) ) {
+
+                if( LogLevel.TRACE.equals(logLevel) || "x-gateway-site-id".equals(header.getName().toLowerCase()) ||
+                    "x-request-uuid".equals(header.getName().toLowerCase())) {
                     logInstance.addRespHeader( header.getName(), header.getValue() );
                 }
             }

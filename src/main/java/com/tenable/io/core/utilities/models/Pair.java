@@ -3,7 +3,11 @@ package com.tenable.io.core.utilities.models;
 
 import java.io.Serializable;
 
-public class Pair<K,V> implements Serializable{
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
+public class Pair<K,V> implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private K key;
 
@@ -21,17 +25,5 @@ public class Pair<K,V> implements Serializable{
     @Override
     public String toString() {
         return key + "=" + value;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o instanceof Pair) {
-            Pair pair = (Pair) o;
-            if (key != null ? !key.equals(pair.key) : pair.key != null) return false;
-            if (value != null ? !value.equals(pair.value) : pair.value != null) return false;
-            return true;
-        }
-        return false;
     }
 }

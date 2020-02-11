@@ -1,14 +1,11 @@
 package com.tenable.io.api.scans.models;
 
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tenable.io.api.editors.models.Filter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -23,7 +20,6 @@ public class ScanDetails {
     private List<ScanVulnerability> vulnerabilities;
     private List<ScanVulnerability> compliances;
     private List<History> histories;
-    private List<Filter> filters;
 
 
     /**
@@ -192,26 +188,6 @@ public class ScanDetails {
     @JsonProperty( "history" )
     public void setHistories( List<History> histories ) {
         this.histories = histories;
-    }
-
-
-    /**
-     * Gets the list of filters.
-     *
-     * @return the list of filters
-     */
-    public List<Filter> getFilters() {
-        return filters;
-    }
-
-
-    /**
-     * Sets the list of filters.
-     *
-     * @param filters the list of filters
-     */
-    public void setFilters( List<Filter> filters ) {
-        this.filters = filters;
     }
 
     private class NotesRoot {

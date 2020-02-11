@@ -11,7 +11,9 @@ import java.util.Date;
 /**
  * Copyright (c) 2017 Tenable Network Security, Inc.
  */
+@SuppressWarnings("deprecation")
 public class DateHelper {
+    // Although this is deprecated there seems to be no replacement: https://github.com/FasterXML/jackson-databind/issues/1786
     private static final ISO8601DateFormat iso8601DateFormat = new ISO8601DateFormat();
 
 

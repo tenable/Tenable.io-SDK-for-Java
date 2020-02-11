@@ -1,13 +1,9 @@
 package com.tenable.io.api.exports.models;
 
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.tenable.io.api.assetImport.models.Source;
-
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Copyright (c) 2018 Tenable Network Security, Inc.
@@ -22,7 +18,6 @@ public class AssetsExportFilters {
     private long lastAuthenticatedScanTime;
     private long lastAssessed;
     private boolean servicenowSysid;
-    private List<Source> sources;
     private boolean hasPluginResults;
     private Map<String, String[]> tags;
 
@@ -177,24 +172,6 @@ public class AssetsExportFilters {
      */
     @JsonProperty( "servicenow_sysid" )
     public boolean getServicenowSysid() { return servicenowSysid; }
-
-
-    /**
-     * If multiple values are used here it will return all assets that have been seen by either source.
-     *
-     * @param sources
-     */
-    @JsonProperty( "sources" )
-    public void setSources( List<Source> sources ) { this.sources = sources; }
-
-
-    /**
-     * Gets the sources filter
-     *
-     * @return the sources filter
-     */
-    @JsonProperty( "sources" )
-    public List<Source> getSources() { return sources; }
 
 
     /**

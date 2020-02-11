@@ -42,7 +42,7 @@ public class ExportHelper {
         ExportStatus status = this.client.getExportsApi().vulnsExportStatus( exportUuid );
         while( !status.getStatus().equals( Status.FINISHED ) ) {
             try {
-                Thread.sleep( this.sleepInterval );
+                Thread.sleep( sleepInterval );
             } catch( InterruptedException e ) {
             }
 
@@ -72,7 +72,7 @@ public class ExportHelper {
 
         while( !status.getStatus().equals( Status.FINISHED ) ) {
             try {
-                Thread.sleep( this.sleepInterval );
+                Thread.sleep( sleepInterval );
             } catch( InterruptedException e ) {
             }
 

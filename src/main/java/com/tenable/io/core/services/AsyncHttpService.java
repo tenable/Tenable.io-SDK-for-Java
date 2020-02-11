@@ -323,10 +323,14 @@ public class AsyncHttpService implements AutoCloseable {
      *
      * @throws Exception if an I/O error occurs
      */
-    public void close() throws Exception {
-        if( asyncClient != null ) {
-            asyncClient.close();
-            asyncClient = null;
+    public void close() {
+        if (null != asyncClient) {
+            try {
+                asyncClient.close();
+                asyncClient = null;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

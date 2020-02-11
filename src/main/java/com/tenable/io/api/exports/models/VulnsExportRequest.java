@@ -87,7 +87,8 @@ public class VulnsExportRequest {
      *
      * @return a Map of all filters included in VulnsExportFilters and formatted tag filters
      */
-    public Map getFilters() {
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> getFilters() {
 
         if (this.filters == null) {
             return null;

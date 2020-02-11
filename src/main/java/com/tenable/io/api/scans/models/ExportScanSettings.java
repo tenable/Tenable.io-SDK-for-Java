@@ -1,11 +1,7 @@
 package com.tenable.io.api.scans.models;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tenable.io.api.workbenches.models.Filter;
-
-import java.util.List;
 
 
 /**
@@ -16,7 +12,6 @@ public class ExportScanSettings {
     private FileFormat format;
     private String password;
     private String chapters;
-    private List<Filter> filters;
     private String searchType;
 
 
@@ -83,27 +78,6 @@ public class ExportScanSettings {
         this.chapters = chapters;
     }
 
-
-    /**
-     * An array containing filters to apply to the exported scan report.
-     *
-     * @return the filters
-     */
-    public List<Filter> getFilters() {
-        return filters;
-    }
-
-
-    /**
-     * An array containing filters to apply to the exported scan report.
-     *
-     * @param filters the filters
-     */
-    public void setFilters( List<Filter> filters ) {
-        this.filters = filters;
-    }
-
-
     /**
      * The type of search to be used. "and", "or"
      *
@@ -158,17 +132,6 @@ public class ExportScanSettings {
      */
     public ExportScanSettings withChapters(String chapters) {
         this.chapters = chapters;
-        return this;
-    }
-
-
-    /**
-     * An array containing filters to apply to the exported scan report.
-     *
-     * @param filters the filters
-     */
-    public ExportScanSettings withFilters(List<Filter> filters) {
-        this.filters = filters;
         return this;
     }
 
