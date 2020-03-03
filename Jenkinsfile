@@ -12,6 +12,7 @@ import com.tenable.jenkins.slack2.Slack
 def projectProperties = [
         [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '5']],
         disableConcurrentBuilds(),
+        disableResume(),
         [$class: 'ParametersDefinitionProperty', parameterDefinitions:
                 [[$class: 'StringParameterDefinition', defaultValue: 'qa-milestone', description: '', name: 'CAT_SITE']]]
 ]
