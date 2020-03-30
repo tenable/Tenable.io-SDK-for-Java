@@ -31,6 +31,10 @@ public enum ScanStatus {
      */
     PENDING,
     /**
+     * Queued scan status.
+     */
+    QUEUED,
+    /**
      * Running scan status.
      */
     RUNNING,
