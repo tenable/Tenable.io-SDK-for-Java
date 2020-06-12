@@ -88,8 +88,10 @@ public class VulnsExportFilters {
      *
      * @param firstFound
      */
+    @JsonProperty( "first_found" )
     public void setFirstFound( long firstFound ) { this.firstFound = firstFound; }
 
+    @JsonProperty( "first_found" )
     public long getFirstFound() { return this.firstFound; }
 
     /**
@@ -98,8 +100,10 @@ public class VulnsExportFilters {
      *
      * @param lastFound
      */
+    @JsonProperty( "last_found" )
     public void setLastFound( long lastFound ) { this.lastFound = lastFound; }
 
+    @JsonProperty( "last_found" )
     public long getLastFound() { return this.lastFound; }
 
     /**
@@ -108,8 +112,10 @@ public class VulnsExportFilters {
      *
      * @param lastFixed
      */
+    @JsonProperty( "last_fixed" )
     public void setLastFixed( long lastFixed ) { this.lastFixed = lastFixed; }
 
+    @JsonProperty( "last_fixed" )
     public long getLastFixed() { return this.lastFixed; }
 
     /**
