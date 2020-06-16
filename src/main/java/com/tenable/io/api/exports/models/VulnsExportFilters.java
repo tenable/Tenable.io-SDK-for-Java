@@ -123,8 +123,10 @@ public class VulnsExportFilters {
      *
      * @param cidrRange the cidr range
      */
+    @JsonProperty( "cidr_range" )
     public void setCidrRange( String cidrRange ) { this.cidrRange = cidrRange; }
 
+    @JsonProperty( "cidr_range" )
     public String getCidrRange() { return this.cidrRange; }
 
     /**
