@@ -11,8 +11,12 @@ import com.tenable.io.core.exceptions.TenableIoException;
  */
 public enum Status {
     /**
+     * The export request has been cancelled
+     */
+    CANCELLED,
+    /**
      * The export request is queued
-      */
+     */
     QUEUED,
     /**
      * The export request is being processed

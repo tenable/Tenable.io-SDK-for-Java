@@ -3,9 +3,7 @@ package com.tenable.io.api.exports;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tenable.io.api.ApiWrapperBase;
-import com.tenable.io.api.exports.models.AssetsExportRequest;
-import com.tenable.io.api.exports.models.ExportStatus;
-import com.tenable.io.api.exports.models.VulnsExportRequest;
+import com.tenable.io.api.exports.models.*;
 import com.tenable.io.core.exceptions.TenableIoException;
 import com.tenable.io.core.services.AsyncHttpService;
 import com.tenable.io.core.services.HttpFuture;
@@ -80,6 +78,36 @@ public class ExportsApi extends ApiWrapperBase {
         HttpFuture httpFuture = asyncHttpService.doGetDownload( createBaseUriBuilder( "/vulns/export/" + exportUuid +
                 "/chunks/" + chunkId ).build(), destinationFile );
         httpFuture.get();
+    }
+
+
+    /**
+     * Retrieves a list of vulnerability export jobs.
+     * This list includes the 1,000 most recent export jobs regardless of status.
+     * However, this list includes completed jobs only if the job completed in the previous three days.
+     *
+     * @return VulnExportJobs
+     * @throws TenableIoException the tenable IO exception
+     */
+    public ExportJobs vulnExportJobs() throws TenableIoException {
+        HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/vulns/export/status" ).build() );
+        return httpFuture.getAsType( new TypeReference<ExportJobs>() {} );
+    }
+
+    /**
+     * Cancels the specified export job. If you cancel an export job,
+     * Tenable.io finishes any chunk that is currently processing,
+     * terminates the processing of any unprocessed chunks,
+     * and updates the job status to CANCELLED.
+     * If a cancelled job includes completed chunks,
+     * you can download those chunks for three days after cancellation.
+     *
+     * @return CancelExport
+     * @throws TenableIoException the tenable IO exception
+     */
+    public CancelExport cancelVulnExport(String exportUuid) throws TenableIoException {
+        HttpFuture httpFuture = asyncHttpService.doGet( createBaseUriBuilder( "/vulns/export/" + exportUuid + "/cancel" ).build() );
+        return httpFuture.getAsType( new TypeReference<CancelExport>() {} );
     }
 
 
