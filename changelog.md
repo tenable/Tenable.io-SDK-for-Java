@@ -1,6 +1,11 @@
 CHANGE LOG
 =========
 
+1.4.1
+==========
+
+* Added: Support for asset_id and uuid fields in ScanHost Object
+
 1.4.0
 ==========
 
