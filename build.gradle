@@ -4,7 +4,7 @@ apply plugin: 'signing'
 apply plugin: 'maven-publish'
 
 group = 'com.tenable'
-version = '1.4.0'
+version = '1.4.1'
 
 description = """Tenable.io SDK offers a scalable and safe way to integrate with the Tenable.io platform."""
 
