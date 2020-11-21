@@ -32,7 +32,7 @@ try {
                         changelog:false,
                         credentialsId:'githubkey',
                         poll:false,
-                        url: 'git@github.eng.tenable.com:Product/catium-tenableio.git')
+                        url: "${Constants.SSHGITHUBPRODUCT}catium-tenableio.git")
             }
         }
 
